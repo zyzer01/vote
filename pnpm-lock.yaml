@@ -95,6 +95,9 @@ importers:
       tw-animate-css:
         specifier: ^1.4.0
         version: 1.4.0
+      wrangler:
+        specifier: ^4.114.0
+        version: 4.114.0
     devDependencies:
       '@tanstack/devtools-vite':
         specifier: latest
