@@ -7,7 +7,13 @@ import {cloudflare} from "@cloudflare/vite-plugin"
 
 const config = defineConfig({
   resolve: { tsconfigPaths: true },
-  plugins: [devtools(), tailwindcss(), tanstackStart(), viteReact(), cloudflare()],
+  plugins: [
+    cloudflare({ viteEnvironment: { name: "ssr" } }),
+    tanstackStart(),
+    viteReact(),
+    devtools(),
+    tailwindcss(),
+  ],
 })
 
 export default config

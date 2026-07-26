@@ -77,7 +77,7 @@ function CountingNumber({
         if (padStart) {
           const finalIntLength = Math.floor(Math.abs(number)).toString().length;
           const [intPart, fracPart] = formatted.split(decimalSeparator);
-          const paddedInt = intPart?.padStart(finalIntLength, '0') ?? '';
+          const paddedInt = intPart.padStart(finalIntLength, '0');
           formatted = fracPart
             ? `${paddedInt}${decimalSeparator}${fracPart}`
             : paddedInt;
@@ -96,7 +96,7 @@ function CountingNumber({
     if (decimals > 0) out = out.replace('.', decimalSeparator);
     if (padStart) {
       const [intPart, fracPart] = out.split(decimalSeparator);
-      const paddedInt = (intPart ?? '').padStart(finalIntLength, '0');
+      const paddedInt = intPart.padStart(finalIntLength, '0');
       out = fracPart ? `${paddedInt}${decimalSeparator}${fracPart}` : paddedInt;
     }
     return out;

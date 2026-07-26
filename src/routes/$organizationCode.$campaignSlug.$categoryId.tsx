@@ -55,7 +55,7 @@ function BallotPage() {
       .sort((a, b) => (b.votes ?? 0) - (a.votes ?? 0))[0]
     return {
       totalVotes: total,
-      leaderId: total > 0 ? (leader?.id ?? null) : null,
+      leaderId: total > 0 ? leader.id : null,
     }
   }, [ballot.nominees])
 

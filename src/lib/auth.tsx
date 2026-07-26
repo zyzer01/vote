@@ -30,5 +30,5 @@ export function fullName(user: AuthUser): string {
 export function initials(user: AuthUser): string {
   const first = user.firstName?.[0] ?? user.email[0]
   const last = user.lastName?.[0] ?? ""
-  return `${first ?? ""}${last}`.toUpperCase() || "U"
+  return `${first}${last}`.toUpperCase() || "U"
 }
