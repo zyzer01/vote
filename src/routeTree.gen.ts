@@ -10,11 +10,34 @@
 
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as IndexRouteImport } from './routes/index'
+import { Route as AdminRouteImport } from './routes/admin'
+import { Route as LoginRouteImport } from './routes/login'
 import { Route as WelcomeRouteImport } from './routes/welcome'
+import { Route as AdminIndexRouteImport } from './routes/admin.index'
+import { Route as VoteCallbackRouteImport } from './routes/vote.callback'
+import { Route as OrganizationCodeCampaignSlugIndexRouteImport } from './routes/$organizationCode.$campaignSlug.index'
+import { Route as OrganizationCodeCampaignSlugCategoryIdRouteImport } from './routes/$organizationCode.$campaignSlug.$categoryId'
+import { Route as OrganizationCodeCampaignSlugResultsRouteImport } from './routes/$organizationCode.$campaignSlug.results'
+import { Route as AdminCampaignsCampaignIdRouteImport } from './routes/admin.campaigns.$campaignId'
+import { Route as AdminCampaignsNewRouteImport } from './routes/admin.campaigns.new'
+import { Route as AdminCampaignsCampaignIdIndexRouteImport } from './routes/admin.campaigns.$campaignId.index'
+import { Route as AdminCampaignsCampaignIdCategoriesRouteImport } from './routes/admin.campaigns.$campaignId.categories'
+import { Route as AdminCampaignsCampaignIdOrdersRouteImport } from './routes/admin.campaigns.$campaignId.orders'
+import { Route as AdminCampaignsCampaignIdSettingsRouteImport } from './routes/admin.campaigns.$campaignId.settings'
 
 const IndexRoute = IndexRouteImport.update({
   id: '/',
   path: '/',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const AdminRoute = AdminRouteImport.update({
+  id: '/admin',
+  path: '/admin',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const LoginRoute = LoginRouteImport.update({
+  id: '/login',
+  path: '/login',
   getParentRoute: () => rootRouteImport,
 } as any)
 const WelcomeRoute = WelcomeRouteImport.update({
@@ -22,31 +45,181 @@ const WelcomeRoute = WelcomeRouteImport.update({
   path: '/welcome',
   getParentRoute: () => rootRouteImport,
 } as any)
+const AdminIndexRoute = AdminIndexRouteImport.update({
+  id: '/',
+  path: '/',
+  getParentRoute: () => AdminRoute,
+} as any)
+const VoteCallbackRoute = VoteCallbackRouteImport.update({
+  id: '/vote/callback',
+  path: '/vote/callback',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const OrganizationCodeCampaignSlugIndexRoute =
+  OrganizationCodeCampaignSlugIndexRouteImport.update({
+    id: '/$organizationCode/$campaignSlug/',
+    path: '/$organizationCode/$campaignSlug/',
+    getParentRoute: () => rootRouteImport,
+  } as any)
+const OrganizationCodeCampaignSlugCategoryIdRoute =
+  OrganizationCodeCampaignSlugCategoryIdRouteImport.update({
+    id: '/$organizationCode/$campaignSlug/$categoryId',
+    path: '/$organizationCode/$campaignSlug/$categoryId',
+    getParentRoute: () => rootRouteImport,
+  } as any)
+const OrganizationCodeCampaignSlugResultsRoute =
+  OrganizationCodeCampaignSlugResultsRouteImport.update({
+    id: '/$organizationCode/$campaignSlug/results',
+    path: '/$organizationCode/$campaignSlug/results',
+    getParentRoute: () => rootRouteImport,
+  } as any)
+const AdminCampaignsCampaignIdRoute =
+  AdminCampaignsCampaignIdRouteImport.update({
+    id: '/campaigns/$campaignId',
+    path: '/campaigns/$campaignId',
+    getParentRoute: () => AdminRoute,
+  } as any)
+const AdminCampaignsNewRoute = AdminCampaignsNewRouteImport.update({
+  id: '/campaigns/new',
+  path: '/campaigns/new',
+  getParentRoute: () => AdminRoute,
+} as any)
+const AdminCampaignsCampaignIdIndexRoute =
+  AdminCampaignsCampaignIdIndexRouteImport.update({
+    id: '/',
+    path: '/',
+    getParentRoute: () => AdminCampaignsCampaignIdRoute,
+  } as any)
+const AdminCampaignsCampaignIdCategoriesRoute =
+  AdminCampaignsCampaignIdCategoriesRouteImport.update({
+    id: '/categories',
+    path: '/categories',
+    getParentRoute: () => AdminCampaignsCampaignIdRoute,
+  } as any)
+const AdminCampaignsCampaignIdOrdersRoute =
+  AdminCampaignsCampaignIdOrdersRouteImport.update({
+    id: '/orders',
+    path: '/orders',
+    getParentRoute: () => AdminCampaignsCampaignIdRoute,
+  } as any)
+const AdminCampaignsCampaignIdSettingsRoute =
+  AdminCampaignsCampaignIdSettingsRouteImport.update({
+    id: '/settings',
+    path: '/settings',
+    getParentRoute: () => AdminCampaignsCampaignIdRoute,
+  } as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
+  '/admin': typeof AdminRouteWithChildren
+  '/login': typeof LoginRoute
   '/welcome': typeof WelcomeRoute
+  '/vote/callback': typeof VoteCallbackRoute
+  '/admin/': typeof AdminIndexRoute
+  '/$organizationCode/$campaignSlug/$categoryId': typeof OrganizationCodeCampaignSlugCategoryIdRoute
+  '/$organizationCode/$campaignSlug/results': typeof OrganizationCodeCampaignSlugResultsRoute
+  '/admin/campaigns/$campaignId': typeof AdminCampaignsCampaignIdRouteWithChildren
+  '/admin/campaigns/new': typeof AdminCampaignsNewRoute
+  '/$organizationCode/$campaignSlug/': typeof OrganizationCodeCampaignSlugIndexRoute
+  '/admin/campaigns/$campaignId/categories': typeof AdminCampaignsCampaignIdCategoriesRoute
+  '/admin/campaigns/$campaignId/orders': typeof AdminCampaignsCampaignIdOrdersRoute
+  '/admin/campaigns/$campaignId/settings': typeof AdminCampaignsCampaignIdSettingsRoute
+  '/admin/campaigns/$campaignId/': typeof AdminCampaignsCampaignIdIndexRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
+  '/login': typeof LoginRoute
   '/welcome': typeof WelcomeRoute
+  '/vote/callback': typeof VoteCallbackRoute
+  '/admin': typeof AdminIndexRoute
+  '/$organizationCode/$campaignSlug/$categoryId': typeof OrganizationCodeCampaignSlugCategoryIdRoute
+  '/$organizationCode/$campaignSlug/results': typeof OrganizationCodeCampaignSlugResultsRoute
+  '/admin/campaigns/new': typeof AdminCampaignsNewRoute
+  '/$organizationCode/$campaignSlug': typeof OrganizationCodeCampaignSlugIndexRoute
+  '/admin/campaigns/$campaignId/categories': typeof AdminCampaignsCampaignIdCategoriesRoute
+  '/admin/campaigns/$campaignId/orders': typeof AdminCampaignsCampaignIdOrdersRoute
+  '/admin/campaigns/$campaignId/settings': typeof AdminCampaignsCampaignIdSettingsRoute
+  '/admin/campaigns/$campaignId': typeof AdminCampaignsCampaignIdIndexRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
+  '/admin': typeof AdminRouteWithChildren
+  '/login': typeof LoginRoute
   '/welcome': typeof WelcomeRoute
+  '/vote/callback': typeof VoteCallbackRoute
+  '/admin/': typeof AdminIndexRoute
+  '/$organizationCode/$campaignSlug/$categoryId': typeof OrganizationCodeCampaignSlugCategoryIdRoute
+  '/$organizationCode/$campaignSlug/results': typeof OrganizationCodeCampaignSlugResultsRoute
+  '/admin/campaigns/$campaignId': typeof AdminCampaignsCampaignIdRouteWithChildren
+  '/admin/campaigns/new': typeof AdminCampaignsNewRoute
+  '/$organizationCode/$campaignSlug/': typeof OrganizationCodeCampaignSlugIndexRoute
+  '/admin/campaigns/$campaignId/categories': typeof AdminCampaignsCampaignIdCategoriesRoute
+  '/admin/campaigns/$campaignId/orders': typeof AdminCampaignsCampaignIdOrdersRoute
+  '/admin/campaigns/$campaignId/settings': typeof AdminCampaignsCampaignIdSettingsRoute
+  '/admin/campaigns/$campaignId/': typeof AdminCampaignsCampaignIdIndexRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '/welcome'
+  fullPaths:
+    | '/'
+    | '/admin'
+    | '/login'
+    | '/welcome'
+    | '/vote/callback'
+    | '/admin/'
+    | '/$organizationCode/$campaignSlug/$categoryId'
+    | '/$organizationCode/$campaignSlug/results'
+    | '/admin/campaigns/$campaignId'
+    | '/admin/campaigns/new'
+    | '/$organizationCode/$campaignSlug/'
+    | '/admin/campaigns/$campaignId/categories'
+    | '/admin/campaigns/$campaignId/orders'
+    | '/admin/campaigns/$campaignId/settings'
+    | '/admin/campaigns/$campaignId/'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/welcome'
-  id: '__root__' | '/' | '/welcome'
+  to:
+    | '/'
+    | '/login'
+    | '/welcome'
+    | '/vote/callback'
+    | '/admin'
+    | '/$organizationCode/$campaignSlug/$categoryId'
+    | '/$organizationCode/$campaignSlug/results'
+    | '/admin/campaigns/new'
+    | '/$organizationCode/$campaignSlug'
+    | '/admin/campaigns/$campaignId/categories'
+    | '/admin/campaigns/$campaignId/orders'
+    | '/admin/campaigns/$campaignId/settings'
+    | '/admin/campaigns/$campaignId'
+  id:
+    | '__root__'
+    | '/'
+    | '/admin'
+    | '/login'
+    | '/welcome'
+    | '/vote/callback'
+    | '/admin/'
+    | '/$organizationCode/$campaignSlug/$categoryId'
+    | '/$organizationCode/$campaignSlug/results'
+    | '/admin/campaigns/$campaignId'
+    | '/admin/campaigns/new'
+    | '/$organizationCode/$campaignSlug/'
+    | '/admin/campaigns/$campaignId/categories'
+    | '/admin/campaigns/$campaignId/orders'
+    | '/admin/campaigns/$campaignId/settings'
+    | '/admin/campaigns/$campaignId/'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
+  AdminRoute: typeof AdminRouteWithChildren
+  LoginRoute: typeof LoginRoute
   WelcomeRoute: typeof WelcomeRoute
+  VoteCallbackRoute: typeof VoteCallbackRoute
+  OrganizationCodeCampaignSlugCategoryIdRoute: typeof OrganizationCodeCampaignSlugCategoryIdRoute
+  OrganizationCodeCampaignSlugResultsRoute: typeof OrganizationCodeCampaignSlugResultsRoute
+  OrganizationCodeCampaignSlugIndexRoute: typeof OrganizationCodeCampaignSlugIndexRoute
 }
 
 declare module '@tanstack/react-router' {
@@ -58,6 +231,20 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof IndexRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/admin': {
+      id: '/admin'
+      path: '/admin'
+      fullPath: '/admin'
+      preLoaderRoute: typeof AdminRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/login': {
+      id: '/login'
+      path: '/login'
+      fullPath: '/login'
+      preLoaderRoute: typeof LoginRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/welcome': {
       id: '/welcome'
       path: '/welcome'
@@ -65,12 +252,134 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof WelcomeRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/admin/': {
+      id: '/admin/'
+      path: '/'
+      fullPath: '/admin/'
+      preLoaderRoute: typeof AdminIndexRouteImport
+      parentRoute: typeof AdminRoute
+    }
+    '/vote/callback': {
+      id: '/vote/callback'
+      path: '/vote/callback'
+      fullPath: '/vote/callback'
+      preLoaderRoute: typeof VoteCallbackRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/$organizationCode/$campaignSlug/': {
+      id: '/$organizationCode/$campaignSlug/'
+      path: '/$organizationCode/$campaignSlug'
+      fullPath: '/$organizationCode/$campaignSlug/'
+      preLoaderRoute: typeof OrganizationCodeCampaignSlugIndexRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/$organizationCode/$campaignSlug/$categoryId': {
+      id: '/$organizationCode/$campaignSlug/$categoryId'
+      path: '/$organizationCode/$campaignSlug/$categoryId'
+      fullPath: '/$organizationCode/$campaignSlug/$categoryId'
+      preLoaderRoute: typeof OrganizationCodeCampaignSlugCategoryIdRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/$organizationCode/$campaignSlug/results': {
+      id: '/$organizationCode/$campaignSlug/results'
+      path: '/$organizationCode/$campaignSlug/results'
+      fullPath: '/$organizationCode/$campaignSlug/results'
+      preLoaderRoute: typeof OrganizationCodeCampaignSlugResultsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/admin/campaigns/$campaignId': {
+      id: '/admin/campaigns/$campaignId'
+      path: '/campaigns/$campaignId'
+      fullPath: '/admin/campaigns/$campaignId'
+      preLoaderRoute: typeof AdminCampaignsCampaignIdRouteImport
+      parentRoute: typeof AdminRoute
+    }
+    '/admin/campaigns/new': {
+      id: '/admin/campaigns/new'
+      path: '/campaigns/new'
+      fullPath: '/admin/campaigns/new'
+      preLoaderRoute: typeof AdminCampaignsNewRouteImport
+      parentRoute: typeof AdminRoute
+    }
+    '/admin/campaigns/$campaignId/': {
+      id: '/admin/campaigns/$campaignId/'
+      path: '/'
+      fullPath: '/admin/campaigns/$campaignId/'
+      preLoaderRoute: typeof AdminCampaignsCampaignIdIndexRouteImport
+      parentRoute: typeof AdminCampaignsCampaignIdRoute
+    }
+    '/admin/campaigns/$campaignId/categories': {
+      id: '/admin/campaigns/$campaignId/categories'
+      path: '/categories'
+      fullPath: '/admin/campaigns/$campaignId/categories'
+      preLoaderRoute: typeof AdminCampaignsCampaignIdCategoriesRouteImport
+      parentRoute: typeof AdminCampaignsCampaignIdRoute
+    }
+    '/admin/campaigns/$campaignId/orders': {
+      id: '/admin/campaigns/$campaignId/orders'
+      path: '/orders'
+      fullPath: '/admin/campaigns/$campaignId/orders'
+      preLoaderRoute: typeof AdminCampaignsCampaignIdOrdersRouteImport
+      parentRoute: typeof AdminCampaignsCampaignIdRoute
+    }
+    '/admin/campaigns/$campaignId/settings': {
+      id: '/admin/campaigns/$campaignId/settings'
+      path: '/settings'
+      fullPath: '/admin/campaigns/$campaignId/settings'
+      preLoaderRoute: typeof AdminCampaignsCampaignIdSettingsRouteImport
+      parentRoute: typeof AdminCampaignsCampaignIdRoute
+    }
   }
 }
 
+interface AdminCampaignsCampaignIdRouteChildren {
+  AdminCampaignsCampaignIdCategoriesRoute: typeof AdminCampaignsCampaignIdCategoriesRoute
+  AdminCampaignsCampaignIdOrdersRoute: typeof AdminCampaignsCampaignIdOrdersRoute
+  AdminCampaignsCampaignIdSettingsRoute: typeof AdminCampaignsCampaignIdSettingsRoute
+  AdminCampaignsCampaignIdIndexRoute: typeof AdminCampaignsCampaignIdIndexRoute
+}
+
+const AdminCampaignsCampaignIdRouteChildren: AdminCampaignsCampaignIdRouteChildren =
+  {
+    AdminCampaignsCampaignIdCategoriesRoute:
+      AdminCampaignsCampaignIdCategoriesRoute,
+    AdminCampaignsCampaignIdOrdersRoute: AdminCampaignsCampaignIdOrdersRoute,
+    AdminCampaignsCampaignIdSettingsRoute:
+      AdminCampaignsCampaignIdSettingsRoute,
+    AdminCampaignsCampaignIdIndexRoute: AdminCampaignsCampaignIdIndexRoute,
+  }
+
+const AdminCampaignsCampaignIdRouteWithChildren =
+  AdminCampaignsCampaignIdRoute._addFileChildren(
+    AdminCampaignsCampaignIdRouteChildren,
+  )
+
+interface AdminRouteChildren {
+  AdminIndexRoute: typeof AdminIndexRoute
+  AdminCampaignsCampaignIdRoute: typeof AdminCampaignsCampaignIdRouteWithChildren
+  AdminCampaignsNewRoute: typeof AdminCampaignsNewRoute
+}
+
+const AdminRouteChildren: AdminRouteChildren = {
+  AdminIndexRoute: AdminIndexRoute,
+  AdminCampaignsCampaignIdRoute: AdminCampaignsCampaignIdRouteWithChildren,
+  AdminCampaignsNewRoute: AdminCampaignsNewRoute,
+}
+
+const AdminRouteWithChildren = AdminRoute._addFileChildren(AdminRouteChildren)
+
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
+  AdminRoute: AdminRouteWithChildren,
+  LoginRoute: LoginRoute,
   WelcomeRoute: WelcomeRoute,
+  VoteCallbackRoute: VoteCallbackRoute,
+  OrganizationCodeCampaignSlugCategoryIdRoute:
+    OrganizationCodeCampaignSlugCategoryIdRoute,
+  OrganizationCodeCampaignSlugResultsRoute:
+    OrganizationCodeCampaignSlugResultsRoute,
+  OrganizationCodeCampaignSlugIndexRoute:
+    OrganizationCodeCampaignSlugIndexRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)

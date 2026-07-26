@@ -6,7 +6,7 @@ export function Rocket({ className, ...props }: React.SVGProps<SVGSVGElement>) {
       viewBox="0 0 85 83"
       fill="none"
       xmlns="http://www.w3.org/2000/svg"
-      strokeWidth={2}
+      strokeWidth={3}
       strokeLinecap="round"
       strokeLinejoin="round"
       stroke="currentColor"

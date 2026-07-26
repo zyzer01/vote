@@ -10,14 +10,14 @@ const STEPS = [
     step: "01",
     title: "Build your campaign",
     description:
-      "Create categories, add nominees — link a player, team or coach, or add anyone custom — and set your prices. Publish a branded page in minutes.",
+      "Create categories, add nominees -link a player, team or coach, or add anyone custom -and set your prices. Publish a branded page in minutes.",
   },
   {
     icon: Share,
     step: "02",
     title: "Share your voting link",
     description:
-      "Drop your campaign link anywhere — Instagram, WhatsApp, X. Fans vote in seconds with card or transfer, no account required.",
+      "Drop your campaign link anywhere -Instagram, WhatsApp, X. Fans vote in seconds with card or transfer, no account required.",
   },
   {
     icon: Stats,

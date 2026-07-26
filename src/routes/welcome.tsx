@@ -13,7 +13,7 @@ export const Route = createFileRoute("/welcome")({
   head: () => ({
     meta: [
       {
-        title: "Sportly Vote — Run world-class voting campaigns in Africa",
+        title: "Sportly Vote -Run world-class voting campaigns in Africa",
       },
       {
         name: "description",

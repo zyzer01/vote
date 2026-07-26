@@ -13,11 +13,11 @@ export function Hero() {
         {/* soft warm wash that melts into the page below */}
         <div className="absolute inset-0 bg-[oklch(0.977_0.006_88)] [mask-image:linear-gradient(to_bottom,#000_68%,transparent_100%)]" />
         {/* fine ruled grid */}
-        <div className="absolute inset-0 bg-[linear-gradient(to_right,oklch(0.42_0.02_140/0.1)_1px,transparent_1px),linear-gradient(to_bottom,oklch(0.42_0.02_140/0.1)_1px,transparent_1px)] [mask-image:radial-gradient(ellipse_82%_72%_at_50%_4%,#000_58%,transparent_100%)] bg-[size:54px_54px]" />
-        {/* soft brand glows */}
-        <div className="absolute top-[-10%] left-1/2 h-[38rem] w-[38rem] -translate-x-1/2 rounded-full bg-primary/7 blur-[130px]" />
-        <div className="absolute top-[30%] right-[12%] h-72 w-72 rounded-full bg-brand-yellow/8 blur-[110px]" />
-        <div className="absolute top-[40%] left-[8%] h-72 w-72 rounded-full bg-brand-red/4 blur-[120px]" />
+        <div className="absolute inset-0 bg-[linear-gradient(to_right,oklch(0.42_0.02_140/0.055)_1px,transparent_1px),linear-gradient(to_bottom,oklch(0.42_0.02_140/0.055)_1px,transparent_1px)] [mask-image:radial-gradient(ellipse_82%_72%_at_50%_4%,#000_58%,transparent_100%)] bg-[size:54px_54px]" />
+        {/* soft brand glows -warm tones lead */}
+        <div className="absolute top-[-10%] left-1/2 h-[38rem] w-[38rem] -translate-x-1/2 rounded-full bg-primary/4 blur-[130px]" />
+        <div className="absolute top-[30%] right-[12%] h-80 w-80 rounded-full bg-brand-yellow/16 blur-[110px]" />
+        <div className="absolute top-[40%] left-[8%] h-80 w-80 rounded-full bg-brand-red/10 blur-[120px]" />
       </div>
 
       <div className="relative z-10 mx-auto flex max-w-4xl flex-col items-center text-center">

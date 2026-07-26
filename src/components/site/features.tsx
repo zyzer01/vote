@@ -73,9 +73,9 @@ function DashboardMock() {
 }
 
 const LEADERS = [
-  { name: "Amara Okafor", votes: 12840, pct: 100, img: "/avatars/1.svg" },
-  { name: "Thabo Botha", votes: 9310, pct: 72, img: "/avatars/4.svg" },
-  { name: "Zainab Ndiaye", votes: 6120, pct: 48, img: "/avatars/3.svg" },
+  { name: "Amara Okafor", votes: 12840, pct: 100, img: "/avatars/amara.jpg" },
+  { name: "Kola Balogun", votes: 9310, pct: 72, img: "/avatars/thabo.jpg" },
+  { name: "Zainab Ndiaye", votes: 6120, pct: 48, img: "/avatars/zainab.jpg" },
 ]
 
 function LeaderboardMock() {
@@ -97,7 +97,11 @@ function LeaderboardMock() {
             >
               {i + 1}
             </span>
-            <img src={l.img} alt="" className="size-6 rounded-full" />
+            <img
+              src={l.img}
+              alt=""
+              className="size-6 rounded-full object-cover"
+            />
             <span className="flex-1 truncate text-xs font-medium">{l.name}</span>
             <span className="text-xs font-semibold tabular-nums">
               <CountingNumber number={l.votes} inView />
@@ -122,7 +126,7 @@ function VoteCardMock() {
   return (
     <div className="rounded-xl border border-border/80 bg-background p-4 shadow-sm">
       <div className="flex items-center gap-3">
-        <img src="/avatars/6.svg" alt="" className="size-11 rounded-xl" />
+        <img src="/avatars/chidi-nwosu.png" alt="" className="size-11 rounded-xl" />
         <div className="leading-tight">
           <p className="text-sm font-semibold">Chidi Nwosu</p>
           <p className="text-xs text-muted-foreground">Rising Star of the Year</p>
@@ -205,7 +209,7 @@ export function Features() {
               <span className="text-gray-400">voting lifecycle</span>
             </>
           }
-          description="From building the ballot to settling revenue, Sportly Vote handles the busywork so you can focus on the moment that matters — crowning a winner."
+          description="From building the ballot to settling revenue, Sportly Vote handles the busywork so you can focus on the moment that matters - crowning a winner."
         />
 
         <div className="mt-16 grid grid-cols-1 gap-5 md:grid-cols-3">
@@ -213,7 +217,7 @@ export function Features() {
             className="md:col-span-2"
             icon={<BarChart3 className="size-5" />}
             title="A dashboard that runs the whole event"
-            description="Track revenue, votes and turnout in real time. Every category, every nominee, every naira — in one live control room built for organizers."
+            description="Track revenue, votes and turnout in real time. Every category, every nominee, every naira -in one live control room built for organizers."
           >
             <DashboardMock />
           </FeatureCard>
@@ -230,7 +234,7 @@ export function Features() {
           <FeatureCard
             icon={<Crown className="size-5" />}
             title="Live leaderboards"
-            description="A results page that updates as votes land — build hype and keep fans coming back to check the standings."
+            description="A results page that updates as votes land -build hype and keep fans coming back to check the standings."
             delay={0.1}
           >
             <LeaderboardMock />
@@ -261,7 +265,7 @@ export function Features() {
           <FeatureCard
             icon={<ShieldCheck className="size-5" />}
             title="Fraud-proof by design"
-            description="Server-side pricing, unique idempotency keys and salted voter fingerprints keep every count honest — no double counting, ever."
+            description="Voter fingerprints keep every count honest - and you decide whether fans vote once or as often as they like."
             delay={0.2}
           >
             <div className="grid grid-cols-2 gap-2.5">

@@ -1,43 +1,54 @@
-import { HeadContent, Scripts, createRootRoute } from "@tanstack/react-router"
+import {
+  HeadContent,
+  Scripts,
+  createRootRouteWithContext,
+} from "@tanstack/react-router"
 import { TanStackRouterDevtoolsPanel } from "@tanstack/react-router-devtools"
 import { TanStackDevtools } from "@tanstack/react-devtools"
+import type { QueryClient } from "@tanstack/react-query"
+import { Toaster } from "sonner"
 
 import appCss from "../styles.css?url"
 
-export const Route = createRootRoute({
+export interface RouterContext {
+  queryClient: QueryClient
+}
+
+export const Route = createRootRouteWithContext<RouterContext>()({
   head: () => ({
     meta: [
+      { charSet: "utf-8" },
+      { name: "viewport", content: "width=device-width, initial-scale=1" },
+      { title: "Sportly Vote" },
       {
-        charSet: "utf-8",
+        name: "description",
+        content:
+          "Vote for your favourites and follow the results live on Sportly.",
       },
-      {
-        name: "viewport",
-        content: "width=device-width, initial-scale=1",
-      },
-      {
-        title: "Sportly Vote",
-      },
+      { name: "theme-color", content: "#0B1220" },
     ],
     links: [
-      {
-        rel: "stylesheet",
-        href: appCss,
-      },
-      {
-        rel: "icon",
-        href: "/sportly-mark.png",
-        type: "image/png",
-      },
+      { rel: "stylesheet", href: appCss },
+      { rel: "icon", href: "/sportly-mark.png", type: "image/png" },
     ],
   }),
-  notFoundComponent: () => (
-    <main className="container mx-auto p-4 pt-16">
-      <h1>404</h1>
-      <p>The requested page could not be found.</p>
-    </main>
-  ),
+  notFoundComponent: NotFound,
   shellComponent: RootDocument,
 })
+
+function NotFound() {
+  return (
+    <main className="mx-auto flex min-h-svh max-w-md flex-col items-center justify-center px-6 text-center">
+      <p className="text-primary text-sm font-semibold tracking-wide uppercase">
+        404
+      </p>
+      <h1 className="font-heading mt-3 text-3xl font-bold">Page not found</h1>
+      <p className="text-muted-foreground mt-2">
+        The campaign you're looking for may have ended or the link is incorrect.
+      </p>
+    </main>
+  )
+}
 
 function RootDocument({ children }: { children: React.ReactNode }) {
   return (
@@ -47,17 +58,23 @@ function RootDocument({ children }: { children: React.ReactNode }) {
       </head>
       <body>
         {children}
-        <TanStackDevtools
-          config={{
-            position: "bottom-right",
-          }}
-          plugins={[
-            {
-              name: "Tanstack Router",
-              render: <TanStackRouterDevtoolsPanel />,
-            },
-          ]}
+        <Toaster
+          position="top-center"
+          richColors
+          closeButton
+          toastOptions={{ className: "font-sans" }}
         />
+        {import.meta.env.DEV ? (
+          <TanStackDevtools
+            config={{ position: "bottom-right" }}
+            plugins={[
+              {
+                name: "Tanstack Router",
+                render: <TanStackRouterDevtoolsPanel />,
+              },
+            ]}
+          />
+        ) : null}
         <Scripts />
       </body>
     </html>

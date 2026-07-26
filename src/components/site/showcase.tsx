@@ -5,7 +5,7 @@ import { Reveal, SectionHeading } from "./primitives"
 import { cn } from "@/lib/utils"
 
 const RESULTS = [
-  { name: "Amara Okafor", team: "Enyimba FC", votes: 128400, pct: 100, img: "/avatars/1.svg" },
+  { name: "Kelechi Okafor", team: "Enyimba FC", votes: 128400, pct: 100, img: "/avatars/1.svg" },
   { name: "Thabo Botha", team: "Sundowns", votes: 93120, pct: 73, img: "/avatars/4.svg" },
   { name: "Zainab Ndiaye", team: "AS Douanes", votes: 61240, pct: 48, img: "/avatars/3.svg" },
   { name: "Chidi Nwosu", team: "Rivers United", votes: 40880, pct: 32, img: "/avatars/6.svg" },
@@ -26,14 +26,19 @@ export function Showcase() {
       id="showcase"
       className="relative isolate overflow-hidden px-4 py-24 md:py-32"
     >
-      {/* soft, airy backdrop — a light band, not a dark hero */}
+      {/* soft, airy backdrop -a light band, not a dark hero */}
       <div className="pointer-events-none absolute inset-0 -z-10 bg-gradient-to-b from-background via-muted/40 to-background" />
       <div className="pointer-events-none absolute inset-x-0 top-0 -z-10 h-[420px] bg-[radial-gradient(ellipse_60%_100%_at_50%_0%,oklch(0.6907_0.1828_151.72/0.09),transparent_70%)]" />
 
       <div className="relative mx-auto max-w-7xl">
         <SectionHeading
           eyebrow="See it live"
-          title="Watch a campaign come alive"
+          title={
+            <>
+              Watch a campaign come{" "}
+              <span className="text-gray-400">alive</span>
+            </>
+          }
           description="Every vote updates the leaderboard instantly. This is exactly what your fans see - polished, fast and impossible to fake."
         />
 
@@ -155,7 +160,7 @@ export function Showcase() {
                     </motion.div>
                   ))}
                 </div>
-                <div className="mt-4 rounded-xl bg-primary/10 p-4 text-center ring-1 ring-primary/15 ring-inset">
+                <div className="mt-4 rounded-xl bg-muted p-4 text-center ring-1 ring-primary/15 ring-inset">
                   <p className="text-2xl font-bold tabular-nums">
                     <CountingNumber number={323640} inView />
                   </p>
