@@ -14,9 +14,9 @@ const REF_KEYS = ["ref", "reference", "trxref"] as const
 
 export const Route = createFileRoute("/vote/callback")({
   validateSearch: (search: Record<string, unknown>) => ({
-    ref: (search.ref as string) ?? undefined,
-    reference: (search.reference as string) ?? undefined,
-    trxref: (search.trxref as string) ?? undefined,
+    ref: search.ref as string,
+    reference: search.reference as string,
+    trxref: search.trxref as string,
   }),
   component: CallbackPage,
 })

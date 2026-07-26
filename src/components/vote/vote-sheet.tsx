@@ -55,7 +55,6 @@ export function VoteSheet({
     setMode(paidAvailable ? "paid" : "free")
     setQuantity(campaign.minVotesPerOrder || 1)
     setSucceeded(false)
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [activeNomineeId])
 
   const maxQty = campaign.maxVotesPerOrder ?? 100
