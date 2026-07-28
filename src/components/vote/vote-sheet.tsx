@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react"
+import { useQuery } from "@tanstack/react-query"
 import { AnimatePresence, motion } from "motion/react"
 import { Check, CreditCard, Gift, Loader2, Lock, Minus, Plus } from "lucide-react"
 import { toast } from "sonner"
@@ -7,7 +8,9 @@ import type {
   BallotNominee,
   CategoryBallot,
   FreeVoteAllowance,
+  PaymentProviderType,
 } from "@/lib/api/types"
+import { paymentConfigQuery } from "@/lib/api/queries"
 import { formatMoney } from "@/lib/format"
 import { cn } from "@/lib/utils"
 import { Modal } from "@/components/ui/modal"
@@ -16,6 +19,13 @@ import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
 import { Avatar } from "@/components/ui/avatar"
 import { useVoteActions, voteErrorMessage } from "@/hooks/use-vote-actions"
+
+const PAYMENT_PROVIDER_LABELS: Record<PaymentProviderType, string> = {
+  paystack: "Paystack",
+  tagpay: "TagPay",
+  stripe: "Stripe",
+  flutterwave: "Flutterwave",
+}
 
 type Mode = "free" | "paid"
 
@@ -47,6 +57,11 @@ export function VoteSheet({
   const [email, setEmail] = useState("")
   const [name, setName] = useState("")
   const [succeeded, setSucceeded] = useState(false)
+  const [selectedGateway, setSelectedGateway] = useState<PaymentProviderType | null>(null)
+  const { data: paymentConfig } = useQuery({
+    ...paymentConfigQuery("vote"),
+    enabled: paidAvailable,
+  })
 
   // Reset local state whenever a new nominee opens the sheet.
   const activeNomineeId = nominee?.id ?? null
@@ -55,6 +70,7 @@ export function VoteSheet({
     setMode(paidAvailable ? "paid" : "free")
     setQuantity(campaign.minVotesPerOrder || 1)
     setSucceeded(false)
+    setSelectedGateway(null)
   }, [activeNomineeId])
 
   const maxQty = campaign.maxVotesPerOrder ?? 100
@@ -91,6 +107,7 @@ export function VoteSheet({
         quantity,
         voterEmail: email.trim(),
         voterName: name.trim() || undefined,
+        preferredProvider: selectedGateway ?? undefined,
       },
       { onError: (err) => toast.error(voteErrorMessage(err)) },
     )
@@ -177,6 +194,9 @@ export function VoteSheet({
                     setName={setName}
                     redirecting={redirecting}
                     onSubmit={handlePaid}
+                    gateways={paymentConfig?.enabled}
+                    selectedGateway={selectedGateway ?? paymentConfig?.default ?? null}
+                    onSelectGateway={setSelectedGateway}
                   />
                 ) : (
                   <p className="text-muted-foreground py-6 text-center text-sm">
@@ -284,6 +304,9 @@ function PaidPanel({
   setName,
   redirecting,
   onSubmit,
+  gateways,
+  selectedGateway,
+  onSelectGateway,
 }: {
   quantity: number
   setQuantity: (q: number) => void
@@ -298,6 +321,9 @@ function PaidPanel({
   setName: (v: string) => void
   redirecting: boolean
   onSubmit: () => void
+  gateways: PaymentProviderType[] | undefined
+  selectedGateway: PaymentProviderType | null
+  onSelectGateway: (p: PaymentProviderType) => void
 }) {
   const quickAdds = [1, 5, 10, 25].filter((n) => n <= maxQty)
 
@@ -376,6 +402,29 @@ function PaidPanel({
         </div>
       </div>
 
+      {gateways && gateways.length > 1 ? (
+        <div>
+          <Label className="mb-2">Pay with</Label>
+          <div className="flex flex-wrap gap-1.5">
+            {gateways.map((gateway) => (
+              <button
+                key={gateway}
+                type="button"
+                onClick={() => onSelectGateway(gateway)}
+                className={cn(
+                  "rounded-full border px-3 py-1.5 text-xs font-medium transition-colors",
+                  selectedGateway === gateway
+                    ? "border-primary bg-primary/10 text-primary"
+                    : "border-border text-muted-foreground hover:border-primary/40",
+                )}
+              >
+                {PAYMENT_PROVIDER_LABELS[gateway]}
+              </button>
+            ))}
+          </div>
+        </div>
+      ) : null}
+
       {/* Total */}
       <div className="bg-muted/60 flex items-center justify-between rounded-xl px-4 py-3">
         <div>
@@ -410,7 +459,7 @@ function PaidPanel({
         )}
       </Button>
       <p className="text-muted-foreground -mt-1 text-center text-xs">
-        Secured by TagPay · You'll return here after payment
+        Secured checkout · You'll return here after payment
       </p>
     </div>
   )

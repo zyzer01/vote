@@ -135,7 +135,7 @@ function CallbackPage() {
         </motion.div>
 
         <p className="mt-5 text-center text-xs text-white/50">
-          Secured by TagPay · Sportly Vote
+          Secured checkout · Sportly Vote
         </p>
       </div>
     </main>

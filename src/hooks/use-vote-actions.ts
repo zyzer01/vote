@@ -8,8 +8,9 @@ import { getUtmParams } from "@/lib/visitor"
 
 /**
  * Vote mutations for a category. Free votes update the ballot optimistically
- * and settle from the server response; paid votes create an order and hand off
- * to Paystack via a full-page redirect (so the app never touches card data).
+ * and settle from the server response; paid votes create an order and hand
+ * off to the selected gateway's hosted checkout via a full-page redirect (so
+ * the app never touches card data).
  */
 export function useVoteActions(campaignId: string, categoryId: string) {
   const qc = useQueryClient()
@@ -48,8 +49,8 @@ export function useVoteActions(campaignId: string, categoryId: string) {
       })
     },
     onSuccess: (order) => {
-      // Hand off to Paystack's hosted checkout. Stash where to return so the
-      // callback page can offer a link straight back to this ballot.
+      // Hand off to the gateway's hosted checkout. Stash where to return so
+      // the callback page can offer a link straight back to this ballot.
       if (typeof window !== "undefined") {
         try {
           sessionStorage.setItem("sportly.vote.return", window.location.pathname)
