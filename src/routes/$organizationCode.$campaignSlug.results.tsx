@@ -6,6 +6,7 @@ import { campaignQuery, resultsQuery } from "@/lib/api/queries"
 import { ApiError } from "@/lib/api/client"
 import { brandStyle } from "@/lib/brand"
 import { getCampaignState } from "@/lib/campaign-state"
+import { campaignUrl, pageMeta } from "@/lib/seo"
 import { Countdown } from "@/components/vote/countdown"
 import { Leaderboard } from "@/components/vote/leaderboard"
 import { VoteFooter } from "@/components/vote/vote-footer"
@@ -20,9 +21,24 @@ export const Route = createFileRoute(
         campaignQuery(params.organizationCode, params.campaignSlug),
       )
       await context.queryClient.ensureQueryData(resultsQuery(campaign.id))
+      return { campaign }
     } catch (error) {
       if (error instanceof ApiError && error.isNotFound) throw notFound()
       throw error
+    }
+  },
+  head: ({ loaderData, params }) => {
+    if (!loaderData) return {}
+    const { campaign } = loaderData
+    const title = `${campaign.name} | Live Results`
+    const description = `See the live leaderboard for ${campaign.name}, hosted by ${campaign.organization.name} on Sportly Vote.`
+    return {
+      meta: pageMeta({
+        title,
+        description,
+        image: campaign.coverImageUrl ?? campaign.logoUrl ?? undefined,
+        url: `${campaignUrl(params.organizationCode, params.campaignSlug)}/results`,
+      }),
     }
   },
   component: ResultsPage,
@@ -43,7 +59,7 @@ function ResultsPage() {
   const state = getCampaignState(campaign)
 
   return (
-    <div style={brandStyle(campaign.brandColor)} className="min-h-svh">
+    <div style={brandStyle(campaign.brandColor)} className="flex min-h-svh flex-col">
       {/* Header */}
       <header className="relative overflow-hidden bg-brand-navy text-white">
         <div
@@ -81,7 +97,7 @@ function ResultsPage() {
         <div className="bg-background h-6 rounded-t-[2rem]" />
       </header>
 
-      <main className="mx-auto max-w-3xl px-5">
+      <main className="mx-auto w-full max-w-3xl flex-1 px-5">
         {results.resultsVisible ? (
           results.categories.length === 0 ? (
             <EmptyResults />

@@ -8,10 +8,10 @@ import {cloudflare} from "@cloudflare/vite-plugin"
 const config = defineConfig({
   resolve: { tsconfigPaths: true },
   plugins: [
+    devtools(),
     cloudflare({ viteEnvironment: { name: "ssr" } }),
     tanstackStart(),
     viteReact(),
-    devtools(),
     tailwindcss(),
   ],
 })

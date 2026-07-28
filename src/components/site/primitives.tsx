@@ -1,4 +1,3 @@
-import { motion } from "motion/react"
 import { cn } from "@/lib/utils"
 
 export function Eyebrow({
@@ -20,28 +19,34 @@ export function Eyebrow({
   )
 }
 
-/** Fade + rise on scroll into view. */
+/** Inline `--reveal-delay` for a staggered entrance, if one was asked for. */
+export function revealStyle(delay = 0, extra?: React.CSSProperties) {
+  return delay
+    ? ({ ...extra, "--reveal-delay": `${delay}s` } as React.CSSProperties)
+    : extra
+}
+
+/**
+ * Fade + rise on scroll into view.
+ *
+ * Markup only - no ref, no effect. The inline script in `__root.tsx` finds
+ * every `[data-reveal]` and flips it to `"in"` as it nears the viewport, which
+ * means the reveal works off the SSR HTML instead of waiting for hydration.
+ * See the `[data-reveal-ready]` rules in styles.css.
+ */
 export function Reveal({
   children,
   className,
   delay = 0,
-  y = 24,
 }: {
   children: React.ReactNode
   className?: string
   delay?: number
-  y?: number
 }) {
   return (
-    <motion.div
-      initial={{ opacity: 0, y }}
-      whileInView={{ opacity: 1, y: 0 }}
-      viewport={{ once: true, margin: "-80px" }}
-      transition={{ duration: 0.7, delay, ease: [0.16, 1, 0.3, 1] }}
-      className={className}
-    >
+    <div data-reveal="" style={revealStyle(delay)} className={className}>
       {children}
-    </motion.div>
+    </div>
   )
 }
 

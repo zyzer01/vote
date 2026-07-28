@@ -1,98 +1,55 @@
-"use client";
-import { useCallback, useEffect, useState } from "react";
-import { AnimatePresence, motion } from "motion/react";
-import { cn } from "@/lib/utils";
+import { useEffect, useState } from "react"
+import { cn } from "@/lib/utils"
 
+/**
+ * Cycles through `words` with a short fade/rise.
+ *
+ * Deliberately CSS-driven and single-element: this sits inside the LCP heading,
+ * so it must render its first word in the SSR markup (no opacity:0 wait for
+ * hydration) and must not schedule per-letter work on every cycle.
+ */
 export const FlipWords = ({
   words,
   duration = 3000,
   className,
 }: {
-  words: string[];
-  duration?: number;
-  className?: string;
+  words: string[]
+  duration?: number
+  className?: string
 }) => {
-  const [currentWord, setCurrentWord] = useState(words[0]);
-  const [isAnimating, setIsAnimating] = useState<boolean>(false);
-
-  // thanks for the fix Julian - https://github.com/Julian-AT
-  const startAnimation = useCallback(() => {
-    const word = words[words.indexOf(currentWord) + 1] || words[0];
-    setCurrentWord(word);
-    setIsAnimating(true);
-  }, [currentWord, words]);
+  const [index, setIndex] = useState(0)
 
   useEffect(() => {
-    if (!isAnimating)
-      setTimeout(() => {
-        startAnimation();
-      }, duration);
-  }, [isAnimating, duration, startAnimation]);
+    if (words.length < 2) return
+    if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return
+
+    const id = setInterval(
+      () => setIndex((i) => (i + 1) % words.length),
+      duration,
+    )
+    return () => clearInterval(id)
+  }, [words.length, duration])
 
   return (
-    <AnimatePresence
-      onExitComplete={() => {
-        setIsAnimating(false);
-      }}
+    <span
+      className={cn(
+        "relative z-10 inline-grid px-2 text-left text-neutral-900 dark:text-neutral-100",
+        className,
+      )}
     >
-      <motion.div
-        initial={{
-          opacity: 0,
-          y: 10,
-        }}
-        animate={{
-          opacity: 1,
-          y: 0,
-        }}
-        transition={{
-          type: "spring",
-          stiffness: 100,
-          damping: 10,
-        }}
-        exit={{
-          opacity: 0,
-          y: -40,
-          x: 40,
-          filter: "blur(8px)",
-          scale: 2,
-          position: "absolute",
-        }}
-        className={cn(
-          "z-10 inline-block relative text-left text-neutral-900 dark:text-neutral-100 px-2",
-          className
-        )}
-        key={currentWord}
+      {/* Widest word, hidden - reserves the box so the headline never reflows. */}
+      <span
+        aria-hidden
+        className="invisible col-start-1 row-start-1 whitespace-nowrap"
       >
-        {/* edit suggested by Sajal: https://x.com/DewanganSajal */}
-        {currentWord.split(" ").map((word, wordIndex) => (
-          <motion.span
-            key={word + wordIndex}
-            initial={{ opacity: 0, y: 10, filter: "blur(8px)" }}
-            animate={{ opacity: 1, y: 0, filter: "blur(0px)" }}
-            transition={{
-              delay: wordIndex * 0.3,
-              duration: 0.3,
-            }}
-            className="inline-block whitespace-nowrap"
-          >
-            {word.split("").map((letter, letterIndex) => (
-              <motion.span
-                key={word + letterIndex}
-                initial={{ opacity: 0, y: 10, filter: "blur(8px)" }}
-                animate={{ opacity: 1, y: 0, filter: "blur(0px)" }}
-                transition={{
-                  delay: wordIndex * 0.3 + letterIndex * 0.05,
-                  duration: 0.2,
-                }}
-                className="inline-block"
-              >
-                {letter}
-              </motion.span>
-            ))}
-            <span className="inline-block">&nbsp;</span>
-          </motion.span>
-        ))}
-      </motion.div>
-    </AnimatePresence>
-  );
-};
+        {words.reduce((a, b) => (b.length > a.length ? b : a), "")}
+      </span>
+      <span
+        key={index}
+        className="col-start-1 row-start-1 animate-fade-up whitespace-nowrap"
+      >
+        {words[index]}
+      </span>
+    </span>
+  )
+}

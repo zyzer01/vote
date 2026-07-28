@@ -1,4 +1,3 @@
-import { motion, type Transition } from "motion/react"
 import { cn } from "@/lib/utils"
 
 interface BorderBeamProps {
@@ -13,12 +12,15 @@ interface BorderBeamProps {
   /** Thickness of the beam ring, in px. */
   borderWidth?: number
   className?: string
-  transition?: Transition
 }
 
 /**
  * A gradient comet that travels around an element's border. Drop it inside any
  * `relative` + `rounded-*` container; it inherits the radius and rides the edge.
+ *
+ * Runs as a CSS animation rather than a JS one - this loops forever, and a
+ * `repeat: Infinity` motion value keeps a requestAnimationFrame callback alive
+ * on the main thread for the life of the page.
  */
 export function BorderBeam({
   size = 70,
@@ -28,35 +30,27 @@ export function BorderBeam({
   colorTo = "transparent",
   borderWidth = 1.5,
   className,
-  transition,
 }: BorderBeamProps) {
   return (
     <div
       className="pointer-events-none absolute inset-0 rounded-[inherit] ![mask-clip:padding-box,border-box] ![mask-composite:intersect] [mask:linear-gradient(transparent,transparent),linear-gradient(#000,#000)]"
       style={{ border: `${borderWidth}px solid transparent` }}
     >
-      <motion.div
+      <div
         className={cn(
-          "absolute aspect-square bg-gradient-to-l from-[var(--beam-from)] via-[var(--beam-to)] to-transparent",
+          "absolute aspect-square animate-beam bg-gradient-to-l from-[var(--beam-from)] via-[var(--beam-to)] to-transparent",
           className,
         )}
         style={
           {
             width: size,
             offsetPath: `rect(0 auto auto 0 round ${size}px)`,
+            animationDelay: `-${delay}s`,
+            "--beam-duration": `${duration}s`,
             "--beam-from": colorFrom,
             "--beam-to": colorTo,
           } as React.CSSProperties
         }
-        initial={{ offsetDistance: "0%" }}
-        animate={{ offsetDistance: "100%" }}
-        transition={{
-          repeat: Infinity,
-          ease: "linear",
-          duration,
-          delay: -delay,
-          ...transition,
-        }}
       />
     </div>
   )

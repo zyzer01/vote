@@ -1,7 +1,6 @@
-import { motion } from "motion/react"
 import { Landmark, TrendingUp } from "lucide-react"
 import { CountingNumber } from "@/components/animate-ui/primitives/texts/counting-number"
-import { Reveal, SectionHeading } from "./primitives"
+import { Reveal, SectionHeading, revealStyle } from "./primitives"
 import { cn } from "@/lib/utils"
 
 const RESULTS = [
@@ -23,6 +22,25 @@ const PAYMENTS = [
   { name: "Mastercard", logo: "/payments/mastercard-logo.webp" },
   { name: "Verve", logo: "/payments/verve-logo.png" },
 ]
+
+/** Leaderboard meter: grows from 0 via scale when it scrolls into view. */
+function ResultBar({
+  pct,
+  delay,
+  className,
+}: {
+  pct: number
+  delay: number
+  className?: string
+}) {
+  return (
+    <div
+      data-reveal=""
+      style={revealStyle(delay, { width: `${pct}%` })}
+      className={cn("reveal-grow-x h-full rounded-full", className)}
+    />
+  )
+}
 
 export function Showcase() {
   return (
@@ -58,6 +76,8 @@ export function Showcase() {
                   aria-hidden
                   width={22}
                   height={22}
+                  loading="lazy"
+                  decoding="async"
                   draggable={false}
                   className="size-5 -rotate-12"
                 />
@@ -110,6 +130,10 @@ export function Showcase() {
                       <img
                         src={r.img}
                         alt=""
+                        width={36}
+                        height={36}
+                        loading="lazy"
+                        decoding="async"
                         className="size-9 rounded-full ring-2 ring-border"
                       />
                       <div className="min-w-0 flex-1">
@@ -120,15 +144,10 @@ export function Showcase() {
                           </p>
                         </div>
                         <div className="mt-1.5 h-1.5 overflow-hidden rounded-full bg-muted">
-                          <motion.div
-                            initial={{ width: 0 }}
-                            whileInView={{ width: `${r.pct}%` }}
-                            viewport={{ once: true }}
-                            transition={{ duration: 1.1, delay: 0.2 + i * 0.12, ease: "easeOut" }}
-                            className={cn(
-                              "h-full rounded-full",
-                              i === 0 ? "bg-primary" : "bg-primary/35",
-                            )}
+                          <ResultBar
+                            pct={r.pct}
+                            delay={0.15 + i * 0.09}
+                            className={i === 0 ? "bg-primary" : "bg-primary/35"}
                           />
                         </div>
                       </div>
@@ -145,12 +164,9 @@ export function Showcase() {
                 <p className="text-sm font-semibold">Live vote feed</p>
                 <div className="mt-4 flex-1 space-y-2.5">
                   {FEED.map((f, i) => (
-                    <motion.div
+                    <Reveal
                       key={f.who}
-                      initial={{ opacity: 0, x: 16 }}
-                      whileInView={{ opacity: 1, x: 0 }}
-                      viewport={{ once: true }}
-                      transition={{ delay: 0.4 + i * 0.15 }}
+                      delay={0.3 + i * 0.1}
                       className="flex items-center gap-3 rounded-lg border border-border bg-muted/40 p-2.5"
                     >
                       <span className="flex size-8 items-center justify-center rounded-full bg-primary/10 text-xs font-bold text-primary">
@@ -161,7 +177,7 @@ export function Showcase() {
                         <span className="font-semibold text-primary">{f.n} votes</span>
                       </p>
                       <span className="text-[0.65rem] text-muted-foreground/70">now</span>
-                    </motion.div>
+                    </Reveal>
                   ))}
                 </div>
                 <div className="mt-4 rounded-xl bg-muted p-4 text-center ring-1 ring-primary/15 ring-inset">
@@ -188,6 +204,8 @@ export function Showcase() {
                   src={p.logo}
                   alt={p.name}
                   className="h-5 w-auto object-contain sm:h-6"
+                  loading="lazy"
+                  decoding="async"
                   draggable={false}
                 />
               ))}

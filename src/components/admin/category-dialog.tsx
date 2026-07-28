@@ -12,6 +12,7 @@ import { Input } from "@/components/ui/input"
 import { Textarea } from "@/components/ui/textarea"
 import { Button } from "@/components/ui/button"
 import { Spinner } from "@/components/ui/spinner"
+import { ImageUploadField } from "@/components/admin/image-upload-field"
 
 export function CategoryDialog({
   open,
@@ -107,12 +108,13 @@ export function CategoryDialog({
               placeholder="Optional - shown above the nominees."
             />
           </Field>
-          <Field label="Image URL" htmlFor="cat-image">
-            <Input
-              id="cat-image"
+          <Field label="Image" htmlFor="cat-image">
+            <ImageUploadField
               value={imageUrl}
-              onChange={(e) => setImageUrl(e.target.value)}
-              placeholder="https://…"
+              onChange={setImageUrl}
+              folder="category-images"
+              aspect="video"
+              disabled={mutation.isPending}
             />
           </Field>
           <Field

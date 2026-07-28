@@ -16,6 +16,8 @@ export function LogoCloud() {
                   key={i}
                   src={`/orgs/${n}.svg`}
                   alt=""
+                  loading="lazy"
+                  decoding="async"
                   className="h-7 w-auto text-foreground/70 opacity-60 transition-opacity hover:opacity-100"
                 />
               ))}

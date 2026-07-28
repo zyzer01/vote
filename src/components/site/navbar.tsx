@@ -1,5 +1,4 @@
 import { useEffect, useState } from "react"
-import { AnimatePresence, motion } from "motion/react"
 import { Menu, X } from "lucide-react"
 import { Logo } from "./logo"
 import { cn } from "@/lib/utils"
@@ -15,7 +14,17 @@ export function Navbar() {
   const [open, setOpen] = useState(false)
 
   useEffect(() => {
-    const onScroll = () => setScrolled(window.scrollY > 12)
+    // rAF-throttled: the raw scroll event fires far more often than we can
+    // usefully react to, and every extra setState is a render during scroll.
+    let queued = false
+    const onScroll = () => {
+      if (queued) return
+      queued = true
+      requestAnimationFrame(() => {
+        queued = false
+        setScrolled(window.scrollY > 12)
+      })
+    }
     onScroll()
     window.addEventListener("scroll", onScroll, { passive: true })
     return () => window.removeEventListener("scroll", onScroll)
@@ -23,18 +32,12 @@ export function Navbar() {
 
   return (
     <header className="fixed inset-x-0 top-0 z-50 flex justify-center px-4">
-      <motion.nav
-        initial={false}
-        animate={{
-          width: scrolled ? "min(72rem, 100%)" : "min(80rem, 100%)",
-          marginTop: scrolled ? 12 : 20,
-        }}
-        transition={{ type: "spring", stiffness: 200, damping: 30 }}
+      <nav
         className={cn(
-          "flex items-center justify-between rounded-full px-4 py-2.5 sm:px-6",
+          "flex items-center justify-between rounded-full px-4 py-2.5 transition-[width,margin-top,background-color,border-color] duration-300 ease-out sm:px-6",
           scrolled
-            ? "border border-border/70 bg-background/80 shadow-[0_8px_30px_-12px_rgba(0,11,68,0.25)] backdrop-blur-xl"
-            : "border border-transparent",
+            ? "mt-3 w-[min(72rem,100%)] border border-border/70 bg-background/80 shadow-[0_8px_30px_-12px_rgba(0,11,68,0.25)] backdrop-blur-xl"
+            : "mt-5 w-[min(80rem,100%)] border border-transparent",
         )}
       >
         <a href="#top" className="flex items-center">
@@ -76,16 +79,10 @@ export function Navbar() {
         >
           {open ? <X className="size-5" /> : <Menu className="size-5" />}
         </button>
-      </motion.nav>
+      </nav>
 
-      <AnimatePresence>
-        {open && (
-          <motion.div
-            initial={{ opacity: 0, y: -8 }}
-            animate={{ opacity: 1, y: 0 }}
-            exit={{ opacity: 0, y: -8 }}
-            className="absolute top-20 left-4 right-4 z-50 overflow-hidden rounded-3xl border border-border bg-background/95 p-3 shadow-xl backdrop-blur-xl md:hidden"
-          >
+      {open && (
+        <div className="absolute top-20 right-4 left-4 z-50 animate-fade-up overflow-hidden rounded-3xl border border-border bg-background/95 p-3 shadow-xl backdrop-blur-xl md:hidden">
             <div className="flex flex-col">
               {NAV.map((item) => (
                 <a
@@ -112,9 +109,8 @@ export function Navbar() {
                 </a>
               </div>
             </div>
-          </motion.div>
-        )}
-      </AnimatePresence>
+        </div>
+      )}
     </header>
   )
 }

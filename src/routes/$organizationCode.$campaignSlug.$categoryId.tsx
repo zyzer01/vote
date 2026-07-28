@@ -7,6 +7,7 @@ import { allowanceQuery, ballotQuery } from "@/lib/api/queries"
 import { ApiError } from "@/lib/api/client"
 import { brandStyle } from "@/lib/brand"
 import { getCampaignState } from "@/lib/campaign-state"
+import { campaignUrl, pageMeta } from "@/lib/seo"
 import type { BallotNominee } from "@/lib/api/types"
 import { useTrackView } from "@/hooks/use-track-view"
 import { NomineeCard } from "@/components/vote/nominee-card"
@@ -21,10 +22,33 @@ export const Route = createFileRoute(
 )({
   loader: async ({ context, params }) => {
     try {
-      await context.queryClient.ensureQueryData(ballotQuery(params.categoryId))
+      const ballot = await context.queryClient.ensureQueryData(
+        ballotQuery(params.categoryId),
+      )
+      return { ballot }
     } catch (error) {
       if (error instanceof ApiError && error.isNotFound) throw notFound()
       throw error
+    }
+  },
+  head: ({ loaderData, params }) => {
+    if (!loaderData) return {}
+    const { ballot } = loaderData
+    const title = `${ballot.name} | ${ballot.campaign.name}`
+    const description =
+      ballot.description ??
+      `Vote for your favourite in ${ballot.name}, part of ${ballot.campaign.name} on Sportly Vote.`
+    return {
+      meta: pageMeta({
+        title,
+        description,
+        image:
+          ballot.imageUrl ??
+          ballot.campaign.coverImageUrl ??
+          ballot.campaign.logoUrl ??
+          undefined,
+        url: `${campaignUrl(params.organizationCode, params.campaignSlug)}/${params.categoryId}`,
+      }),
     }
   },
   component: BallotPage,
@@ -60,7 +84,7 @@ function BallotPage() {
   }, [ballot.nominees])
 
   return (
-    <div style={brandStyle(campaign.brandColor)} className="min-h-svh">
+    <div style={brandStyle(campaign.brandColor)} className="flex min-h-svh flex-col">
       {/* Sticky nav */}
       <header className="bg-background/85 border-border/60 sticky top-0 z-30 border-b backdrop-blur-lg">
         <div className="mx-auto flex max-w-5xl items-center justify-between gap-3 px-5 py-3">
@@ -85,7 +109,7 @@ function BallotPage() {
         </div>
       </header>
 
-      <main className="mx-auto max-w-5xl px-5 pt-8">
+      <main className="mx-auto w-full max-w-5xl flex-1 px-5 pt-8">
         {/* Category header */}
         <div className="flex flex-col gap-3">
           <div className="flex flex-wrap items-center gap-2">

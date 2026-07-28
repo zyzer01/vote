@@ -65,7 +65,15 @@ export function Testimonials() {
               revenue spoke for itself.”
             </blockquote>
             <figcaption className="mt-6 flex items-center justify-center gap-3">
-              <img src="/avatars/2.svg" alt="" className="size-11 rounded-full" />
+              <img
+                src="/avatars/2.svg"
+                alt=""
+                width={44}
+                height={44}
+                loading="lazy"
+                decoding="async"
+                className="size-11 rounded-full"
+              />
               <div className="text-left">
                 <p className="text-sm font-semibold">Kwame Mensah</p>
                 <p className="text-xs text-muted-foreground">Director, Accra Sports</p>

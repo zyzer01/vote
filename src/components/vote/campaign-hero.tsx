@@ -63,7 +63,7 @@ export function CampaignHero({
         />
       </div>
 
-      <div className="mx-auto max-w-5xl px-5 pt-16 pb-14 text-white sm:pt-24 sm:pb-20">
+      <div className="mx-auto max-w-5xl px-5 pt-12 pb-10 text-white sm:pt-16 sm:pb-14">
         <div className="flex flex-col items-center text-center">
           <motion.div
             initial={{ opacity: 0, y: 16 }}
@@ -75,7 +75,7 @@ export function CampaignHero({
               <img
                 src={campaign.logoUrl}
                 alt={campaign.organization.name}
-                className="mb-6 h-16 w-auto rounded-2xl bg-white/10 object-contain p-2 backdrop-blur-sm sm:h-20"
+                className="mb-4 h-14 w-auto rounded-2xl bg-white/10 object-contain p-2 backdrop-blur-sm sm:h-16"
               />
             ) : (
               <span className="mb-5 inline-flex items-center gap-1.5 rounded-full bg-white/10 px-3 py-1 text-xs font-medium tracking-wide backdrop-blur-sm">
@@ -86,12 +86,12 @@ export function CampaignHero({
 
             <StatusPill state={state.state} label={state.label} />
 
-            <h1 className="font-heading mt-5 text-balance text-4xl font-bold tracking-tight sm:text-6xl">
+            <h1 className="font-heading mt-4 text-balance text-4xl font-bold tracking-tight sm:text-6xl">
               {campaign.name}
             </h1>
 
             {campaign.description ? (
-              <p className="mt-4 max-w-2xl text-balance text-base text-white/75 sm:text-lg">
+              <p className="mt-3 max-w-2xl text-balance text-base text-white/75 sm:text-lg">
                 {campaign.description}
               </p>
             ) : null}
@@ -103,7 +103,7 @@ export function CampaignHero({
               initial={{ opacity: 0, y: 16 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.5, delay: 0.15 }}
-              className="mt-9"
+              className="mt-6"
             >
               <Countdown
                 to={state.countdownTo}
@@ -118,7 +118,7 @@ export function CampaignHero({
             initial={{ opacity: 0, y: 16 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.5, delay: 0.25 }}
-            className="mt-10 flex flex-wrap items-center justify-center gap-2.5"
+            className="mt-7 flex flex-wrap items-center justify-center gap-2.5"
           >
             <HeroFact
               icon={<Vote className="size-3.5" />}

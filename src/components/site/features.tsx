@@ -1,4 +1,3 @@
-import { motion } from "motion/react"
 import {
   BarChart3,
   CreditCard,
@@ -8,8 +7,30 @@ import {
   Wallet,
 } from "lucide-react"
 import { CountingNumber } from "@/components/animate-ui/primitives/texts/counting-number"
-import { Reveal, SectionHeading } from "./primitives"
+import { Reveal, SectionHeading, revealStyle } from "./primitives"
 import { cn } from "@/lib/utils"
+
+/** A meter that grows from 0 when it scrolls into view. */
+function Bar({
+  size,
+  delay,
+  className,
+  axis = "x",
+}: {
+  /** Final length, as a CSS length - the bar scales up to it. */
+  size: string
+  delay?: number
+  className?: string
+  axis?: "x" | "y"
+}) {
+  return (
+    <div
+      data-reveal=""
+      style={revealStyle(delay, axis === "x" ? { width: size } : { height: size })}
+      className={cn(axis === "x" ? "reveal-grow-x" : "reveal-grow-y", className)}
+    />
+  )
+}
 
 /* ------------------------------- mock visuals ------------------------------ */
 
@@ -36,6 +57,10 @@ function DashboardMock() {
               key={n}
               src={`/avatars/${n}.svg`}
               alt=""
+              width={24}
+              height={24}
+              loading="lazy"
+              decoding="async"
               className="size-6 rounded-full ring-2 ring-background"
             />
           ))}
@@ -55,12 +80,11 @@ function DashboardMock() {
 
       <div className="mt-4 flex h-28 items-end gap-1.5">
         {BARS.map((h, i) => (
-          <motion.div
+          <Bar
             key={i}
-            initial={{ height: 0 }}
-            whileInView={{ height: `${h}%` }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.7, delay: i * 0.05, ease: [0.16, 1, 0.3, 1] }}
+            axis="y"
+            size={`${h}%`}
+            delay={i * 0.04}
             className={cn(
               "flex-1 rounded-t-sm",
               h === 100 ? "bg-primary" : "bg-primary/15",
@@ -100,6 +124,10 @@ function LeaderboardMock() {
             <img
               src={l.img}
               alt=""
+              width={24}
+              height={24}
+              loading="lazy"
+              decoding="async"
               className="size-6 rounded-full object-cover"
             />
             <span className="flex-1 truncate text-xs font-medium">{l.name}</span>
@@ -108,12 +136,13 @@ function LeaderboardMock() {
             </span>
           </div>
           <div className="mt-2 h-1.5 overflow-hidden rounded-full bg-muted">
-            <motion.div
-              initial={{ width: 0 }}
-              whileInView={{ width: `${l.pct}%` }}
-              viewport={{ once: true }}
-              transition={{ duration: 1, delay: 0.2 + i * 0.1, ease: "easeOut" }}
-              className={cn("h-full rounded-full", i === 0 ? "bg-primary" : "bg-primary/40")}
+            <Bar
+              size={`${l.pct}%`}
+              delay={0.15 + i * 0.08}
+              className={cn(
+                "h-full rounded-full",
+                i === 0 ? "bg-primary" : "bg-primary/40",
+              )}
             />
           </div>
         </div>
@@ -126,7 +155,15 @@ function VoteCardMock() {
   return (
     <div className="rounded-xl border border-border/80 bg-background p-4 shadow-sm">
       <div className="flex items-center gap-3">
-        <img src="/avatars/chidi-nwosu.png" alt="" className="size-11 rounded-xl" />
+        <img
+          src="/avatars/chidi-nwosu.png"
+          alt=""
+          width={44}
+          height={44}
+          loading="lazy"
+          decoding="async"
+          className="size-11 rounded-xl object-cover"
+        />
         <div className="leading-tight">
           <p className="text-sm font-semibold">Chidi Nwosu</p>
           <p className="text-xs text-muted-foreground">Rising Star of the Year</p>

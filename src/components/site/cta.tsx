@@ -22,6 +22,8 @@ export function CTA() {
               aria-hidden="true"
               width={44}
               height={44}
+              loading="lazy"
+              decoding="async"
               draggable={false}
               className="mx-2 inline-block size-[0.9em] -translate-y-[0.05em] -rotate-12 align-middle drop-shadow-sm"
             />

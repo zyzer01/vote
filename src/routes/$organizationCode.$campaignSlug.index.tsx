@@ -7,6 +7,7 @@ import { campaignQuery } from "@/lib/api/queries"
 import { ApiError } from "@/lib/api/client"
 import { brandStyle } from "@/lib/brand"
 import { getCampaignState } from "@/lib/campaign-state"
+import { campaignUrl, pageMeta } from "@/lib/seo"
 import { useTrackView } from "@/hooks/use-track-view"
 import { CampaignHero } from "@/components/vote/campaign-hero"
 import { CategoryCard } from "@/components/vote/category-card"
@@ -18,12 +19,29 @@ import { Link } from "@tanstack/react-router"
 export const Route = createFileRoute("/$organizationCode/$campaignSlug/")({
   loader: async ({ context, params }) => {
     try {
-      await context.queryClient.ensureQueryData(
+      const campaign = await context.queryClient.ensureQueryData(
         campaignQuery(params.organizationCode, params.campaignSlug),
       )
+      return { campaign }
     } catch (error) {
       if (error instanceof ApiError && error.isNotFound) throw notFound()
       throw error
+    }
+  },
+  head: ({ loaderData, params }) => {
+    if (!loaderData) return {}
+    const { campaign } = loaderData
+    const title = `${campaign.name} | Vote now`
+    const description =
+      campaign.description ??
+      `Vote for your favourites in ${campaign.name}, hosted by ${campaign.organization.name} on Sportly Vote.`
+    return {
+      meta: pageMeta({
+        title,
+        description,
+        image: campaign.coverImageUrl ?? campaign.logoUrl ?? undefined,
+        url: campaignUrl(params.organizationCode, params.campaignSlug),
+      }),
     }
   },
   component: CampaignPage,
@@ -41,10 +59,10 @@ function CampaignPage() {
   const state = getCampaignState(campaign)
 
   return (
-    <div style={brandStyle(campaign.brandColor)} className="min-h-svh">
+    <div style={brandStyle(campaign.brandColor)} className="flex min-h-svh flex-col">
       <CampaignHero campaign={campaign} />
 
-      <main className="mx-auto max-w-5xl px-5">
+      <main className="mx-auto w-full max-w-5xl flex-1 px-5">
         {/* Categories */}
         <section id="categories" className="scroll-mt-6">
           <div className="flex flex-col gap-1 sm:flex-row sm:items-end sm:justify-between">

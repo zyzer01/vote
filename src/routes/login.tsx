@@ -2,7 +2,7 @@ import { useState } from "react"
 import { createFileRoute, useNavigate } from "@tanstack/react-router"
 import { useQueryClient } from "@tanstack/react-query"
 import { motion } from "motion/react"
-import { ArrowRight, Eye, EyeOff, Lock, Mail, ShieldCheck } from "lucide-react"
+import { ArrowRight, Eye, EyeOff, Lock, Mail } from "lucide-react"
 
 import { signin } from "@/lib/api/admin"
 import { ApiError } from "@/lib/api/client"
