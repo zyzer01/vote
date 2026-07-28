@@ -1,5 +1,5 @@
 import { motion } from "motion/react"
-import { TrendingUp } from "lucide-react"
+import { Landmark, TrendingUp } from "lucide-react"
 import { CountingNumber } from "@/components/animate-ui/primitives/texts/counting-number"
 import { Reveal, SectionHeading } from "./primitives"
 import { cn } from "@/lib/utils"
@@ -18,7 +18,11 @@ const FEED = [
   { who: "Kwame", n: 25 },
 ]
 
-const PAYMENTS = ["TagPay", "Visa", "Mastercard", "Verve", "Bank transfer"]
+const PAYMENTS = [
+  { name: "TagPay", logo: "/payments/tpay-logo.svg" },
+  { name: "Mastercard", logo: "/payments/mastercard-logo.webp" },
+  { name: "Verve", logo: "/payments/verve-logo.png" },
+]
 
 export function Showcase() {
   return (
@@ -177,15 +181,20 @@ export function Showcase() {
             <p className="text-xs font-medium tracking-wide text-muted-foreground uppercase">
               Accepts every way your fans want to pay
             </p>
-            <div className="flex flex-wrap items-center justify-center gap-2.5">
+            <div className="flex flex-wrap items-center justify-center gap-x-10 gap-y-4">
               {PAYMENTS.map((p) => (
-                <span
-                  key={p}
-                  className="rounded-full border border-border bg-muted/40 px-4 py-2 text-sm font-medium text-muted-foreground"
-                >
-                  {p}
-                </span>
+                <img
+                  key={p.name}
+                  src={p.logo}
+                  alt={p.name}
+                  className="h-5 w-auto object-contain sm:h-6"
+                  draggable={false}
+                />
               ))}
+              <span className="flex items-center gap-1.5 text-sm font-medium text-muted-foreground">
+                <Landmark className="size-4" />
+                Bank transfer
+              </span>
             </div>
           </div>
         </Reveal>

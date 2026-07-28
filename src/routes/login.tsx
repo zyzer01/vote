@@ -90,10 +90,6 @@ function LoginPage() {
               from one premium dashboard.
             </motion.p>
           </div>
-          <div className="flex items-center gap-2 text-sm text-white/60">
-            <ShieldCheck className="size-4" />
-            Secure organizer access
-          </div>
         </div>
       </div>
 

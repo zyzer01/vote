@@ -14,22 +14,39 @@ export interface RouterContext {
   queryClient: QueryClient
 }
 
+const SITE_URL = "https://vote.sportly.africa"
+const SITE_TITLE = "Sportly Vote"
+const SITE_DESCRIPTION =
+  "Run world-class voting campaigns. Vote for your favourites and follow the results live on Sportly."
+const OG_IMAGE = `${SITE_URL}/og-image.png`
+
 export const Route = createRootRouteWithContext<RouterContext>()({
   head: () => ({
     meta: [
       { charSet: "utf-8" },
       { name: "viewport", content: "width=device-width, initial-scale=1" },
-      { title: "Sportly Vote" },
-      {
-        name: "description",
-        content:
-          "Vote for your favourites and follow the results live on Sportly.",
-      },
+      { title: SITE_TITLE },
+      { name: "description", content: SITE_DESCRIPTION },
       { name: "theme-color", content: "#0B1220" },
+
+      { property: "og:type", content: "website" },
+      { property: "og:site_name", content: SITE_TITLE },
+      { property: "og:title", content: SITE_TITLE },
+      { property: "og:description", content: SITE_DESCRIPTION },
+      { property: "og:url", content: SITE_URL },
+      { property: "og:image", content: OG_IMAGE },
+      { property: "og:image:width", content: "1200" },
+      { property: "og:image:height", content: "630" },
+
+      { name: "twitter:card", content: "summary_large_image" },
+      { name: "twitter:title", content: SITE_TITLE },
+      { name: "twitter:description", content: SITE_DESCRIPTION },
+      { name: "twitter:image", content: OG_IMAGE },
     ],
     links: [
       { rel: "stylesheet", href: appCss },
       { rel: "icon", href: "/sportly-mark.png", type: "image/png" },
+      { rel: "canonical", href: SITE_URL },
     ],
   }),
   notFoundComponent: NotFound,

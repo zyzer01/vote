@@ -7,8 +7,6 @@ import {
 import { Logo } from "./logo"
 
 const LINKS = [
-  { label: "Why Free?", href: "https://www.sportly.africa/why-free" },
-  { label: "Features", href: "https://www.sportly.africa/features" },
   { label: "Blog", href: "https://www.sportly.africa/blog" },
   { label: "Arena", href: "https://arena.sportly.africa/" },
   { label: "Privacy Policy", href: "https://www.sportly.africa/privacy-policy" },
