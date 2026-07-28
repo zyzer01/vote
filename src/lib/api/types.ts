@@ -17,6 +17,14 @@ export type ResultsVisibility = "LIVE" | "HIDDEN_UNTIL_CLOSE" | "ADMIN_ONLY"
 
 export type FreeVoteWindow = "ONCE" | "DAILY" | "HOURLY"
 
+export type PaymentProviderType = "paystack" | "stripe" | "flutterwave" | "tagpay"
+
+/** Response of GET /config/payments/:app */
+export interface PaymentGatewayConfig {
+  enabled: PaymentProviderType[]
+  default: PaymentProviderType
+}
+
 export type NomineeStatus = "ACTIVE" | "HIDDEN" | "DISQUALIFIED" | "WITHDRAWN"
 
 export type NomineeSubjectType = "CUSTOM" | "PLAYER" | "TEAM" | "COACH" | "USER"
@@ -179,6 +187,7 @@ export interface CastVotePayload {
   voterName?: string
   voterPhone?: string
   callbackUrl?: string
+  preferredProvider?: PaymentProviderType
   utmSource?: string
   utmMedium?: string
   utmCampaign?: string

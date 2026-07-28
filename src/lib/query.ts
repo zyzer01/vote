@@ -23,4 +23,5 @@ export const queryKeys = {
   ballot: (categoryId: string) => ["ballot", categoryId] as const,
   allowance: (categoryId: string) => ["allowance", categoryId] as const,
   results: (campaignId: string) => ["results", campaignId] as const,
+  paymentConfig: (app: string) => ["payment-config", app] as const,
 }

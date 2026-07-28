@@ -1,6 +1,7 @@
 import { queryOptions } from "@tanstack/react-query"
 
 import { queryKeys } from "../query"
+import { getPaymentGatewayConfig } from "./config"
 import {
   getCampaignBySlug,
   getCategoryBallot,
@@ -34,4 +35,13 @@ export const resultsQuery = (campaignId: string) =>
     queryFn: () => getResults(campaignId),
     // Results move; keep them fresh-ish for the live leaderboard.
     staleTime: 10_000,
+  })
+
+export const paymentConfigQuery = (app: "arena" | "vote") =>
+  queryOptions({
+    queryKey: queryKeys.paymentConfig(app),
+    queryFn: () => getPaymentGatewayConfig(app),
+    // Enabled gateways change rarely (admin-toggled); avoid refetching on
+    // every checkout-sheet open.
+    staleTime: 5 * 60_000,
   })
