@@ -7,6 +7,7 @@ import { TanStackRouterDevtoolsPanel } from "@tanstack/react-router-devtools"
 import { TanStackDevtools } from "@tanstack/react-devtools"
 import type { QueryClient } from "@tanstack/react-query"
 import { Toaster } from "sonner"
+import { GoogleOAuthProvider } from "@react-oauth/google"
 
 import appCss from "../styles.css?url"
 import { SITE_DESCRIPTION, SITE_TITLE, SITE_URL, pageMeta } from "@/lib/seo"
@@ -85,7 +86,9 @@ function RootDocument({ children }: { children: React.ReactNode }) {
         <script dangerouslySetInnerHTML={{ __html: REVEAL_SCRIPT }} />
       </head>
       <body>
-        {children}
+        <GoogleOAuthProvider clientId={import.meta.env.VITE_GOOGLE_CLIENT_ID}>
+          {children}
+        </GoogleOAuthProvider>
         <Toaster
           position="top-center"
           richColors
