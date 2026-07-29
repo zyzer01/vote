@@ -69,6 +69,13 @@ export function verifyEmail(token: string, password: string) {
   })
 }
 
+export function signInWithGoogle(code: string) {
+  return apiRequest<SigninResponse>("/auth/google/token", {
+    method: "POST",
+    body: { token: code },
+  })
+}
+
 export interface OrganizationSummary {
   id: string
   name: string
