@@ -1,5 +1,5 @@
 import { useState } from "react"
-import { createFileRoute, useNavigate } from "@tanstack/react-router"
+import { createFileRoute, Link, useNavigate } from "@tanstack/react-router"
 import { useQueryClient } from "@tanstack/react-query"
 import { motion } from "motion/react"
 import { ArrowRight, Eye, EyeOff, Lock, Mail } from "lucide-react"
@@ -186,6 +186,16 @@ function LoginPage() {
               )}
             </Button>
           </form>
+
+          <p className="text-muted-foreground mt-6 text-center text-sm">
+            Don&apos;t have an account?{" "}
+            <Link
+              to="/signup"
+              className="text-foreground font-medium underline-offset-4 hover:underline"
+            >
+              Sign up
+            </Link>
+          </p>
         </motion.div>
       </div>
     </div>
