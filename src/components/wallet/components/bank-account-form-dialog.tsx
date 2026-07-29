@@ -1,6 +1,8 @@
+import { useState } from "react"
 import { z } from "zod"
 import { Controller, useForm } from "react-hook-form"
 import { zodResolver } from "@hookform/resolvers/zod"
+import { Check, ChevronsUpDown } from "lucide-react"
 import { cn } from "@/lib/utils"
 import { Button } from "@/components/ui/button"
 import {
@@ -13,6 +15,7 @@ import {
 } from "@/components/ui/dialog"
 import { Field } from "@/components/ui/field"
 import { Input } from "@/components/ui/input"
+import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover"
 import {
   Select,
   SelectContent,
@@ -56,6 +59,8 @@ const DEFAULTS: BankAccountForm = {
 
 export function BankAccountFormDialog({ open, onOpenChange }: Props) {
   const { createBankAccount } = useWalletMutations()
+  const [bankPopoverOpen, setBankPopoverOpen] = useState(false)
+  const [bankSearch, setBankSearch] = useState("")
 
   const {
     control,
@@ -98,10 +103,15 @@ export function BankAccountFormDialog({ open, onOpenChange }: Props) {
   // already unwrapped once by apiRequest.
   const banksArray = Array.isArray(banksData?.data) ? banksData.data : []
   const bankOptions = banksArray.map((bank) => ({ value: bank.code, label: bank.name }))
+  const filteredBankOptions = bankOptions.filter((option) =>
+    option.label.toLowerCase().includes(bankSearch.toLowerCase()),
+  )
 
   const closeAndReset = (state: boolean) => {
     reset(DEFAULTS)
     verifyAccountMutation.reset()
+    setBankPopoverOpen(false)
+    setBankSearch("")
     onOpenChange(state)
   }
 
@@ -126,6 +136,10 @@ export function BankAccountFormDialog({ open, onOpenChange }: Props) {
             render={({ field }) => (
               <Field label="Country" error={errors.country?.message}>
                 <Select
+                  items={supportedCountriesList.map((country) => ({
+                    value: country.value,
+                    label: country.name,
+                  }))}
                   value={field.value}
                   onValueChange={(value) => {
                     field.onChange(value)
@@ -155,46 +169,93 @@ export function BankAccountFormDialog({ open, onOpenChange }: Props) {
             <Controller
               control={control}
               name="bankCode"
-              render={({ field }) => (
-                <Field
-                  label="Bank"
-                  error={errors.bankCode?.message}
-                  hint={banksError ? "Failed to load banks. Please try again." : undefined}
-                >
-                  <Select
-                    value={field.value}
-                    disabled={isLoadingBanks || !!banksError}
-                    onValueChange={(value) => {
-                      field.onChange(value)
-                      const selectedBank = banksArray.find((bank) => bank.code === value)
-                      if (selectedBank) {
-                        setValue("bankName", selectedBank.name)
-                      }
-                      setValue("accountName", "")
-                      verifyAccountMutation.reset()
-                    }}
+              render={({ field }) => {
+                const selectedBank = bankOptions.find((option) => option.value === field.value)
+                return (
+                  <Field
+                    label="Bank"
+                    error={errors.bankCode?.message}
+                    hint={banksError ? "Failed to load banks. Please try again." : undefined}
                   >
-                    <SelectTrigger>
-                      <SelectValue
-                        placeholder={
-                          isLoadingBanks
-                            ? "Loading banks..."
-                            : banksError
-                              ? "Error loading banks"
-                              : "Select bank"
+                    <Popover
+                      open={bankPopoverOpen}
+                      onOpenChange={(nextOpen) => {
+                        setBankPopoverOpen(nextOpen)
+                        if (!nextOpen) setBankSearch("")
+                      }}
+                    >
+                      <PopoverTrigger
+                        render={
+                          <Button
+                            type="button"
+                            variant="outline"
+                            disabled={isLoadingBanks || !!banksError}
+                            className="h-11 w-full justify-between font-normal"
+                          >
+                            <span
+                              className={cn(
+                                "truncate",
+                                !selectedBank && "text-muted-foreground",
+                              )}
+                            >
+                              {isLoadingBanks
+                                ? "Loading banks..."
+                                : banksError
+                                  ? "Error loading banks"
+                                  : (selectedBank?.label ?? "Select bank")}
+                            </span>
+                            <ChevronsUpDown className="text-muted-foreground size-4 shrink-0" />
+                          </Button>
                         }
                       />
-                    </SelectTrigger>
-                    <SelectContent>
-                      {bankOptions.map((option) => (
-                        <SelectItem key={option.value} value={option.value}>
-                          {option.label}
-                        </SelectItem>
-                      ))}
-                    </SelectContent>
-                  </Select>
-                </Field>
-              )}
+                      <PopoverContent align="start" className="w-[var(--anchor-width)] p-0">
+                        <div className="p-1">
+                          <Input
+                            autoFocus
+                            placeholder="Search banks..."
+                            value={bankSearch}
+                            onChange={(e) => setBankSearch(e.target.value)}
+                            className="h-9"
+                          />
+                        </div>
+                        <div className="max-h-64 overflow-y-auto p-1 pt-0">
+                          {filteredBankOptions.length === 0 ? (
+                            <p className="text-muted-foreground px-2.5 py-2 text-sm">
+                              No banks found.
+                            </p>
+                          ) : (
+                            filteredBankOptions.map((option) => (
+                              <button
+                                type="button"
+                                key={option.value}
+                                onClick={() => {
+                                  field.onChange(option.value)
+                                  setValue("bankName", option.label)
+                                  setValue("accountName", "")
+                                  verifyAccountMutation.reset()
+                                  setBankPopoverOpen(false)
+                                  setBankSearch("")
+                                }}
+                                className="hover:bg-accent hover:text-accent-foreground flex w-full items-center gap-2 rounded-lg px-2.5 py-2 text-left text-sm outline-none select-none"
+                              >
+                                <Check
+                                  className={cn(
+                                    "size-4 shrink-0",
+                                    option.value === field.value
+                                      ? "opacity-100"
+                                      : "opacity-0",
+                                  )}
+                                />
+                                <span className="truncate">{option.label}</span>
+                              </button>
+                            ))
+                          )}
+                        </div>
+                      </PopoverContent>
+                    </Popover>
+                  </Field>
+                )
+              }}
             />
 
             <Controller

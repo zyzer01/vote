@@ -1,7 +1,6 @@
-import { createFileRoute, notFound } from "@tanstack/react-router"
+import { createFileRoute, notFound, Link  } from "@tanstack/react-router"
 import { useSuspenseQuery } from "@tanstack/react-query"
-import { motion } from "motion/react"
-import { BarChart3, CreditCard, MousePointerClick, Trophy } from "lucide-react"
+import { BarChart3 } from "lucide-react"
 
 import { campaignQuery } from "@/lib/api/queries"
 import { ApiError } from "@/lib/api/client"
@@ -14,7 +13,6 @@ import { CategoryCard } from "@/components/vote/category-card"
 import { VoteFooter } from "@/components/vote/vote-footer"
 import { ResultsTeaser } from "@/components/vote/results-teaser"
 import { CampaignPending, RouteError } from "@/components/vote/route-states"
-import { Link } from "@tanstack/react-router"
 
 export const Route = createFileRoute("/$organizationCode/$campaignSlug/")({
   loader: async ({ context, params }) => {
@@ -107,8 +105,7 @@ function CampaignPage() {
           )}
         </section>
 
-        {/* How it works */}
-        <HowItWorks isPaid={campaign.votingMode !== "FREE"} />
+       
 
         {/* Results teaser */}
         <ResultsTeaser
@@ -119,57 +116,5 @@ function CampaignPage() {
 
       <VoteFooter organizationName={campaign.voteOrganization.name} />
     </div>
-  )
-}
-
-function HowItWorks({ isPaid }: { isPaid: boolean }) {
-  const steps = [
-    {
-      icon: MousePointerClick,
-      title: "Pick a category",
-      body: "Explore the awards and open the one you care about.",
-    },
-    {
-      icon: Trophy,
-      title: "Back your favourite",
-      body: "Choose a nominee from the ballot.",
-    },
-    isPaid
-      ? {
-          icon: CreditCard,
-          title: "Pay & confirm",
-          body: "Checkout securely -your votes are counted instantly.",
-        }
-      : {
-          icon: BarChart3,
-          title: "Watch it climb",
-          body: "See your nominee move up the live leaderboard.",
-        },
-  ]
-
-  return (
-    <section className="mt-20">
-      <div className="grid gap-4 sm:grid-cols-3">
-        {steps.map((step, i) => (
-          <motion.div
-            key={step.title}
-            initial={{ opacity: 0, y: 16 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.4, delay: i * 0.08 }}
-            className="border-border/70 bg-card relative rounded-2xl border p-5"
-          >
-            <div className="bg-primary/10 text-primary grid size-11 place-items-center rounded-xl">
-              <step.icon className="size-5" />
-            </div>
-            <span className="text-muted-foreground/50 absolute top-5 right-5 font-mono text-sm font-semibold">
-              0{i + 1}
-            </span>
-            <h3 className="font-heading mt-4 font-semibold">{step.title}</h3>
-            <p className="text-muted-foreground mt-1 text-sm">{step.body}</p>
-          </motion.div>
-        ))}
-      </div>
-    </section>
   )
 }

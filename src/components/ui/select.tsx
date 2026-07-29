@@ -4,7 +4,12 @@ import { Check, ChevronsUpDown } from "lucide-react"
 import { cn } from "@/lib/utils"
 
 const Select = SelectPrimitive.Root
-const SelectValue = SelectPrimitive.Value
+
+function SelectValue({ className, ...props }: SelectPrimitive.Value.Props) {
+  return (
+    <SelectPrimitive.Value className={cn("min-w-0 flex-1 truncate", className)} {...props} />
+  )
+}
 
 function SelectTrigger({
   className,
@@ -19,13 +24,13 @@ function SelectTrigger({
         "border-input bg-background flex w-full items-center justify-between gap-2 rounded-lg border px-3.5 shadow-xs transition-[color,box-shadow] outline-none",
         "focus-visible:border-ring focus-visible:ring-ring/40 focus-visible:ring-[3px]",
         "data-[disabled]:pointer-events-none data-[disabled]:opacity-50",
-        "[&>span]:truncate text-left",
+        "text-left",
         size === "sm" ? "h-9 text-sm" : "h-11 text-base md:text-sm",
         className,
       )}
       {...props}
     >
-      <SelectPrimitive.Value>{children}</SelectPrimitive.Value>
+      {children}
       <SelectPrimitive.Icon className="text-muted-foreground shrink-0">
         <ChevronsUpDown className="size-4" />
       </SelectPrimitive.Icon>

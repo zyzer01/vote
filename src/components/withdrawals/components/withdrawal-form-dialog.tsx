@@ -148,7 +148,14 @@ export function WithdrawalFormDialog({ open, onOpenChange }: Props) {
             name="bankAccountId"
             render={({ field }) => (
               <Field label="Bank Account" error={errors.bankAccountId?.message}>
-                <Select value={field.value} onValueChange={field.onChange}>
+                <Select
+                  items={bankAccounts.map((account) => ({
+                    value: account.id,
+                    label: `${account.accountName} - ${account.accountNumber} (${account.bankName})`,
+                  }))}
+                  value={field.value}
+                  onValueChange={field.onChange}
+                >
                   <SelectTrigger>
                     <SelectValue placeholder="Select bank account" />
                   </SelectTrigger>

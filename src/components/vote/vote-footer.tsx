@@ -7,7 +7,7 @@ export function VoteFooter({ organizationName }: { organizationName?: string }) 
       <div className="text-muted-foreground mx-auto flex min-h-24 max-w-5xl flex-col items-center justify-center gap-3 px-5 text-center text-sm sm:min-h-20 sm:flex-row sm:justify-between sm:text-left">
         <p className="inline-flex items-center gap-2">
           <ShieldCheck className="text-brand-green size-4" />
-          Secure payments · Every vote counted once
+          Secure payments
         </p>
         <p className="inline-flex items-center gap-1.5 whitespace-nowrap">
           {organizationName ? (

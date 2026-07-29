@@ -2,7 +2,8 @@ import { useMemo, useState } from "react"
 import { format, parseISO } from "date-fns"
 import { Line, LineChart, XAxis, YAxis } from "recharts"
 import { Card, CardContent, CardHeader } from "@/components/ui/card"
-import { ChartContainer, ChartTooltip, type ChartConfig } from "@/components/ui/chart"
+import { ChartContainer, ChartTooltip  } from "@/components/ui/chart"
+import type {ChartConfig} from "@/components/ui/chart";
 import {
   Select,
   SelectContent,
@@ -33,12 +34,12 @@ const RANGE_OPTIONS: { value: BalanceHistoryRange; label: string }[] = [
 ]
 
 /** Matches primary balance accent (e.g. Available Balance card ~ blue-400) */
-const CHART_LINE_BLUE = "#60A5FA"
+const CHART_LINE_GREEN = "#00b966"
 
 const chartConfig = {
   balance: {
     label: "Balance",
-    color: CHART_LINE_BLUE,
+    color: CHART_LINE_GREEN,
   },
 } satisfies ChartConfig
 
@@ -75,7 +76,7 @@ export function WalletBalanceHistoryChart({
   } = useWalletBalanceHistory(voteOrganizationId, range)
 
   const chartData = useMemo(() => {
-    if (!history?.points?.length) return []
+    if (!history?.points.length) return []
     return history.points.map((p) => ({
       ...p,
       label: formatAxisDate(p.date),
@@ -198,9 +199,9 @@ export function WalletBalanceHistoryChart({
                     date?: string
                     balance?: number
                   }
-                  const dateStr = row?.date
+                  const dateStr = row.date
                   const dateLabel = dateStr ? formatTooltipDate(dateStr) : ""
-                  const amount = Number(payload[0].value ?? row?.balance ?? 0)
+                  const amount = Number(payload[0].value ?? row.balance ?? 0)
                   return (
                     <div className="border-border/50 bg-background grid min-w-36 gap-1 rounded-lg border px-2.5 py-1.5 text-xs shadow-xl">
                       {dateLabel ? (

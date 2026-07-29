@@ -61,7 +61,7 @@ export function WalletSummaryCards({ sidePanel }: { sidePanel?: boolean }) {
               </div>
             </div>
           </CardContent>
-          <div className="pointer-events-none absolute right-0 bottom-0 left-0 h-1/3 bg-linear-to-t from-blue-50 to-transparent dark:from-blue-900/30" />
+          <div className="pointer-events-none absolute right-0 bottom-0 left-0 h-1/3 bg-linear-to-t from-green-50 to-transparent dark:from-green-900/30" />
         </Card>
       )
     }
@@ -74,7 +74,7 @@ export function WalletSummaryCards({ sidePanel }: { sidePanel?: boolean }) {
             ? "cursor-pointer hover:scale-[1.02] hover:shadow-lg active:scale-[0.99]"
             : "hover:shadow-lg",
           variant === "primary" &&
-            "border-blue-200 bg-blue-50 dark:border-blue-800 dark:bg-blue-950/30",
+            "border-green-200 bg-green-50 dark:border-green-800 dark:bg-green-950/30",
           className,
         )}
         onClick={onClick}
@@ -88,7 +88,7 @@ export function WalletSummaryCards({ sidePanel }: { sidePanel?: boolean }) {
               </div>
               <div
                 className={`mb-1 wrap-break-word text-xl font-bold sm:text-2xl ${
-                  variant === "primary" ? "text-blue-600 dark:text-blue-400" : ""
+                  variant === "primary" ? "text-green-600 dark:text-green-400" : ""
                 }`}
               >
                 {value}

@@ -83,7 +83,7 @@ function CallbackPage() {
   }, [reference])
 
   return (
-    <main className="grid min-h-svh place-items-center bg-brand-navy px-5">
+    <main className="grid min-h-svh place-items-center bg-gray-100 px-5">
       <div className="w-full max-w-md">
         <motion.div
           initial={{ opacity: 0, y: 20, scale: 0.98 }}
