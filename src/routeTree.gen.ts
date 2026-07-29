@@ -12,6 +12,7 @@ import { Route as rootRouteImport } from './routes/__root'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as AdminRouteImport } from './routes/admin'
 import { Route as LoginRouteImport } from './routes/login'
+import { Route as SignupRouteImport } from './routes/signup'
 import { Route as WelcomeRouteImport } from './routes/welcome'
 import { Route as AdminIndexRouteImport } from './routes/admin.index'
 import { Route as VoteCallbackRouteImport } from './routes/vote.callback'
@@ -38,6 +39,11 @@ const AdminRoute = AdminRouteImport.update({
 const LoginRoute = LoginRouteImport.update({
   id: '/login',
   path: '/login',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const SignupRoute = SignupRouteImport.update({
+  id: '/signup',
+  path: '/signup',
   getParentRoute: () => rootRouteImport,
 } as any)
 const WelcomeRoute = WelcomeRouteImport.update({
@@ -113,6 +119,7 @@ export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/admin': typeof AdminRouteWithChildren
   '/login': typeof LoginRoute
+  '/signup': typeof SignupRoute
   '/welcome': typeof WelcomeRoute
   '/vote/callback': typeof VoteCallbackRoute
   '/admin/': typeof AdminIndexRoute
@@ -129,6 +136,7 @@ export interface FileRoutesByFullPath {
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/login': typeof LoginRoute
+  '/signup': typeof SignupRoute
   '/welcome': typeof WelcomeRoute
   '/vote/callback': typeof VoteCallbackRoute
   '/admin': typeof AdminIndexRoute
@@ -146,6 +154,7 @@ export interface FileRoutesById {
   '/': typeof IndexRoute
   '/admin': typeof AdminRouteWithChildren
   '/login': typeof LoginRoute
+  '/signup': typeof SignupRoute
   '/welcome': typeof WelcomeRoute
   '/vote/callback': typeof VoteCallbackRoute
   '/admin/': typeof AdminIndexRoute
@@ -165,6 +174,7 @@ export interface FileRouteTypes {
     | '/'
     | '/admin'
     | '/login'
+    | '/signup'
     | '/welcome'
     | '/vote/callback'
     | '/admin/'
@@ -181,6 +191,7 @@ export interface FileRouteTypes {
   to:
     | '/'
     | '/login'
+    | '/signup'
     | '/welcome'
     | '/vote/callback'
     | '/admin'
@@ -197,6 +208,7 @@ export interface FileRouteTypes {
     | '/'
     | '/admin'
     | '/login'
+    | '/signup'
     | '/welcome'
     | '/vote/callback'
     | '/admin/'
@@ -215,6 +227,7 @@ export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   AdminRoute: typeof AdminRouteWithChildren
   LoginRoute: typeof LoginRoute
+  SignupRoute: typeof SignupRoute
   WelcomeRoute: typeof WelcomeRoute
   VoteCallbackRoute: typeof VoteCallbackRoute
   OrganizationCodeCampaignSlugCategoryIdRoute: typeof OrganizationCodeCampaignSlugCategoryIdRoute
@@ -243,6 +256,13 @@ declare module '@tanstack/react-router' {
       path: '/login'
       fullPath: '/login'
       preLoaderRoute: typeof LoginRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/signup': {
+      id: '/signup'
+      path: '/signup'
+      fullPath: '/signup'
+      preLoaderRoute: typeof SignupRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/welcome': {
@@ -372,6 +392,7 @@ const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   AdminRoute: AdminRouteWithChildren,
   LoginRoute: LoginRoute,
+  SignupRoute: SignupRoute,
   WelcomeRoute: WelcomeRoute,
   VoteCallbackRoute: VoteCallbackRoute,
   OrganizationCodeCampaignSlugCategoryIdRoute:
