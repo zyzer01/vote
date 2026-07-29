@@ -7,6 +7,7 @@ import {cloudflare} from "@cloudflare/vite-plugin"
 
 const config = defineConfig({
   resolve: { tsconfigPaths: true },
+  server: { allowedHosts: [".ngrok-free.dev"] },
   plugins: [
     devtools(),
     cloudflare({ viteEnvironment: { name: "ssr" } }),

@@ -17,6 +17,7 @@ import {
   CampaignStatusBadge,
   VotingModeBadge,
 } from "@/components/admin/campaign-status-badge"
+import { TrohpyIcon } from "@/components/icons/trophy"
 
 export const Route = createFileRoute("/admin/")({
   component: CampaignsPage,
@@ -235,8 +236,8 @@ function EmptyState({
 }) {
   return (
     <div className="border-border/70 grid place-items-center rounded-2xl border border-dashed py-20 text-center">
-      <div className="bg-muted text-muted-foreground grid size-14 place-items-center rounded-2xl">
-        <Trophy className="size-7" />
+      <div className="grid place-items-center">
+        <TrohpyIcon />
       </div>
       <h3 className="font-heading mt-4 text-lg font-semibold">{title}</h3>
       <p className="text-muted-foreground mt-1 max-w-sm text-sm">{body}</p>

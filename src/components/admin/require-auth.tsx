@@ -5,8 +5,7 @@ import { useQuery } from "@tanstack/react-query"
 import { ApiError } from "@/lib/api/client"
 import { myWorkspacesQuery, sessionQuery } from "@/lib/api/admin-queries"
 import { AuthProvider } from "@/lib/auth"
-import { Logo } from "@/components/site/logo"
-import { Spinner } from "@/components/ui/spinner"
+import { GlobalLoader } from "@/components/ui/global-loader"
 import { CreateWorkspace } from "@/components/admin/create-workspace"
 
 /**
@@ -40,7 +39,7 @@ export function RequireAuth({ children }: { children: React.ReactNode }) {
   const workspace = workspaces.data?.[0]
 
   if (session.isLoading || workspaces.isLoading || isUnauthorized) {
-    return <AuthSplash />
+    return <GlobalLoader />
   }
 
   if (session.error || workspaces.error) {
@@ -48,7 +47,7 @@ export function RequireAuth({ children }: { children: React.ReactNode }) {
   }
 
   if (!user) {
-    return <AuthSplash />
+    return <GlobalLoader />
   }
 
   if (!workspace) {
@@ -66,17 +65,6 @@ export function RequireAuth({ children }: { children: React.ReactNode }) {
     >
       {children}
     </AuthProvider>
-  )
-}
-
-function AuthSplash() {
-  return (
-    <div className="grid min-h-svh place-items-center">
-      <div className="flex flex-col items-center gap-4">
-        <Logo showWordmark={false} className="animate-pulse" />
-        <Spinner className="text-muted-foreground size-5" />
-      </div>
-    </div>
   )
 }
 

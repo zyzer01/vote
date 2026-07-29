@@ -11,6 +11,12 @@
     "API_URL": "https://api.sportly.africa",
     "GOOGLE_CLIENT_ID": "938228290948-cume9rdd05a74q7vrfesqm82tdqgdrse.apps.googleusercontent.com"
   },
+  "observability": {
+    "logs": {
+      "enabled": true,
+      "invocation_logs": false
+    }
+  },
   "routes": [
     { "pattern": "vote.sportly.africa", "custom_domain": true },
     { "pattern": "www.vote.sportly.africa", "custom_domain": true }
