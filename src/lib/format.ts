@@ -29,6 +29,19 @@ export function formatMoney(
   return `${currencySymbol(currency)}${value}`
 }
 
+/**
+ * Money already in major units (naira) — wallet balances and withdrawal
+ * amounts, unlike VoteOrder amounts which are minor units (kobo, see
+ * formatMoney). Never pass a wallet/withdrawal value through formatMoney.
+ */
+export function formatNaira(amount: number | null | undefined, currency = "NGN"): string {
+  const value = typeof amount === "number" && !Number.isNaN(amount) ? amount : 0
+  return `${currencySymbol(currency)}${value.toLocaleString("en-NG", {
+    minimumFractionDigits: 2,
+    maximumFractionDigits: 2,
+  })}`
+}
+
 /** Compact counts, e.g. 1234 → "1.2K". */
 export function formatCompact(value: number): string {
   return new Intl.NumberFormat("en", {
