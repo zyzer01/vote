@@ -8,7 +8,6 @@ import {
   LogOut,
   Menu,
   Plus,
-  Sparkles,
   Trophy,
 } from "lucide-react"
 
@@ -63,7 +62,7 @@ export function DashboardShell({ children }: { children: React.ReactNode }) {
 }
 
 function SidebarBody({ onNavigate }: { onNavigate?: () => void }) {
-  const { organizationName } = useAuth()
+  const { voteOrganizationName } = useAuth()
   const pathname = useRouterState({ select: (s) => s.location.pathname })
 
   return (
@@ -79,7 +78,7 @@ function SidebarBody({ onNavigate }: { onNavigate?: () => void }) {
           </div>
           <div className="min-w-0">
             <p className="text-sidebar-foreground truncate text-sm font-semibold">
-              {organizationName}
+              {voteOrganizationName}
             </p>
             <p className="text-muted-foreground text-xs">Voting workspace</p>
           </div>
@@ -128,7 +127,6 @@ function SidebarBody({ onNavigate }: { onNavigate?: () => void }) {
           rel="noreferrer"
           className="text-muted-foreground hover:text-sidebar-foreground flex items-center gap-2 rounded-lg px-3 py-2 text-xs font-medium transition-colors"
         >
-          <Sparkles className="size-3.5" />
           About Sportly Vote
           <ExternalLink className="ml-auto size-3" />
         </a>

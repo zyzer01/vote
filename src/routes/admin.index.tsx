@@ -31,12 +31,12 @@ const FILTERS: Array<{ label: string; value: CampaignStatus | "ALL" }> = [
 ]
 
 function CampaignsPage() {
-  const { organizationId } = useAuth()
+  const { voteOrganizationId } = useAuth()
   const [filter, setFilter] = useState<CampaignStatus | "ALL">("ALL")
   const [search, setSearch] = useState("")
 
   const { data, isLoading, isError } = useQuery({
-    ...campaignsQuery(organizationId, {
+    ...campaignsQuery(voteOrganizationId, {
       status: filter === "ALL" ? undefined : filter,
       search: search.trim() || undefined,
     }),

@@ -5,7 +5,7 @@ import { useGoogleLogin } from "@react-oauth/google"
 import { motion } from "motion/react"
 import { ArrowRight, Check, Mail } from "lucide-react"
 
-import { signupVoteOrganization, signInWithGoogle } from "@/lib/api/admin"
+import { signup, signInWithGoogle } from "@/lib/api/admin"
 import { ApiError } from "@/lib/api/client"
 import { adminKeys } from "@/lib/api/admin-queries"
 import { Logo } from "@/components/site/logo"
@@ -29,7 +29,6 @@ function SignupPage() {
   const [firstName, setFirstName] = useState("")
   const [lastName, setLastName] = useState("")
   const [email, setEmail] = useState("")
-  const [organizationName, setOrganizationName] = useState("")
   const [submitting, setSubmitting] = useState(false)
   const [error, setError] = useState<string | null>(null)
   const [submitted, setSubmitted] = useState(false)
@@ -40,11 +39,10 @@ function SignupPage() {
     setError(null)
     setSubmitting(true)
     try {
-      await signupVoteOrganization({
+      await signup({
         firstName: firstName.trim(),
         lastName: lastName.trim(),
         email: email.trim(),
-        organizationName: organizationName.trim(),
       })
       setSubmitted(true)
     } catch (err) {
@@ -68,7 +66,7 @@ function SignupPage() {
       try {
         await signInWithGoogle(codeResponse.code)
         await queryClient.invalidateQueries({ queryKey: adminKeys.session })
-        await queryClient.invalidateQueries({ queryKey: adminKeys.access })
+        await queryClient.invalidateQueries({ queryKey: adminKeys.workspaces })
         navigate({ to: "/admin" })
       } catch (err) {
         setError(
@@ -151,7 +149,8 @@ function SignupPage() {
                 Create your account
               </h2>
               <p className="text-muted-foreground mt-1.5">
-                Start running voting campaigns for your organization.
+                One Sportly account works across every Sportly app. You&apos;ll
+                name your voting workspace next.
               </p>
 
               <Button
@@ -212,17 +211,6 @@ function SignupPage() {
                       className="pl-10"
                     />
                   </div>
-                </Field>
-
-                <Field label="Organization name" htmlFor="organizationName">
-                  <Input
-                    id="organizationName"
-                    autoComplete="organization"
-                    required
-                    value={organizationName}
-                    onChange={(e) => setOrganizationName(e.target.value)}
-                    placeholder="Campus Awards Night"
-                  />
                 </Field>
 
                 {error ? (

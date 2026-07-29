@@ -24,7 +24,7 @@ export const Route = createFileRoute("/admin/campaigns/new")({
 })
 
 function NewCampaignPage() {
-  const { organizationId } = useAuth()
+  const { voteOrganizationId } = useAuth()
   const navigate = useNavigate()
   const queryClient = useQueryClient()
 
@@ -33,7 +33,7 @@ function NewCampaignPage() {
 
   const mutation = useMutation({
     mutationFn: () =>
-      createCampaign(organizationId, buildCampaignPayload(values)),
+      createCampaign(voteOrganizationId, buildCampaignPayload(values)),
     onSuccess: (campaign) => {
       queryClient.invalidateQueries({ queryKey: ["admin", "campaigns"] })
       queryClient.setQueryData(adminKeys.campaign(campaign.id), campaign)

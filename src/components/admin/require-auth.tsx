@@ -1,33 +1,34 @@
 import { useEffect } from "react"
-import { Link, useNavigate, useRouterState } from "@tanstack/react-router"
+import { useNavigate, useRouterState } from "@tanstack/react-router"
 import { useQuery } from "@tanstack/react-query"
 
 import { ApiError } from "@/lib/api/client"
-import {
-  accessQuery,
-  organizationQuery,
-  sessionQuery,
-} from "@/lib/api/admin-queries"
+import { myWorkspacesQuery, sessionQuery } from "@/lib/api/admin-queries"
 import { AuthProvider } from "@/lib/auth"
 import { Logo } from "@/components/site/logo"
 import { Spinner } from "@/components/ui/spinner"
+import { CreateWorkspace } from "@/components/admin/create-workspace"
 
 /**
  * Client-side auth gate for the dashboard. The API authenticates with an
  * httpOnly `vote` cookie, so we can't resolve the session during SSR -this
  * guard runs on the client, redirects to /login on 401, and provides the
- * resolved user + active organization to the shell.
+ * resolved user + active workspace to the shell.
+ *
+ * There are only two outcomes, and both move the user forward: a workspace
+ * means the dashboard, no workspace means an offer to create one. Vote never
+ * refuses a signed-in Sportly account.
  */
 export function RequireAuth({ children }: { children: React.ReactNode }) {
   const navigate = useNavigate()
   const pathname = useRouterState({ select: (s) => s.location.pathname })
 
   const session = useQuery(sessionQuery())
-  const access = useQuery(accessQuery())
+  const workspaces = useQuery(myWorkspacesQuery())
 
   const isUnauthorized =
     (session.error instanceof ApiError && session.error.isUnauthorized) ||
-    (access.error instanceof ApiError && access.error.isUnauthorized)
+    (workspaces.error instanceof ApiError && workspaces.error.isUnauthorized)
 
   useEffect(() => {
     if (isUnauthorized) {
@@ -36,34 +37,31 @@ export function RequireAuth({ children }: { children: React.ReactNode }) {
   }, [isUnauthorized, navigate, pathname])
 
   const user = session.data?.user
-  const organizationId =
-    access.data?.grants.find(
-      (g) => g.scopeType === "ORGANIZATION" && g.role === "OWNER",
-    )?.organizationId ?? null
+  const workspace = workspaces.data?.[0]
 
-  const org = useQuery({
-    ...organizationQuery(organizationId ?? ""),
-    enabled: Boolean(organizationId),
-  })
-
-  if (session.isLoading || access.isLoading || isUnauthorized) {
+  if (session.isLoading || workspaces.isLoading || isUnauthorized) {
     return <AuthSplash />
   }
 
-  if (session.error || access.error) {
+  if (session.error || workspaces.error) {
     return <AuthError onRetry={() => window.location.reload()} />
   }
 
-  if (!user || !organizationId) {
-    return <NoOrganization email={user?.email} />
+  if (!user) {
+    return <AuthSplash />
+  }
+
+  if (!workspace) {
+    return <CreateWorkspace email={user.email} />
   }
 
   return (
     <AuthProvider
       value={{
         user,
-        organizationId,
-        organizationName: org.data?.name ?? "Your workspace",
+        voteOrganizationId: workspace.id,
+        voteOrganizationName: workspace.name,
+        role: workspace.role,
       }}
     >
       {children}
@@ -98,28 +96,6 @@ function AuthError({ onRetry }: { onRetry: () => void }) {
         >
           Retry
         </button>
-      </div>
-    </div>
-  )
-}
-
-function NoOrganization({ email }: { email?: string }) {
-  return (
-    <div className="grid min-h-svh place-items-center px-5">
-      <div className="max-w-md text-center">
-        <h1 className="font-heading text-xl font-bold">No organization yet</h1>
-        <p className="text-muted-foreground mt-2 text-sm">
-          {email ? `${email} isn't` : "This account isn't"} linked to an
-          organization that can run voting campaigns. Ask an owner to invite
-          you, or{" "}
-          <Link
-            to="/signup"
-            className="text-foreground font-medium underline-offset-4 hover:underline"
-          >
-            create one
-          </Link>
-          .
-        </p>
       </div>
     </div>
   )
