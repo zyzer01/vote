@@ -1,15 +1,19 @@
 import { useState } from "react"
-import { createFileRoute, Link } from "@tanstack/react-router"
+import { createFileRoute, Link, useNavigate } from "@tanstack/react-router"
+import { useQueryClient } from "@tanstack/react-query"
+import { useGoogleLogin } from "@react-oauth/google"
 import { motion } from "motion/react"
 import { ArrowRight, Check, Mail } from "lucide-react"
 
-import { signupVoteOrganization } from "@/lib/api/admin"
+import { signupVoteOrganization, signInWithGoogle } from "@/lib/api/admin"
 import { ApiError } from "@/lib/api/client"
+import { adminKeys } from "@/lib/api/admin-queries"
 import { Logo } from "@/components/site/logo"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { Field } from "@/components/ui/field"
 import { Spinner } from "@/components/ui/spinner"
+import { GoogleIcon } from "@/components/icons/google"
 
 export const Route = createFileRoute("/signup")({
   head: () => ({
@@ -19,6 +23,9 @@ export const Route = createFileRoute("/signup")({
 })
 
 function SignupPage() {
+  const navigate = useNavigate()
+  const queryClient = useQueryClient()
+
   const [firstName, setFirstName] = useState("")
   const [lastName, setLastName] = useState("")
   const [email, setEmail] = useState("")
@@ -52,6 +59,30 @@ function SignupPage() {
       setSubmitting(false)
     }
   }
+
+  const googleLogin = useGoogleLogin({
+    flow: "auth-code",
+    onSuccess: async (codeResponse) => {
+      setError(null)
+      setSubmitting(true)
+      try {
+        await signInWithGoogle(codeResponse.code)
+        await queryClient.invalidateQueries({ queryKey: adminKeys.session })
+        await queryClient.invalidateQueries({ queryKey: adminKeys.access })
+        navigate({ to: "/admin" })
+      } catch (err) {
+        setError(
+          err instanceof ApiError
+            ? err.message
+            : "Something went wrong. Please try again.",
+        )
+        setSubmitting(false)
+      }
+    },
+    onError: () => {
+      setError("Google sign-in failed. Please try again.")
+    },
+  })
 
   return (
     <div className="grid min-h-svh lg:grid-cols-2">
@@ -123,7 +154,27 @@ function SignupPage() {
                 Start running voting campaigns for your organization.
               </p>
 
-              <form onSubmit={handleSubmit} className="mt-8 flex flex-col gap-4">
+              <Button
+                type="button"
+                variant="outline"
+                size="lg"
+                disabled={submitting}
+                onClick={() => googleLogin()}
+                className="mt-6 w-full font-semibold"
+              >
+                <GoogleIcon className="size-4" />
+                Continue with Google
+              </Button>
+
+              <div className="my-5 flex items-center gap-3">
+                <div className="bg-border h-px flex-1" />
+                <span className="text-muted-foreground text-xs uppercase">
+                  or
+                </span>
+                <div className="bg-border h-px flex-1" />
+              </div>
+
+              <form onSubmit={handleSubmit} className="flex flex-col gap-4">
                 <div className="grid grid-cols-2 gap-4">
                   <Field label="First name" htmlFor="firstName">
                     <Input
