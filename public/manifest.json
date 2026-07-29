@@ -1,6 +1,6 @@
 {
-  "short_name": "TanStack App",
-  "name": "Create TanStack App Sample",
+  "short_name": "Vote",
+  "name": "Sportly Vote",
   "icons": [
     {
       "src": "favicon.ico",

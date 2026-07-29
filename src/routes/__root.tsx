@@ -32,6 +32,7 @@ export const Route = createRootRouteWithContext<RouterContext>()({
       { rel: "stylesheet", href: appCss },
       { rel: "icon", href: "/sportly-mark.png", type: "image/png" },
       { rel: "canonical", href: SITE_URL },
+      { rel: "manifest", href: "/manifest.json" },
     ],
   }),
   notFoundComponent: NotFound,
