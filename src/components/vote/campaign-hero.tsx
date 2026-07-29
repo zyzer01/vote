@@ -74,13 +74,13 @@ export function CampaignHero({
             {campaign.logoUrl ? (
               <img
                 src={campaign.logoUrl}
-                alt={campaign.organization.name}
+                alt={campaign.voteOrganization.name}
                 className="mb-4 h-14 w-auto rounded-2xl bg-white/10 object-contain p-2 backdrop-blur-sm sm:h-16"
               />
             ) : (
               <span className="mb-5 inline-flex items-center gap-1.5 rounded-full bg-white/10 px-3 py-1 text-xs font-medium tracking-wide backdrop-blur-sm">
                 <Sparkles className="size-3.5" />
-                {campaign.organization.name}
+                {campaign.voteOrganization.name}
               </span>
             )}
 

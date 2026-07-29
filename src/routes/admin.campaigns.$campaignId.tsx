@@ -123,7 +123,7 @@ function CampaignHeader({ campaign }: { campaign: AdminCampaignDetail }) {
   const actions = useCampaignActions(campaign.id)
   const [confirm, setConfirm] = useState<null | "close" | "delete">(null)
 
-  const publicPath = `/${campaign.organization.code}/${campaign.slug}`
+  const publicPath = `/${campaign.voteOrganization.code}/${campaign.slug}`
 
   const status = campaign.status
   const busy =
@@ -153,7 +153,7 @@ function CampaignHeader({ campaign }: { campaign: AdminCampaignDetail }) {
             <CampaignStatusBadge status={status} />
           </div>
           <p className="text-muted-foreground mt-1 text-sm">
-            {campaign.organization.name} · Closes {formatDate(campaign.closesAt)}
+            {campaign.voteOrganization.name} · Closes {formatDate(campaign.closesAt)}
           </p>
         </div>
       </div>

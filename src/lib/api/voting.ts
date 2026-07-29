@@ -17,9 +17,9 @@ import type {
 
 const V1 = "/v1/voting/public"
 
-export function getCampaignBySlug(organizationCode: string, campaignSlug: string) {
+export function getCampaignBySlug(voteOrgCode: string, campaignSlug: string) {
   return apiRequest<CampaignLanding>(
-    `${V1}/organizations/${encodeURIComponent(organizationCode)}/campaigns/${encodeURIComponent(campaignSlug)}`,
+    `${V1}/vote-organizations/${encodeURIComponent(voteOrgCode)}/campaigns/${encodeURIComponent(campaignSlug)}`,
   )
 }
 

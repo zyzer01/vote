@@ -29,7 +29,8 @@ export type NomineeStatus = "ACTIVE" | "HIDDEN" | "DISQUALIFIED" | "WITHDRAWN"
 
 export type NomineeSubjectType = "CUSTOM" | "PLAYER" | "TEAM" | "COACH" | "USER"
 
-export interface OrganizationRef {
+/** The voting workspace a campaign belongs to. */
+export interface VoteOrganizationRef {
   id: string
   name: string
   code: string
@@ -69,9 +70,9 @@ export interface CampaignCategorySummary {
   nomineeCount: number
 }
 
-/** Response of GET /voting/public/organizations/:code/campaigns/:slug */
+/** Response of GET /voting/public/vote-organizations/:code/campaigns/:slug */
 export interface CampaignLanding extends PublicCampaign {
-  organization: OrganizationRef
+  voteOrganization: VoteOrganizationRef
   categories: CampaignCategorySummary[]
 }
 

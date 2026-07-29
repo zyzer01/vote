@@ -34,7 +34,7 @@ export const Route = createFileRoute("/$organizationCode/$campaignSlug/")({
     const title = `${campaign.name} | Vote now`
     const description =
       campaign.description ??
-      `Vote for your favourites in ${campaign.name}, hosted by ${campaign.organization.name} on Sportly Vote.`
+      `Vote for your favourites in ${campaign.name}, hosted by ${campaign.voteOrganization.name} on Sportly Vote.`
     return {
       meta: pageMeta({
         title,
@@ -117,7 +117,7 @@ function CampaignPage() {
         />
       </main>
 
-      <VoteFooter organizationName={campaign.organization.name} />
+      <VoteFooter organizationName={campaign.voteOrganization.name} />
     </div>
   )
 }

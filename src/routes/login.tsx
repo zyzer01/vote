@@ -45,7 +45,7 @@ function LoginPage() {
       await signin(email.trim(), password)
       // Prime the session so the dashboard shell resolves immediately.
       await queryClient.invalidateQueries({ queryKey: adminKeys.session })
-      await queryClient.invalidateQueries({ queryKey: adminKeys.access })
+      await queryClient.invalidateQueries({ queryKey: adminKeys.workspaces })
       navigate({ to: redirect ?? "/admin" })
     } catch (err) {
       setError(
@@ -67,7 +67,7 @@ function LoginPage() {
       try {
         await signInWithGoogle(codeResponse.code)
         await queryClient.invalidateQueries({ queryKey: adminKeys.session })
-        await queryClient.invalidateQueries({ queryKey: adminKeys.access })
+        await queryClient.invalidateQueries({ queryKey: adminKeys.workspaces })
         navigate({ to: redirect ?? "/admin" })
       } catch (err) {
         setError(

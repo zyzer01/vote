@@ -46,7 +46,7 @@ function VerifyEmailPage() {
     try {
       await verifyEmail(token, password)
       await queryClient.invalidateQueries({ queryKey: adminKeys.session })
-      await queryClient.invalidateQueries({ queryKey: adminKeys.access })
+      await queryClient.invalidateQueries({ queryKey: adminKeys.workspaces })
       navigate({ to: "/admin" })
     } catch (err) {
       setError(

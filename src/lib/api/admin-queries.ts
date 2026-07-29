@@ -1,11 +1,10 @@
 import { queryOptions } from "@tanstack/react-query"
 
 import {
-  getAccessProfile,
   getCampaign,
   getCampaignAnalytics,
   getCurrentSession,
-  getOrganization,
+  listMyWorkspaces,
   listCampaigns,
   listCategories,
   listNominees,
@@ -16,10 +15,9 @@ import {
 
 export const adminKeys = {
   session: ["admin", "session"] as const,
-  access: ["admin", "access"] as const,
-  organization: (id: string) => ["admin", "organization", id] as const,
-  campaigns: (orgId: string, query: CampaignListQuery) =>
-    ["admin", "campaigns", orgId, query] as const,
+  workspaces: ["admin", "workspaces"] as const,
+  campaigns: (voteOrgId: string, query: CampaignListQuery) =>
+    ["admin", "campaigns", voteOrgId, query] as const,
   campaign: (id: string) => ["admin", "campaign", id] as const,
   analytics: (id: string, range: { from?: string; to?: string }) =>
     ["admin", "analytics", id, range] as const,
@@ -38,27 +36,20 @@ export const sessionQuery = () =>
     staleTime: 60_000,
   })
 
-export const accessQuery = () =>
+/** Drives the dashboard gate: empty list means the user has no workspace yet. */
+export const myWorkspacesQuery = () =>
   queryOptions({
-    queryKey: adminKeys.access,
-    queryFn: getAccessProfile,
+    queryKey: adminKeys.workspaces,
+    queryFn: listMyWorkspaces,
     retry: false,
     staleTime: 60_000,
   })
 
-export const organizationQuery = (id: string) =>
+export const campaignsQuery = (voteOrgId: string, query: CampaignListQuery = {}) =>
   queryOptions({
-    queryKey: adminKeys.organization(id),
-    queryFn: () => getOrganization(id),
-    enabled: Boolean(id),
-    staleTime: 5 * 60_000,
-  })
-
-export const campaignsQuery = (orgId: string, query: CampaignListQuery = {}) =>
-  queryOptions({
-    queryKey: adminKeys.campaigns(orgId, query),
-    queryFn: () => listCampaigns(orgId, query),
-    enabled: Boolean(orgId),
+    queryKey: adminKeys.campaigns(voteOrgId, query),
+    queryFn: () => listCampaigns(voteOrgId, query),
+    enabled: Boolean(voteOrgId),
   })
 
 export const campaignDetailQuery = (id: string) =>

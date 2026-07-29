@@ -4,7 +4,7 @@
  */
 import { apiRequest } from "./client"
 import type {
-  AccessProfile,
+  VoteWorkspace,
   AdminCampaignDetail,
   AdminCampaignListItem,
   AdminCategory,
@@ -40,23 +40,25 @@ export function getCurrentSession() {
   return apiRequest<SessionResponse>("/auth/session")
 }
 
-export function getAccessProfile() {
-  return apiRequest<AccessProfile>("/auth/access")
+/** The caller's voting workspaces. An empty list means "offer to create one". */
+export function listMyWorkspaces() {
+  return apiRequest<VoteWorkspace[]>("/v1/vote-organizations/mine")
 }
 
-export interface SignupVoteOrganizationResponse {
-  message: string
-  organizationId: string
-  organizationCode: string
+export function createWorkspace(name: string) {
+  return apiRequest<{ id: string; name: string; code: string }>(
+    "/v1/vote-organizations",
+    { method: "POST", body: { name } },
+  )
 }
 
-export function signupVoteOrganization(payload: {
+/** Creates the Sportly account only — the workspace is a separate, later step. */
+export function signup(payload: {
   email: string
   firstName: string
   lastName: string
-  organizationName: string
 }) {
-  return apiRequest<SignupVoteOrganizationResponse>("/auth/signup-vote-organization", {
+  return apiRequest<{ message: string }>("/auth/signup", {
     method: "POST",
     body: payload,
   })
@@ -74,17 +76,6 @@ export function signInWithGoogle(code: string) {
     method: "POST",
     body: { token: code },
   })
-}
-
-export interface OrganizationSummary {
-  id: string
-  name: string
-  code: string
-  logo?: string | null
-}
-
-export function getOrganization(organizationId: string) {
-  return apiRequest<OrganizationSummary>(`/v1/organizations/${organizationId}`)
 }
 
 // --- Media ------------------------------------------------------------------
@@ -119,9 +110,9 @@ export type CampaignListQuery = {
   limit?: number
 }
 
-export function listCampaigns(organizationId: string, query: CampaignListQuery = {}) {
+export function listCampaigns(voteOrgId: string, query: CampaignListQuery = {}) {
   return apiRequest<Paginated<AdminCampaignListItem>>(
-    `${V1}/organizations/${organizationId}/campaigns`,
+    `${V1}/vote-organizations/${voteOrgId}/campaigns`,
     { query },
   )
 }
@@ -130,9 +121,9 @@ export function getCampaign(campaignId: string) {
   return apiRequest<AdminCampaignDetail>(`${V1}/campaigns/${campaignId}`)
 }
 
-export function createCampaign(organizationId: string, payload: CampaignPayload) {
+export function createCampaign(voteOrgId: string, payload: CampaignPayload) {
   return apiRequest<AdminCampaignDetail>(
-    `${V1}/organizations/${organizationId}/campaigns`,
+    `${V1}/vote-organizations/${voteOrgId}/campaigns`,
     { method: "POST", body: payload },
   )
 }

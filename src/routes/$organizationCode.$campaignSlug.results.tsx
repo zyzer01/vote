@@ -31,7 +31,7 @@ export const Route = createFileRoute(
     if (!loaderData) return {}
     const { campaign } = loaderData
     const title = `${campaign.name} | Live Results`
-    const description = `See the live leaderboard for ${campaign.name}, hosted by ${campaign.organization.name} on Sportly Vote.`
+    const description = `See the live leaderboard for ${campaign.name}, hosted by ${campaign.voteOrganization.name} on Sportly Vote.`
     return {
       meta: pageMeta({
         title,
@@ -121,7 +121,7 @@ function ResultsPage() {
         )}
       </main>
 
-      <VoteFooter organizationName={campaign.organization.name} />
+      <VoteFooter organizationName={campaign.voteOrganization.name} />
     </div>
   )
 }

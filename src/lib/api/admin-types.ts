@@ -9,7 +9,7 @@ import type {
   FreeVoteWindow,
   NomineeStatus,
   NomineeSubjectType,
-  OrganizationRef,
+  VoteOrganizationRef,
   ResultsVisibility,
   VotingMode,
 } from "./types"
@@ -55,19 +55,15 @@ export interface SigninResponse {
   user: AuthUser
 }
 
-export interface AccessGrant {
-  id: string
-  organizationId: string | null
-  role: string
-  scopeType: string
-  scopeId: string | null
-  region: string | null
-  expiresAt: string | null
-}
+export type VoteOrgRole = "OWNER" | "ADMIN" | "EDITOR" | "VIEWER"
 
-export interface AccessProfile {
-  grants: AccessGrant[]
-  capabilities: Record<string, boolean>
+/** A voting workspace the signed-in user belongs to, with their role in it. */
+export interface VoteWorkspace {
+  id: string
+  name: string
+  code: string
+  logoUrl: string | null
+  role: VoteOrgRole
 }
 
 // --- Campaigns --------------------------------------------------------------
@@ -75,7 +71,7 @@ export interface AccessProfile {
 /** Full campaign row from the admin service (create/update/get). */
 export interface AdminCampaign {
   id: string
-  organizationId: string
+  voteOrganizationId: string
   name: string
   slug: string
   description: string | null
@@ -106,7 +102,7 @@ export interface AdminCampaignListItem extends AdminCampaign {
 }
 
 export interface AdminCampaignDetail extends AdminCampaign {
-  organization: OrganizationRef
+  voteOrganization: VoteOrganizationRef
   categories: AdminCategory[]
   _count: { nominees: number; orders: number; votes: number }
 }
@@ -242,7 +238,7 @@ export interface CampaignAnalytics {
     pricePerVoteMinor: number
     opensAt: string
     closesAt: string
-    organizationId: string
+    voteOrganizationId: string
   }
   range: { from: string; to: string }
   totals: AnalyticsTotals
