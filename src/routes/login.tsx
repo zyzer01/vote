@@ -1,10 +1,11 @@
 import { useState } from "react"
 import { createFileRoute, Link, useNavigate } from "@tanstack/react-router"
 import { useQueryClient } from "@tanstack/react-query"
+import { useGoogleLogin } from "@react-oauth/google"
 import { motion } from "motion/react"
 import { ArrowRight, Eye, EyeOff, Lock, Mail } from "lucide-react"
 
-import { signin } from "@/lib/api/admin"
+import { signin, signInWithGoogle } from "@/lib/api/admin"
 import { ApiError } from "@/lib/api/client"
 import { adminKeys } from "@/lib/api/admin-queries"
 import { Logo } from "@/components/site/logo"
@@ -12,6 +13,7 @@ import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { Field } from "@/components/ui/field"
 import { Spinner } from "@/components/ui/spinner"
+import { GoogleIcon } from "@/components/icons/google"
 
 export const Route = createFileRoute("/login")({
   head: () => ({
@@ -56,6 +58,30 @@ function LoginPage() {
       setSubmitting(false)
     }
   }
+
+  const googleLogin = useGoogleLogin({
+    flow: "auth-code",
+    onSuccess: async (codeResponse) => {
+      setError(null)
+      setSubmitting(true)
+      try {
+        await signInWithGoogle(codeResponse.code)
+        await queryClient.invalidateQueries({ queryKey: adminKeys.session })
+        await queryClient.invalidateQueries({ queryKey: adminKeys.access })
+        navigate({ to: redirect ?? "/admin" })
+      } catch (err) {
+        setError(
+          err instanceof ApiError
+            ? err.message
+            : "Something went wrong. Please try again.",
+        )
+        setSubmitting(false)
+      }
+    },
+    onError: () => {
+      setError("Google sign-in failed. Please try again.")
+    },
+  })
 
   return (
     <div className="grid min-h-svh lg:grid-cols-2">
@@ -112,7 +138,27 @@ function LoginPage() {
             Sign in to manage your voting campaigns.
           </p>
 
-          <form onSubmit={handleSubmit} className="mt-8 flex flex-col gap-4">
+          <Button
+            type="button"
+            variant="outline"
+            size="lg"
+            disabled={submitting}
+            onClick={() => googleLogin()}
+            className="mt-6 w-full font-semibold"
+          >
+            <GoogleIcon className="size-4" />
+            Continue with Google
+          </Button>
+
+          <div className="my-5 flex items-center gap-3">
+            <div className="bg-border h-px flex-1" />
+            <span className="text-muted-foreground text-xs uppercase">
+              or
+            </span>
+            <div className="bg-border h-px flex-1" />
+          </div>
+
+          <form onSubmit={handleSubmit} className="flex flex-col gap-4">
             <Field label="Email" htmlFor="email">
               <div className="relative">
                 <Mail className="text-muted-foreground pointer-events-none absolute top-1/2 left-3.5 size-4 -translate-y-1/2" />
