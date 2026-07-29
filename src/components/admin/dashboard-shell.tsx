@@ -9,10 +9,11 @@ import {
   Menu,
   Plus,
   Trophy,
+  Wallet,
 } from "lucide-react"
 
 import { signout } from "@/lib/api/admin"
-import { fullName, initials, useAuth } from "@/lib/auth"
+import { canViewRevenue, fullName, initials, useAuth } from "@/lib/auth"
 import { cn } from "@/lib/utils"
 import { Logo } from "@/components/site/logo"
 import { Button } from "@/components/ui/button"
@@ -26,6 +27,7 @@ import {
 
 const NAV = [
   { to: "/admin", label: "Campaigns", icon: LayoutDashboard, exact: true },
+  { to: "/admin/wallet", label: "Wallet", icon: Wallet, exact: false },
 ] as const
 
 export function DashboardShell({ children }: { children: React.ReactNode }) {
@@ -62,8 +64,12 @@ export function DashboardShell({ children }: { children: React.ReactNode }) {
 }
 
 function SidebarBody({ onNavigate }: { onNavigate?: () => void }) {
-  const { voteOrganizationName } = useAuth()
+  const { voteOrganizationName, role } = useAuth()
   const pathname = useRouterState({ select: (s) => s.location.pathname })
+
+  const visibleNav = NAV.filter(
+    (item) => item.to !== "/admin/wallet" || canViewRevenue(role),
+  )
 
   return (
     <>
@@ -86,7 +92,7 @@ function SidebarBody({ onNavigate }: { onNavigate?: () => void }) {
       </div>
 
       <nav className="flex flex-1 flex-col gap-1 px-4">
-        {NAV.map((item) => {
+        {visibleNav.map((item) => {
           const active = item.exact
             ? pathname === item.to
             : pathname.startsWith(item.to)

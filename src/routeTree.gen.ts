@@ -16,12 +16,15 @@ import { Route as SignupRouteImport } from './routes/signup'
 import { Route as VerifyEmailRouteImport } from './routes/verify-email'
 import { Route as WelcomeRouteImport } from './routes/welcome'
 import { Route as AdminIndexRouteImport } from './routes/admin.index'
+import { Route as AdminWalletRouteImport } from './routes/admin.wallet'
 import { Route as VoteCallbackRouteImport } from './routes/vote.callback'
 import { Route as OrganizationCodeCampaignSlugIndexRouteImport } from './routes/$organizationCode.$campaignSlug.index'
 import { Route as OrganizationCodeCampaignSlugCategoryIdRouteImport } from './routes/$organizationCode.$campaignSlug.$categoryId'
 import { Route as OrganizationCodeCampaignSlugResultsRouteImport } from './routes/$organizationCode.$campaignSlug.results'
 import { Route as AdminCampaignsCampaignIdRouteImport } from './routes/admin.campaigns.$campaignId'
 import { Route as AdminCampaignsNewRouteImport } from './routes/admin.campaigns.new'
+import { Route as AdminWalletIndexRouteImport } from './routes/admin.wallet.index'
+import { Route as AdminWalletWithdrawalsRouteImport } from './routes/admin.wallet.withdrawals'
 import { Route as AdminCampaignsCampaignIdIndexRouteImport } from './routes/admin.campaigns.$campaignId.index'
 import { Route as AdminCampaignsCampaignIdCategoriesRouteImport } from './routes/admin.campaigns.$campaignId.categories'
 import { Route as AdminCampaignsCampaignIdOrdersRouteImport } from './routes/admin.campaigns.$campaignId.orders'
@@ -62,6 +65,11 @@ const AdminIndexRoute = AdminIndexRouteImport.update({
   path: '/',
   getParentRoute: () => AdminRoute,
 } as any)
+const AdminWalletRoute = AdminWalletRouteImport.update({
+  id: '/wallet',
+  path: '/wallet',
+  getParentRoute: () => AdminRoute,
+} as any)
 const VoteCallbackRoute = VoteCallbackRouteImport.update({
   id: '/vote/callback',
   path: '/vote/callback',
@@ -96,6 +104,16 @@ const AdminCampaignsNewRoute = AdminCampaignsNewRouteImport.update({
   path: '/campaigns/new',
   getParentRoute: () => AdminRoute,
 } as any)
+const AdminWalletIndexRoute = AdminWalletIndexRouteImport.update({
+  id: '/',
+  path: '/',
+  getParentRoute: () => AdminWalletRoute,
+} as any)
+const AdminWalletWithdrawalsRoute = AdminWalletWithdrawalsRouteImport.update({
+  id: '/withdrawals',
+  path: '/withdrawals',
+  getParentRoute: () => AdminWalletRoute,
+} as any)
 const AdminCampaignsCampaignIdIndexRoute =
   AdminCampaignsCampaignIdIndexRouteImport.update({
     id: '/',
@@ -128,13 +146,16 @@ export interface FileRoutesByFullPath {
   '/signup': typeof SignupRoute
   '/verify-email': typeof VerifyEmailRoute
   '/welcome': typeof WelcomeRoute
+  '/admin/wallet': typeof AdminWalletRouteWithChildren
   '/vote/callback': typeof VoteCallbackRoute
   '/admin/': typeof AdminIndexRoute
   '/$organizationCode/$campaignSlug/$categoryId': typeof OrganizationCodeCampaignSlugCategoryIdRoute
   '/$organizationCode/$campaignSlug/results': typeof OrganizationCodeCampaignSlugResultsRoute
   '/admin/campaigns/$campaignId': typeof AdminCampaignsCampaignIdRouteWithChildren
   '/admin/campaigns/new': typeof AdminCampaignsNewRoute
+  '/admin/wallet/withdrawals': typeof AdminWalletWithdrawalsRoute
   '/$organizationCode/$campaignSlug/': typeof OrganizationCodeCampaignSlugIndexRoute
+  '/admin/wallet/': typeof AdminWalletIndexRoute
   '/admin/campaigns/$campaignId/categories': typeof AdminCampaignsCampaignIdCategoriesRoute
   '/admin/campaigns/$campaignId/orders': typeof AdminCampaignsCampaignIdOrdersRoute
   '/admin/campaigns/$campaignId/settings': typeof AdminCampaignsCampaignIdSettingsRoute
@@ -151,7 +172,9 @@ export interface FileRoutesByTo {
   '/$organizationCode/$campaignSlug/$categoryId': typeof OrganizationCodeCampaignSlugCategoryIdRoute
   '/$organizationCode/$campaignSlug/results': typeof OrganizationCodeCampaignSlugResultsRoute
   '/admin/campaigns/new': typeof AdminCampaignsNewRoute
+  '/admin/wallet/withdrawals': typeof AdminWalletWithdrawalsRoute
   '/$organizationCode/$campaignSlug': typeof OrganizationCodeCampaignSlugIndexRoute
+  '/admin/wallet': typeof AdminWalletIndexRoute
   '/admin/campaigns/$campaignId/categories': typeof AdminCampaignsCampaignIdCategoriesRoute
   '/admin/campaigns/$campaignId/orders': typeof AdminCampaignsCampaignIdOrdersRoute
   '/admin/campaigns/$campaignId/settings': typeof AdminCampaignsCampaignIdSettingsRoute
@@ -165,13 +188,16 @@ export interface FileRoutesById {
   '/signup': typeof SignupRoute
   '/verify-email': typeof VerifyEmailRoute
   '/welcome': typeof WelcomeRoute
+  '/admin/wallet': typeof AdminWalletRouteWithChildren
   '/vote/callback': typeof VoteCallbackRoute
   '/admin/': typeof AdminIndexRoute
   '/$organizationCode/$campaignSlug/$categoryId': typeof OrganizationCodeCampaignSlugCategoryIdRoute
   '/$organizationCode/$campaignSlug/results': typeof OrganizationCodeCampaignSlugResultsRoute
   '/admin/campaigns/$campaignId': typeof AdminCampaignsCampaignIdRouteWithChildren
   '/admin/campaigns/new': typeof AdminCampaignsNewRoute
+  '/admin/wallet/withdrawals': typeof AdminWalletWithdrawalsRoute
   '/$organizationCode/$campaignSlug/': typeof OrganizationCodeCampaignSlugIndexRoute
+  '/admin/wallet/': typeof AdminWalletIndexRoute
   '/admin/campaigns/$campaignId/categories': typeof AdminCampaignsCampaignIdCategoriesRoute
   '/admin/campaigns/$campaignId/orders': typeof AdminCampaignsCampaignIdOrdersRoute
   '/admin/campaigns/$campaignId/settings': typeof AdminCampaignsCampaignIdSettingsRoute
@@ -186,13 +212,16 @@ export interface FileRouteTypes {
     | '/signup'
     | '/verify-email'
     | '/welcome'
+    | '/admin/wallet'
     | '/vote/callback'
     | '/admin/'
     | '/$organizationCode/$campaignSlug/$categoryId'
     | '/$organizationCode/$campaignSlug/results'
     | '/admin/campaigns/$campaignId'
     | '/admin/campaigns/new'
+    | '/admin/wallet/withdrawals'
     | '/$organizationCode/$campaignSlug/'
+    | '/admin/wallet/'
     | '/admin/campaigns/$campaignId/categories'
     | '/admin/campaigns/$campaignId/orders'
     | '/admin/campaigns/$campaignId/settings'
@@ -209,7 +238,9 @@ export interface FileRouteTypes {
     | '/$organizationCode/$campaignSlug/$categoryId'
     | '/$organizationCode/$campaignSlug/results'
     | '/admin/campaigns/new'
+    | '/admin/wallet/withdrawals'
     | '/$organizationCode/$campaignSlug'
+    | '/admin/wallet'
     | '/admin/campaigns/$campaignId/categories'
     | '/admin/campaigns/$campaignId/orders'
     | '/admin/campaigns/$campaignId/settings'
@@ -222,13 +253,16 @@ export interface FileRouteTypes {
     | '/signup'
     | '/verify-email'
     | '/welcome'
+    | '/admin/wallet'
     | '/vote/callback'
     | '/admin/'
     | '/$organizationCode/$campaignSlug/$categoryId'
     | '/$organizationCode/$campaignSlug/results'
     | '/admin/campaigns/$campaignId'
     | '/admin/campaigns/new'
+    | '/admin/wallet/withdrawals'
     | '/$organizationCode/$campaignSlug/'
+    | '/admin/wallet/'
     | '/admin/campaigns/$campaignId/categories'
     | '/admin/campaigns/$campaignId/orders'
     | '/admin/campaigns/$campaignId/settings'
@@ -299,6 +333,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AdminIndexRouteImport
       parentRoute: typeof AdminRoute
     }
+    '/admin/wallet': {
+      id: '/admin/wallet'
+      path: '/wallet'
+      fullPath: '/admin/wallet'
+      preLoaderRoute: typeof AdminWalletRouteImport
+      parentRoute: typeof AdminRoute
+    }
     '/vote/callback': {
       id: '/vote/callback'
       path: '/vote/callback'
@@ -341,6 +382,20 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AdminCampaignsNewRouteImport
       parentRoute: typeof AdminRoute
     }
+    '/admin/wallet/': {
+      id: '/admin/wallet/'
+      path: '/'
+      fullPath: '/admin/wallet/'
+      preLoaderRoute: typeof AdminWalletIndexRouteImport
+      parentRoute: typeof AdminWalletRoute
+    }
+    '/admin/wallet/withdrawals': {
+      id: '/admin/wallet/withdrawals'
+      path: '/withdrawals'
+      fullPath: '/admin/wallet/withdrawals'
+      preLoaderRoute: typeof AdminWalletWithdrawalsRouteImport
+      parentRoute: typeof AdminWalletRoute
+    }
     '/admin/campaigns/$campaignId/': {
       id: '/admin/campaigns/$campaignId/'
       path: '/'
@@ -372,6 +427,20 @@ declare module '@tanstack/react-router' {
   }
 }
 
+interface AdminWalletRouteChildren {
+  AdminWalletWithdrawalsRoute: typeof AdminWalletWithdrawalsRoute
+  AdminWalletIndexRoute: typeof AdminWalletIndexRoute
+}
+
+const AdminWalletRouteChildren: AdminWalletRouteChildren = {
+  AdminWalletWithdrawalsRoute: AdminWalletWithdrawalsRoute,
+  AdminWalletIndexRoute: AdminWalletIndexRoute,
+}
+
+const AdminWalletRouteWithChildren = AdminWalletRoute._addFileChildren(
+  AdminWalletRouteChildren,
+)
+
 interface AdminCampaignsCampaignIdRouteChildren {
   AdminCampaignsCampaignIdCategoriesRoute: typeof AdminCampaignsCampaignIdCategoriesRoute
   AdminCampaignsCampaignIdOrdersRoute: typeof AdminCampaignsCampaignIdOrdersRoute
@@ -395,12 +464,14 @@ const AdminCampaignsCampaignIdRouteWithChildren =
   )
 
 interface AdminRouteChildren {
+  AdminWalletRoute: typeof AdminWalletRouteWithChildren
   AdminIndexRoute: typeof AdminIndexRoute
   AdminCampaignsCampaignIdRoute: typeof AdminCampaignsCampaignIdRouteWithChildren
   AdminCampaignsNewRoute: typeof AdminCampaignsNewRoute
 }
 
 const AdminRouteChildren: AdminRouteChildren = {
+  AdminWalletRoute: AdminWalletRouteWithChildren,
   AdminIndexRoute: AdminIndexRoute,
   AdminCampaignsCampaignIdRoute: AdminCampaignsCampaignIdRouteWithChildren,
   AdminCampaignsNewRoute: AdminCampaignsNewRoute,
