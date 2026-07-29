@@ -44,6 +44,31 @@ export function getAccessProfile() {
   return apiRequest<AccessProfile>("/auth/access")
 }
 
+export interface SignupVoteOrganizationResponse {
+  message: string
+  organizationId: string
+  organizationCode: string
+}
+
+export function signupVoteOrganization(payload: {
+  email: string
+  firstName: string
+  lastName: string
+  organizationName: string
+}) {
+  return apiRequest<SignupVoteOrganizationResponse>("/auth/signup-vote-organization", {
+    method: "POST",
+    body: payload,
+  })
+}
+
+export function verifyEmail(token: string, password: string) {
+  return apiRequest<SigninResponse>("/auth/verify-email", {
+    method: "POST",
+    body: { token, password },
+  })
+}
+
 export interface OrganizationSummary {
   id: string
   name: string
