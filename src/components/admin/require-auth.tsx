@@ -1,5 +1,5 @@
 import { useEffect } from "react"
-import { useNavigate, useRouterState } from "@tanstack/react-router"
+import { Link, useNavigate, useRouterState } from "@tanstack/react-router"
 import { useQuery } from "@tanstack/react-query"
 
 import { ApiError } from "@/lib/api/client"
@@ -37,12 +37,9 @@ export function RequireAuth({ children }: { children: React.ReactNode }) {
 
   const user = session.data?.user
   const organizationId =
-    user?.organizationId ??
     access.data?.grants.find(
-      (g) => g.organizationId && g.scopeType === "ORGANIZATION",
-    )?.organizationId ??
-    access.data?.grants.find((g) => g.organizationId)?.organizationId ??
-    null
+      (g) => g.scopeType === "ORGANIZATION" && g.role === "OWNER",
+    )?.organizationId ?? null
 
   const org = useQuery({
     ...organizationQuery(organizationId ?? ""),
@@ -113,8 +110,15 @@ function NoOrganization({ email }: { email?: string }) {
         <h1 className="font-heading text-xl font-bold">No organization yet</h1>
         <p className="text-muted-foreground mt-2 text-sm">
           {email ? `${email} isn't` : "This account isn't"} linked to an
-          organization that can run voting campaigns. Ask an owner to invite you,
-          or set one up in the main Sportly app.
+          organization that can run voting campaigns. Ask an owner to invite
+          you, or{" "}
+          <Link
+            to="/signup"
+            className="text-foreground font-medium underline-offset-4 hover:underline"
+          >
+            create one
+          </Link>
+          .
         </p>
       </div>
     </div>
