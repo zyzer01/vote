@@ -1,13 +1,21 @@
 import { motion } from "motion/react"
+import { Link } from "@tanstack/react-router"
 import { Ban, Check, Crown, Vote } from "lucide-react"
 
 import type { BallotNominee } from "@/lib/api/types"
+import { nomineeShareUrl } from "@/lib/share"
 import { cn } from "@/lib/utils"
 import { Button } from "@/components/ui/button"
+import { ShareIconButton } from "./share-button"
 import { VoteBar } from "./vote-bar"
 
 export function NomineeCard({
   nominee,
+  organizationCode,
+  campaignSlug,
+  categoryId,
+  campaignName,
+  categoryName,
   totalVotes,
   leading,
   resultsVisible,
@@ -17,6 +25,11 @@ export function NomineeCard({
   onVote,
 }: {
   nominee: BallotNominee
+  organizationCode: string
+  campaignSlug: string
+  categoryId: string
+  campaignName: string
+  categoryName: string
   totalVotes: number
   leading: boolean
   resultsVisible: boolean
@@ -27,6 +40,13 @@ export function NomineeCard({
 }) {
   const disqualified = nominee.status === "DISQUALIFIED"
   const metadata = readableMetadata(nominee.metadata)
+  const linkParams = {
+    organizationCode,
+    campaignSlug,
+    categoryId,
+    nomineeSlug: nominee.slug,
+  }
+  const shareText = `Vote for ${nominee.displayName} in ${categoryName} -${campaignName}`
 
   return (
     <motion.div
@@ -49,7 +69,20 @@ export function NomineeCard({
         </span>
       ) : null}
 
-      <div className="relative aspect-square overflow-hidden">
+      <ShareIconButton
+        url={nomineeShareUrl(linkParams)}
+        title={shareText}
+        text={shareText}
+        aria-label={`Copy ${nominee.displayName}'s vote link`}
+        className="absolute top-3 right-3 z-10"
+      />
+
+      <Link
+        to="/$organizationCode/$campaignSlug/$categoryId/$nomineeSlug"
+        params={linkParams}
+        aria-label={`View ${nominee.displayName}'s page`}
+        className="relative block aspect-square overflow-hidden"
+      >
         {nominee.imageUrl ? (
           <img
             src={nominee.imageUrl}
@@ -79,11 +112,17 @@ export function NomineeCard({
           </div>
         )}
         <div className="absolute inset-x-0 bottom-0 h-16 bg-gradient-to-t from-black/40 to-transparent" />
-      </div>
+      </Link>
 
       <div className="flex flex-1 flex-col p-4">
         <h3 className="font-heading leading-tight font-semibold">
-          {nominee.displayName}
+          <Link
+            to="/$organizationCode/$campaignSlug/$categoryId/$nomineeSlug"
+            params={linkParams}
+            className="hover:text-primary transition-colors"
+          >
+            {nominee.displayName}
+          </Link>
         </h3>
         {metadata.length > 0 ? (
           <div className="mt-1.5 flex flex-wrap gap-1">

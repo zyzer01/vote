@@ -11,6 +11,7 @@ import {
   Ban,
   ChevronDown,
   Layers,
+  Link2,
   MoreHorizontal,
   Pencil,
   Plus,
@@ -32,6 +33,7 @@ import {
 } from "@/lib/api/admin-queries"
 import type { AdminCategory, AdminNominee } from "@/lib/api/admin-types"
 import { cn } from "@/lib/utils"
+import { copyToClipboard, nomineeShareUrl } from "@/lib/share"
 import { formatNumber } from "@/lib/format"
 import { CategoryDialog } from "@/components/admin/category-dialog"
 import { NomineeDialog } from "@/components/admin/nominee-dialog"
@@ -120,6 +122,8 @@ function CategoriesPage() {
             <CategoryRow
               key={category.id}
               campaignId={campaignId}
+              organizationCode={campaign.voteOrganization.code}
+              campaignSlug={campaign.slug}
               category={category}
               expanded={expanded === category.id}
               onToggle={() =>
@@ -143,12 +147,16 @@ function CategoriesPage() {
 
 function CategoryRow({
   campaignId,
+  organizationCode,
+  campaignSlug,
   category,
   expanded,
   onToggle,
   onEdit,
 }: {
   campaignId: string
+  organizationCode: string
+  campaignSlug: string
   category: AdminCategory
   expanded: boolean
   onToggle: () => void
@@ -231,7 +239,12 @@ function CategoryRow({
 
       {expanded ? (
         <div className="border-border/60 border-t p-4">
-          <NomineeManager campaignId={campaignId} categoryId={category.id} />
+          <NomineeManager
+            campaignId={campaignId}
+            organizationCode={organizationCode}
+            campaignSlug={campaignSlug}
+            categoryId={category.id}
+          />
         </div>
       ) : null}
 
@@ -251,9 +264,13 @@ function CategoryRow({
 
 function NomineeManager({
   campaignId,
+  organizationCode,
+  campaignSlug,
   categoryId,
 }: {
   campaignId: string
+  organizationCode: string
+  campaignSlug: string
   categoryId: string
 }) {
   const { data: nominees, isLoading } = useQuery(nomineesQuery(categoryId))
@@ -284,6 +301,8 @@ function NomineeManager({
             <NomineeRow
               key={nominee.id}
               campaignId={campaignId}
+              organizationCode={organizationCode}
+              campaignSlug={campaignSlug}
               categoryId={categoryId}
               nominee={nominee}
               onEdit={() => setDialog({ nominee })}
@@ -305,11 +324,15 @@ function NomineeManager({
 
 function NomineeRow({
   campaignId,
+  organizationCode,
+  campaignSlug,
   categoryId,
   nominee,
   onEdit,
 }: {
   campaignId: string
+  organizationCode: string
+  campaignSlug: string
   categoryId: string
   nominee: AdminNominee
   onEdit: () => void
@@ -317,6 +340,25 @@ function NomineeRow({
   const queryClient = useQueryClient()
   const [confirm, setConfirm] = useState<null | "disqualify" | "delete">(null)
   const disqualified = nominee.status === "DISQUALIFIED"
+
+  // Every nominee has a page of their own so they can campaign with a link
+  // that can't send supporters to the wrong name on the ballot.
+  const voteLink = nomineeShareUrl({
+    organizationCode,
+    campaignSlug,
+    categoryId,
+    nomineeSlug: nominee.slug,
+  })
+
+  async function copyVoteLink() {
+    if (await copyToClipboard(voteLink)) {
+      toast.success(`Copied ${nominee.displayName}'s vote link`, {
+        description: voteLink,
+      })
+    } else {
+      toast.error("Couldn't copy the link", { description: voteLink })
+    }
+  }
 
   const invalidate = () => {
     queryClient.invalidateQueries({ queryKey: adminKeys.nominees(categoryId) })
@@ -383,6 +425,10 @@ function NomineeRow({
           }
         />
         <DropdownMenuContent>
+          <DropdownMenuItem onClick={copyVoteLink}>
+            <Link2 className="size-4" />
+            Copy vote link
+          </DropdownMenuItem>
           <DropdownMenuItem onClick={onEdit}>
             <Pencil className="size-4" />
             Edit

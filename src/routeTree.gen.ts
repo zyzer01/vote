@@ -19,12 +19,13 @@ import { Route as AdminIndexRouteImport } from './routes/admin.index'
 import { Route as AdminWalletRouteImport } from './routes/admin.wallet'
 import { Route as VoteCallbackRouteImport } from './routes/vote.callback'
 import { Route as OrganizationCodeCampaignSlugIndexRouteImport } from './routes/$organizationCode.$campaignSlug.index'
-import { Route as OrganizationCodeCampaignSlugCategoryIdRouteImport } from './routes/$organizationCode.$campaignSlug.$categoryId'
 import { Route as OrganizationCodeCampaignSlugResultsRouteImport } from './routes/$organizationCode.$campaignSlug.results'
 import { Route as AdminCampaignsCampaignIdRouteImport } from './routes/admin.campaigns.$campaignId'
 import { Route as AdminCampaignsNewRouteImport } from './routes/admin.campaigns.new'
 import { Route as AdminWalletIndexRouteImport } from './routes/admin.wallet.index'
 import { Route as AdminWalletWithdrawalsRouteImport } from './routes/admin.wallet.withdrawals'
+import { Route as OrganizationCodeCampaignSlugCategoryIdIndexRouteImport } from './routes/$organizationCode.$campaignSlug.$categoryId.index'
+import { Route as OrganizationCodeCampaignSlugCategoryIdNomineeSlugRouteImport } from './routes/$organizationCode.$campaignSlug.$categoryId.$nomineeSlug'
 import { Route as AdminCampaignsCampaignIdIndexRouteImport } from './routes/admin.campaigns.$campaignId.index'
 import { Route as AdminCampaignsCampaignIdCategoriesRouteImport } from './routes/admin.campaigns.$campaignId.categories'
 import { Route as AdminCampaignsCampaignIdOrdersRouteImport } from './routes/admin.campaigns.$campaignId.orders'
@@ -81,12 +82,6 @@ const OrganizationCodeCampaignSlugIndexRoute =
     path: '/$organizationCode/$campaignSlug/',
     getParentRoute: () => rootRouteImport,
   } as any)
-const OrganizationCodeCampaignSlugCategoryIdRoute =
-  OrganizationCodeCampaignSlugCategoryIdRouteImport.update({
-    id: '/$organizationCode/$campaignSlug/$categoryId',
-    path: '/$organizationCode/$campaignSlug/$categoryId',
-    getParentRoute: () => rootRouteImport,
-  } as any)
 const OrganizationCodeCampaignSlugResultsRoute =
   OrganizationCodeCampaignSlugResultsRouteImport.update({
     id: '/$organizationCode/$campaignSlug/results',
@@ -114,6 +109,18 @@ const AdminWalletWithdrawalsRoute = AdminWalletWithdrawalsRouteImport.update({
   path: '/withdrawals',
   getParentRoute: () => AdminWalletRoute,
 } as any)
+const OrganizationCodeCampaignSlugCategoryIdIndexRoute =
+  OrganizationCodeCampaignSlugCategoryIdIndexRouteImport.update({
+    id: '/$organizationCode/$campaignSlug/$categoryId/',
+    path: '/$organizationCode/$campaignSlug/$categoryId/',
+    getParentRoute: () => rootRouteImport,
+  } as any)
+const OrganizationCodeCampaignSlugCategoryIdNomineeSlugRoute =
+  OrganizationCodeCampaignSlugCategoryIdNomineeSlugRouteImport.update({
+    id: '/$organizationCode/$campaignSlug/$categoryId/$nomineeSlug',
+    path: '/$organizationCode/$campaignSlug/$categoryId/$nomineeSlug',
+    getParentRoute: () => rootRouteImport,
+  } as any)
 const AdminCampaignsCampaignIdIndexRoute =
   AdminCampaignsCampaignIdIndexRouteImport.update({
     id: '/',
@@ -149,16 +156,17 @@ export interface FileRoutesByFullPath {
   '/admin/wallet': typeof AdminWalletRouteWithChildren
   '/vote/callback': typeof VoteCallbackRoute
   '/admin/': typeof AdminIndexRoute
-  '/$organizationCode/$campaignSlug/$categoryId': typeof OrganizationCodeCampaignSlugCategoryIdRoute
   '/$organizationCode/$campaignSlug/results': typeof OrganizationCodeCampaignSlugResultsRoute
   '/admin/campaigns/$campaignId': typeof AdminCampaignsCampaignIdRouteWithChildren
   '/admin/campaigns/new': typeof AdminCampaignsNewRoute
   '/admin/wallet/withdrawals': typeof AdminWalletWithdrawalsRoute
   '/$organizationCode/$campaignSlug/': typeof OrganizationCodeCampaignSlugIndexRoute
   '/admin/wallet/': typeof AdminWalletIndexRoute
+  '/$organizationCode/$campaignSlug/$categoryId/$nomineeSlug': typeof OrganizationCodeCampaignSlugCategoryIdNomineeSlugRoute
   '/admin/campaigns/$campaignId/categories': typeof AdminCampaignsCampaignIdCategoriesRoute
   '/admin/campaigns/$campaignId/orders': typeof AdminCampaignsCampaignIdOrdersRoute
   '/admin/campaigns/$campaignId/settings': typeof AdminCampaignsCampaignIdSettingsRoute
+  '/$organizationCode/$campaignSlug/$categoryId/': typeof OrganizationCodeCampaignSlugCategoryIdIndexRoute
   '/admin/campaigns/$campaignId/': typeof AdminCampaignsCampaignIdIndexRoute
 }
 export interface FileRoutesByTo {
@@ -169,15 +177,16 @@ export interface FileRoutesByTo {
   '/welcome': typeof WelcomeRoute
   '/vote/callback': typeof VoteCallbackRoute
   '/admin': typeof AdminIndexRoute
-  '/$organizationCode/$campaignSlug/$categoryId': typeof OrganizationCodeCampaignSlugCategoryIdRoute
   '/$organizationCode/$campaignSlug/results': typeof OrganizationCodeCampaignSlugResultsRoute
   '/admin/campaigns/new': typeof AdminCampaignsNewRoute
   '/admin/wallet/withdrawals': typeof AdminWalletWithdrawalsRoute
   '/$organizationCode/$campaignSlug': typeof OrganizationCodeCampaignSlugIndexRoute
   '/admin/wallet': typeof AdminWalletIndexRoute
+  '/$organizationCode/$campaignSlug/$categoryId/$nomineeSlug': typeof OrganizationCodeCampaignSlugCategoryIdNomineeSlugRoute
   '/admin/campaigns/$campaignId/categories': typeof AdminCampaignsCampaignIdCategoriesRoute
   '/admin/campaigns/$campaignId/orders': typeof AdminCampaignsCampaignIdOrdersRoute
   '/admin/campaigns/$campaignId/settings': typeof AdminCampaignsCampaignIdSettingsRoute
+  '/$organizationCode/$campaignSlug/$categoryId': typeof OrganizationCodeCampaignSlugCategoryIdIndexRoute
   '/admin/campaigns/$campaignId': typeof AdminCampaignsCampaignIdIndexRoute
 }
 export interface FileRoutesById {
@@ -191,16 +200,17 @@ export interface FileRoutesById {
   '/admin/wallet': typeof AdminWalletRouteWithChildren
   '/vote/callback': typeof VoteCallbackRoute
   '/admin/': typeof AdminIndexRoute
-  '/$organizationCode/$campaignSlug/$categoryId': typeof OrganizationCodeCampaignSlugCategoryIdRoute
   '/$organizationCode/$campaignSlug/results': typeof OrganizationCodeCampaignSlugResultsRoute
   '/admin/campaigns/$campaignId': typeof AdminCampaignsCampaignIdRouteWithChildren
   '/admin/campaigns/new': typeof AdminCampaignsNewRoute
   '/admin/wallet/withdrawals': typeof AdminWalletWithdrawalsRoute
   '/$organizationCode/$campaignSlug/': typeof OrganizationCodeCampaignSlugIndexRoute
   '/admin/wallet/': typeof AdminWalletIndexRoute
+  '/$organizationCode/$campaignSlug/$categoryId/$nomineeSlug': typeof OrganizationCodeCampaignSlugCategoryIdNomineeSlugRoute
   '/admin/campaigns/$campaignId/categories': typeof AdminCampaignsCampaignIdCategoriesRoute
   '/admin/campaigns/$campaignId/orders': typeof AdminCampaignsCampaignIdOrdersRoute
   '/admin/campaigns/$campaignId/settings': typeof AdminCampaignsCampaignIdSettingsRoute
+  '/$organizationCode/$campaignSlug/$categoryId/': typeof OrganizationCodeCampaignSlugCategoryIdIndexRoute
   '/admin/campaigns/$campaignId/': typeof AdminCampaignsCampaignIdIndexRoute
 }
 export interface FileRouteTypes {
@@ -215,16 +225,17 @@ export interface FileRouteTypes {
     | '/admin/wallet'
     | '/vote/callback'
     | '/admin/'
-    | '/$organizationCode/$campaignSlug/$categoryId'
     | '/$organizationCode/$campaignSlug/results'
     | '/admin/campaigns/$campaignId'
     | '/admin/campaigns/new'
     | '/admin/wallet/withdrawals'
     | '/$organizationCode/$campaignSlug/'
     | '/admin/wallet/'
+    | '/$organizationCode/$campaignSlug/$categoryId/$nomineeSlug'
     | '/admin/campaigns/$campaignId/categories'
     | '/admin/campaigns/$campaignId/orders'
     | '/admin/campaigns/$campaignId/settings'
+    | '/$organizationCode/$campaignSlug/$categoryId/'
     | '/admin/campaigns/$campaignId/'
   fileRoutesByTo: FileRoutesByTo
   to:
@@ -235,15 +246,16 @@ export interface FileRouteTypes {
     | '/welcome'
     | '/vote/callback'
     | '/admin'
-    | '/$organizationCode/$campaignSlug/$categoryId'
     | '/$organizationCode/$campaignSlug/results'
     | '/admin/campaigns/new'
     | '/admin/wallet/withdrawals'
     | '/$organizationCode/$campaignSlug'
     | '/admin/wallet'
+    | '/$organizationCode/$campaignSlug/$categoryId/$nomineeSlug'
     | '/admin/campaigns/$campaignId/categories'
     | '/admin/campaigns/$campaignId/orders'
     | '/admin/campaigns/$campaignId/settings'
+    | '/$organizationCode/$campaignSlug/$categoryId'
     | '/admin/campaigns/$campaignId'
   id:
     | '__root__'
@@ -256,16 +268,17 @@ export interface FileRouteTypes {
     | '/admin/wallet'
     | '/vote/callback'
     | '/admin/'
-    | '/$organizationCode/$campaignSlug/$categoryId'
     | '/$organizationCode/$campaignSlug/results'
     | '/admin/campaigns/$campaignId'
     | '/admin/campaigns/new'
     | '/admin/wallet/withdrawals'
     | '/$organizationCode/$campaignSlug/'
     | '/admin/wallet/'
+    | '/$organizationCode/$campaignSlug/$categoryId/$nomineeSlug'
     | '/admin/campaigns/$campaignId/categories'
     | '/admin/campaigns/$campaignId/orders'
     | '/admin/campaigns/$campaignId/settings'
+    | '/$organizationCode/$campaignSlug/$categoryId/'
     | '/admin/campaigns/$campaignId/'
   fileRoutesById: FileRoutesById
 }
@@ -277,9 +290,10 @@ export interface RootRouteChildren {
   VerifyEmailRoute: typeof VerifyEmailRoute
   WelcomeRoute: typeof WelcomeRoute
   VoteCallbackRoute: typeof VoteCallbackRoute
-  OrganizationCodeCampaignSlugCategoryIdRoute: typeof OrganizationCodeCampaignSlugCategoryIdRoute
   OrganizationCodeCampaignSlugResultsRoute: typeof OrganizationCodeCampaignSlugResultsRoute
   OrganizationCodeCampaignSlugIndexRoute: typeof OrganizationCodeCampaignSlugIndexRoute
+  OrganizationCodeCampaignSlugCategoryIdNomineeSlugRoute: typeof OrganizationCodeCampaignSlugCategoryIdNomineeSlugRoute
+  OrganizationCodeCampaignSlugCategoryIdIndexRoute: typeof OrganizationCodeCampaignSlugCategoryIdIndexRoute
 }
 
 declare module '@tanstack/react-router' {
@@ -354,13 +368,6 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof OrganizationCodeCampaignSlugIndexRouteImport
       parentRoute: typeof rootRouteImport
     }
-    '/$organizationCode/$campaignSlug/$categoryId': {
-      id: '/$organizationCode/$campaignSlug/$categoryId'
-      path: '/$organizationCode/$campaignSlug/$categoryId'
-      fullPath: '/$organizationCode/$campaignSlug/$categoryId'
-      preLoaderRoute: typeof OrganizationCodeCampaignSlugCategoryIdRouteImport
-      parentRoute: typeof rootRouteImport
-    }
     '/$organizationCode/$campaignSlug/results': {
       id: '/$organizationCode/$campaignSlug/results'
       path: '/$organizationCode/$campaignSlug/results'
@@ -395,6 +402,20 @@ declare module '@tanstack/react-router' {
       fullPath: '/admin/wallet/withdrawals'
       preLoaderRoute: typeof AdminWalletWithdrawalsRouteImport
       parentRoute: typeof AdminWalletRoute
+    }
+    '/$organizationCode/$campaignSlug/$categoryId/': {
+      id: '/$organizationCode/$campaignSlug/$categoryId/'
+      path: '/$organizationCode/$campaignSlug/$categoryId'
+      fullPath: '/$organizationCode/$campaignSlug/$categoryId/'
+      preLoaderRoute: typeof OrganizationCodeCampaignSlugCategoryIdIndexRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/$organizationCode/$campaignSlug/$categoryId/$nomineeSlug': {
+      id: '/$organizationCode/$campaignSlug/$categoryId/$nomineeSlug'
+      path: '/$organizationCode/$campaignSlug/$categoryId/$nomineeSlug'
+      fullPath: '/$organizationCode/$campaignSlug/$categoryId/$nomineeSlug'
+      preLoaderRoute: typeof OrganizationCodeCampaignSlugCategoryIdNomineeSlugRouteImport
+      parentRoute: typeof rootRouteImport
     }
     '/admin/campaigns/$campaignId/': {
       id: '/admin/campaigns/$campaignId/'
@@ -487,12 +508,14 @@ const rootRouteChildren: RootRouteChildren = {
   VerifyEmailRoute: VerifyEmailRoute,
   WelcomeRoute: WelcomeRoute,
   VoteCallbackRoute: VoteCallbackRoute,
-  OrganizationCodeCampaignSlugCategoryIdRoute:
-    OrganizationCodeCampaignSlugCategoryIdRoute,
   OrganizationCodeCampaignSlugResultsRoute:
     OrganizationCodeCampaignSlugResultsRoute,
   OrganizationCodeCampaignSlugIndexRoute:
     OrganizationCodeCampaignSlugIndexRoute,
+  OrganizationCodeCampaignSlugCategoryIdNomineeSlugRoute:
+    OrganizationCodeCampaignSlugCategoryIdNomineeSlugRoute,
+  OrganizationCodeCampaignSlugCategoryIdIndexRoute:
+    OrganizationCodeCampaignSlugCategoryIdIndexRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)

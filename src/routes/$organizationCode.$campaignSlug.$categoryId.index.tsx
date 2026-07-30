@@ -8,6 +8,7 @@ import { ApiError } from "@/lib/api/client"
 import { brandStyle } from "@/lib/brand"
 import { getCampaignState } from "@/lib/campaign-state"
 import { campaignUrl, pageMeta } from "@/lib/seo"
+import { nomineeShareUrl } from "@/lib/share"
 import type { BallotNominee } from "@/lib/api/types"
 import { useTrackView } from "@/hooks/use-track-view"
 import { NomineeCard } from "@/components/vote/nominee-card"
@@ -18,7 +19,7 @@ import { RouteError } from "@/components/vote/route-states"
 import { Badge } from "@/components/ui/badge"
 
 export const Route = createFileRoute(
-  "/$organizationCode/$campaignSlug/$categoryId",
+  "/$organizationCode/$campaignSlug/$categoryId/",
 )({
   loader: async ({ context, params }) => {
     try {
@@ -148,6 +149,11 @@ function BallotPage() {
               <NomineeCard
                 key={nominee.id}
                 nominee={nominee}
+                organizationCode={organizationCode}
+                campaignSlug={campaignSlug}
+                categoryId={categoryId}
+                campaignName={campaign.name}
+                categoryName={ballot.name}
                 totalVotes={totalVotes}
                 leading={nominee.id === leaderId}
                 resultsVisible={ballot.resultsVisible}
@@ -167,6 +173,16 @@ function BallotPage() {
         nominee={activeNominee}
         ballot={ballot}
         allowance={allowance}
+        shareUrl={
+          activeNominee
+            ? nomineeShareUrl({
+                organizationCode,
+                campaignSlug,
+                categoryId,
+                nomineeSlug: activeNominee.slug,
+              })
+            : undefined
+        }
         onClose={() => setActiveNominee(null)}
         onVoted={(id) => setJustVoted((prev) => new Set(prev).add(id))}
       />

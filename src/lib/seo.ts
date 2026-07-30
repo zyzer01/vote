@@ -8,6 +8,24 @@ export function campaignUrl(organizationCode: string, campaignSlug: string) {
   return `${SITE_URL}/${organizationCode}/${campaignSlug}`
 }
 
+export function categoryUrl(
+  organizationCode: string,
+  campaignSlug: string,
+  categoryId: string,
+) {
+  return `${campaignUrl(organizationCode, campaignSlug)}/${categoryId}`
+}
+
+/** Canonical URL of a nominee's own page -what shared links resolve to. */
+export function nomineeUrl(
+  organizationCode: string,
+  campaignSlug: string,
+  categoryId: string,
+  nomineeSlug: string,
+) {
+  return `${categoryUrl(organizationCode, campaignSlug, categoryId)}/${nomineeSlug}`
+}
+
 const TITLE_MAX_LENGTH = 70
 const DESCRIPTION_MAX_LENGTH = 160
 

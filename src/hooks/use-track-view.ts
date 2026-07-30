@@ -15,7 +15,7 @@ export function useTrackView(
 
   useEffect(() => {
     if (!campaignId) return
-    const key = `${campaignId}:${extra?.categoryId ?? ""}`
+    const key = `${campaignId}:${extra?.categoryId ?? ""}:${extra?.nomineeId ?? ""}`
     if (sent.current === key) return
     sent.current = key
 

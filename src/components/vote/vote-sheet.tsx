@@ -18,6 +18,7 @@ import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
 import { Avatar } from "@/components/ui/avatar"
+import { ShareButton } from "@/components/vote/share-button"
 import { useVoteActions, voteErrorMessage } from "@/hooks/use-vote-actions"
 
 const PAYMENT_PROVIDER_LABELS: Record<PaymentProviderType, string> = {
@@ -33,12 +34,15 @@ export function VoteSheet({
   nominee,
   ballot,
   allowance,
+  shareUrl,
   onClose,
   onVoted,
 }: {
   nominee: BallotNominee | null
   ballot: CategoryBallot
   allowance: FreeVoteAllowance | undefined
+  /** Nominee page to pass on after voting; omitted where it isn't known. */
+  shareUrl?: string
   onClose: () => void
   onVoted: (nomineeId: string) => void
 }) {
@@ -89,7 +93,9 @@ export function VoteSheet({
               ? `You have ${res.votesRemaining} free vote${res.votesRemaining === 1 ? "" : "s"} left in this category.`
               : "That was your last free vote in this category.",
         })
-        setTimeout(onClose, 1400)
+        // With a share prompt on screen, leave the sheet open so it can be
+        // acted on; otherwise get out of the voter's way.
+        if (!shareUrl) setTimeout(onClose, 1400)
       },
       onError: (err) => toast.error(voteErrorMessage(err)),
     })
@@ -145,7 +151,12 @@ export function VoteSheet({
 
           <AnimatePresence mode="wait">
             {succeeded ? (
-              <SuccessState key="success" name={nominee.displayName} />
+              <SuccessState
+                key="success"
+                name={nominee.displayName}
+                categoryName={ballot.name}
+                shareUrl={shareUrl}
+              />
             ) : (
               <motion.div
                 key="form"
@@ -480,7 +491,15 @@ function StepperButton({
   )
 }
 
-function SuccessState({ name }: { name: string }) {
+function SuccessState({
+  name,
+  categoryName,
+  shareUrl,
+}: {
+  name: string
+  categoryName: string
+  shareUrl?: string
+}) {
   return (
     <motion.div
       key="success"
@@ -500,6 +519,21 @@ function SuccessState({ name }: { name: string }) {
       <p className="text-muted-foreground mt-1 text-sm">
         Thanks for backing {name}.
       </p>
+      {shareUrl ? (
+        <>
+          <p className="text-muted-foreground mt-4 text-sm">
+            Rally more support -share {name}'s page so friends vote for the
+            right nominee.
+          </p>
+          <ShareButton
+            url={shareUrl}
+            title={`Vote for ${name} in ${categoryName}`}
+            text={`Vote for ${name} in ${categoryName}`}
+            label={`Share ${name}'s page`}
+            className="mt-4 h-12 w-full"
+          />
+        </>
+      ) : null}
     </motion.div>
   )
 }
