@@ -149,8 +149,7 @@ function SignupPage() {
                 Create your account
               </h2>
               <p className="text-muted-foreground mt-1.5">
-                One Sportly account works across every Sportly app. You&apos;ll
-                name your voting workspace next.
+                One Sportly account works across every Sportly app.
               </p>
 
               <Button
