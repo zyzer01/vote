@@ -298,30 +298,7 @@ function NomineePage() {
 
         {!state.canVote ? <StatusBanner state={state} className="mt-6" /> : null}
 
-        {/* The nominee's own campaigning tool */}
-        {canVote ? (
-          <section className="border-primary/25 bg-primary/5 mt-6 rounded-2xl border p-5">
-            <h2 className="font-heading font-semibold">Campaigning for votes?</h2>
-            <p className="text-muted-foreground mt-1 text-sm">
-              Share this link on WhatsApp, X or Instagram. It opens straight on{" "}
-              {nominee.displayName}'s page, so supporters can't vote for the
-              wrong nominee by mistake.
-            </p>
-            <div className="mt-4 flex flex-col gap-2 sm:flex-row sm:items-center">
-              <code className="border-border/70 bg-background text-muted-foreground min-w-0 truncate rounded-lg border px-3 py-2 text-xs sm:flex-1">
-                {shareUrl}
-              </code>
-              <ShareButton
-                url={shareUrl}
-                title={shareText}
-                text={shareText}
-                label="Copy link"
-                variant="default"
-                className="h-12 sm:h-10"
-              />
-            </div>
-          </section>
-        ) : null}
+
 
         {/* Other nominees */}
         {others.length > 0 ? (
