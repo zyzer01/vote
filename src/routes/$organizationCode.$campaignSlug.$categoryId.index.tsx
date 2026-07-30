@@ -152,8 +152,6 @@ function BallotPage() {
                 organizationCode={organizationCode}
                 campaignSlug={campaignSlug}
                 categoryId={categoryId}
-                campaignName={campaign.name}
-                categoryName={ballot.name}
                 totalVotes={totalVotes}
                 leading={nominee.id === leaderId}
                 resultsVisible={ballot.resultsVisible}

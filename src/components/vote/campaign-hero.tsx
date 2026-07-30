@@ -1,5 +1,4 @@
-import { motion } from "motion/react"
-import { CalendarDays, Sparkles, Vote } from "lucide-react"
+import { Building2, CalendarDays, Coins, Vote } from "lucide-react"
 
 import type { CampaignLanding } from "@/lib/api/types"
 import {
@@ -65,12 +64,7 @@ export function CampaignHero({
 
       <div className="mx-auto max-w-5xl px-5 pt-12 pb-10 text-white sm:pt-16 sm:pb-14">
         <div className="flex flex-col items-center text-center">
-          <motion.div
-            initial={{ opacity: 0, y: 16 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.5, ease: [0.22, 1, 0.36, 1] }}
-            className="flex flex-col items-center"
-          >
+          <div className="flex flex-col items-center">
             {campaign.logoUrl ? (
               <img
                 src={campaign.logoUrl}
@@ -79,7 +73,7 @@ export function CampaignHero({
               />
             ) : (
               <span className="mb-5 inline-flex items-center gap-1.5 rounded-full bg-white/10 px-3 py-1 text-xs font-medium tracking-wide backdrop-blur-sm">
-                <Sparkles className="size-3.5" />
+                <Building2 className="size-3.5" />
                 {campaign.voteOrganization.name}
               </span>
             )}
@@ -95,38 +89,28 @@ export function CampaignHero({
                 {campaign.description}
               </p>
             ) : null}
-          </motion.div>
+          </div>
 
           {/* Countdown */}
           {state.countdownTo ? (
-            <motion.div
-              initial={{ opacity: 0, y: 16 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.5, delay: 0.15 }}
-              className="mt-6"
-            >
+            <div className="mt-6">
               <Countdown
                 to={state.countdownTo}
                 label={state.countdownLabel}
                 onComplete={onCountdownComplete}
               />
-            </motion.div>
+            </div>
           ) : null}
 
           {/* Fact strip */}
-          <motion.div
-            initial={{ opacity: 0, y: 16 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.5, delay: 0.25 }}
-            className="mt-7 flex flex-wrap items-center justify-center gap-2.5"
-          >
+          <div className="mt-7 flex flex-wrap items-center justify-center gap-2.5">
             <HeroFact
               icon={<Vote className="size-3.5" />}
               text={votingModeLabel(campaign.votingMode)}
             />
             {campaign.votingMode !== "FREE" ? (
               <HeroFact
-                icon={<Sparkles className="size-3.5" />}
+                icon={<Coins className="size-3.5" />}
                 text={`${formatMoney(campaign.pricePerVoteMinor, campaign.currency)} / vote`}
               />
             ) : null}
@@ -138,7 +122,7 @@ export function CampaignHero({
               icon={<CalendarDays className="size-3.5" />}
               text={`Ends ${formatDate(campaign.closesAt)}`}
             />
-          </motion.div>
+          </div>
         </div>
       </div>
 

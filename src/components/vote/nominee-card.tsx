@@ -3,10 +3,8 @@ import { Link } from "@tanstack/react-router"
 import { Ban, Check, Crown, Vote } from "lucide-react"
 
 import type { BallotNominee } from "@/lib/api/types"
-import { nomineeShareUrl } from "@/lib/share"
 import { cn } from "@/lib/utils"
 import { Button } from "@/components/ui/button"
-import { ShareIconButton } from "./share-button"
 import { VoteBar } from "./vote-bar"
 
 export function NomineeCard({
@@ -14,8 +12,6 @@ export function NomineeCard({
   organizationCode,
   campaignSlug,
   categoryId,
-  campaignName,
-  categoryName,
   totalVotes,
   leading,
   resultsVisible,
@@ -28,8 +24,6 @@ export function NomineeCard({
   organizationCode: string
   campaignSlug: string
   categoryId: string
-  campaignName: string
-  categoryName: string
   totalVotes: number
   leading: boolean
   resultsVisible: boolean
@@ -46,7 +40,6 @@ export function NomineeCard({
     categoryId,
     nomineeSlug: nominee.slug,
   }
-  const shareText = `Vote for ${nominee.displayName} in ${categoryName} -${campaignName}`
 
   return (
     <motion.div
@@ -68,14 +61,6 @@ export function NomineeCard({
           Leading
         </span>
       ) : null}
-
-      <ShareIconButton
-        url={nomineeShareUrl(linkParams)}
-        title={shareText}
-        text={shareText}
-        aria-label={`Copy ${nominee.displayName}'s vote link`}
-        className="absolute top-3 right-3 z-10"
-      />
 
       <Link
         to="/$organizationCode/$campaignSlug/$categoryId/$nomineeSlug"
