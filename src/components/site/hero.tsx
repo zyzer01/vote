@@ -19,18 +19,6 @@ export function Hero() {
       </div>
 
       <div className="relative z-10 mx-auto flex max-w-4xl flex-col items-center text-center">
-        <a
-          href="#showcase"
-          className="group inline-flex animate-fade-up items-center gap-2 rounded-full border border-border bg-background/70 py-1.5 pr-4 pl-1.5 text-sm font-medium backdrop-blur"
-        >
-          <span className="inline-flex items-center gap-1 rounded-full bg-primary px-2.5 py-0.5 text-xs font-semibold text-primary-foreground">
-            <Sparkles className="size-3" /> New
-          </span>
-          <span className="text-muted-foreground">
-            Live for the 2026 awards season
-          </span>
-          <ArrowRight className="size-3.5 text-muted-foreground transition-transform group-hover:translate-x-0.5" />
-        </a>
 
         <h1
           style={{ animationDelay: "0.05s" }}
