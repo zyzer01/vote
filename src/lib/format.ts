@@ -14,13 +14,28 @@ export function currencySymbol(currency = "NGN"): string {
   return CURRENCY_SYMBOLS[currency.toUpperCase()] ?? `${currency.toUpperCase()} `
 }
 
+/**
+ * Coerce an API money value to a number, defaulting to 0. Prisma `Decimal`
+ * columns serialize to JSON as strings ("5000.00") even where the API's own
+ * types say `number`, so a bare `typeof x === "number"` check silently turns
+ * real money into ₦0.00.
+ */
+function toAmount(value: number | string | null | undefined): number {
+  if (typeof value === "number") return Number.isNaN(value) ? 0 : value
+  if (typeof value === "string" && value.trim() !== "") {
+    const parsed = Number(value)
+    return Number.isNaN(parsed) ? 0 : parsed
+  }
+  return 0
+}
+
 /** Minor units → a display string, e.g. 1_050_000 NGN → "₦10,500". */
 export function formatMoney(
-  minor: number,
+  minor: number | string | null | undefined,
   currency = "NGN",
   { showDecimals }: { showDecimals?: boolean } = {},
 ): string {
-  const major = minor / 100
+  const major = toAmount(minor) / 100
   const hasFraction = major % 1 !== 0
   const value = major.toLocaleString("en-NG", {
     minimumFractionDigits: showDecimals || hasFraction ? 2 : 0,
@@ -34,8 +49,11 @@ export function formatMoney(
  * amounts, unlike VoteOrder amounts which are minor units (kobo, see
  * formatMoney). Never pass a wallet/withdrawal value through formatMoney.
  */
-export function formatNaira(amount: number | null | undefined, currency = "NGN"): string {
-  const value = typeof amount === "number" && !Number.isNaN(amount) ? amount : 0
+export function formatNaira(
+  amount: number | string | null | undefined,
+  currency = "NGN",
+): string {
+  const value = toAmount(amount)
   return `${currencySymbol(currency)}${value.toLocaleString("en-NG", {
     minimumFractionDigits: 2,
     maximumFractionDigits: 2,
