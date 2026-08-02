@@ -80,7 +80,7 @@ function AuthError({ onRetry }: { onRetry: () => void }) {
         </p>
         <button
           onClick={onRetry}
-          className="text-primary mt-4 text-sm font-semibold hover:underline"
+          className="text-foreground mt-4 text-sm font-semibold hover:underline"
         >
           Retry
         </button>

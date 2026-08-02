@@ -63,9 +63,9 @@ export function HowItWorks() {
 
                 <div className="relative z-10 mb-5">
                   <span className="flex size-16 items-center justify-center rounded-xl bg-primary/10 ring-1 ring-primary/15 ring-inset transition-colors duration-500 group-hover:bg-primary/15">
-                    <s.icon className="size-9 text-primary" />
+                    <s.icon className="size-9 text-primary-foreground" />
                   </span>
-                  <span className="absolute -top-2 -right-2 flex size-7 items-center justify-center rounded-full border border-border bg-background text-xs font-bold text-primary">
+                  <span className="absolute -top-2 -right-2 flex size-7 items-center justify-center rounded-full border border-border bg-background text-xs font-bold text-foreground">
                     {s.step}
                   </span>
                 </div>

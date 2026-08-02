@@ -145,7 +145,7 @@ function CallbackPage() {
 function PhaseVisual({ phase }: { phase: Phase }) {
   if (phase === "checking" || phase === "pending") {
     return (
-      <div className="bg-primary/10 text-primary mx-auto grid size-20 place-items-center rounded-full">
+      <div className="bg-primary/10 text-primary-foreground mx-auto grid size-20 place-items-center rounded-full">
         {phase === "pending" ? (
           <Clock className="size-9" />
         ) : (

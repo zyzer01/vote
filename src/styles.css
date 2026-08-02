@@ -115,18 +115,25 @@
     --card-foreground: oklch(0.21 0.03 256);
     --popover: oklch(1 0 0);
     --popover-foreground: oklch(0.21 0.03 256);
-    --primary: oklch(0.6907 0.1828 151.72);
-    --primary-foreground: oklch(0.99 0.01 150);
+    /* Sportly yellow (#F9CD45). It is a light colour, so the foreground has to
+       be dark ink - the old near-white sat at 1.48:1 on it. */
+    --primary: oklch(0.8637 0.1545 90.33);
+    /* Brand ink (#441904) - the warm brown that sits on yellow fills. 11.4:1. */
+    --primary-foreground: oklch(0.2757 0.0735 44.08);
     --secondary: oklch(0.968 0.007 155);
     --secondary-foreground: oklch(0.28 0.04 256);
     --muted: oklch(0.97 0.006 155);
     --muted-foreground: oklch(0.52 0.02 250);
-    --accent: oklch(0.955 0.03 152);
-    --accent-foreground: oklch(0.32 0.06 256);
+    /* Neutral, not a yellow wash: accent is the hover/selected ground for menus,
+       calendar cells and command items - tinting it spreads yellow everywhere. */
+    --accent: oklch(0.968 0.004 250);
+    --accent-foreground: oklch(0.28 0.04 256);
     --destructive: oklch(0.6089 0.2191 29.81);
     --border: oklch(0.916 0.006 250);
     --input: oklch(0.916 0.006 250);
-    --ring: oklch(0.6907 0.1828 151.72);
+    /* Darkened amber, not the brand yellow: a focus ring needs 3:1 against the
+       white it sits on, and #F9CD45 only manages 1.52:1. */
+    --ring: oklch(0.66 0.1545 90.33);
     --chart-1: oklch(0.6907 0.1828 151.72);
     --chart-2: oklch(0.5694 0.1495 152.08);
     --chart-3: oklch(0.8637 0.1545 90.33);
@@ -135,12 +142,12 @@
     --radius: 0.75rem;
     --sidebar: oklch(0.985 0.003 155);
     --sidebar-foreground: oklch(0.21 0.03 256);
-    --sidebar-primary: oklch(0.6907 0.1828 151.72);
-    --sidebar-primary-foreground: oklch(0.99 0.01 150);
-    --sidebar-accent: oklch(0.955 0.03 152);
-    --sidebar-accent-foreground: oklch(0.32 0.06 256);
+    --sidebar-primary: oklch(0.8637 0.1545 90.33);
+    --sidebar-primary-foreground: oklch(0.2757 0.0735 44.08);
+    --sidebar-accent: oklch(0.968 0.004 250);
+    --sidebar-accent-foreground: oklch(0.28 0.04 256);
     --sidebar-border: oklch(0.916 0.006 250);
-    --sidebar-ring: oklch(0.6907 0.1828 151.72);
+    --sidebar-ring: oklch(0.66 0.1545 90.33);
 }
 
 .dark {
@@ -150,8 +157,8 @@
     --card-foreground: oklch(0.97 0.01 155);
     --popover: oklch(0.21 0.035 258);
     --popover-foreground: oklch(0.97 0.01 155);
-    --primary: oklch(0.6907 0.1828 151.72);
-    --primary-foreground: oklch(0.15 0.03 256);
+    --primary: oklch(0.8637 0.1545 90.33);
+    --primary-foreground: oklch(0.2757 0.0735 44.08);
     --secondary: oklch(0.27 0.035 258);
     --secondary-foreground: oklch(0.97 0.01 155);
     --muted: oklch(0.27 0.035 258);
@@ -161,7 +168,8 @@
     --destructive: oklch(0.6089 0.2191 29.81);
     --border: oklch(1 0 0 / 10%);
     --input: oklch(1 0 0 / 15%);
-    --ring: oklch(0.6907 0.1828 151.72);
+    /* Full brand yellow here: on the dark ground it reads at 12.6:1. */
+    --ring: oklch(0.8637 0.1545 90.33);
     --chart-1: oklch(0.6907 0.1828 151.72);
     --chart-2: oklch(0.6265 0.1654 151.83);
     --chart-3: oklch(0.8637 0.1545 90.33);
@@ -169,12 +177,12 @@
     --chart-5: oklch(0.7 0.1 260);
     --sidebar: oklch(0.21 0.035 258);
     --sidebar-foreground: oklch(0.97 0.01 155);
-    --sidebar-primary: oklch(0.6907 0.1828 151.72);
-    --sidebar-primary-foreground: oklch(0.15 0.03 256);
+    --sidebar-primary: oklch(0.8637 0.1545 90.33);
+    --sidebar-primary-foreground: oklch(0.2757 0.0735 44.08);
     --sidebar-accent: oklch(0.27 0.035 258);
     --sidebar-accent-foreground: oklch(0.97 0.01 155);
     --sidebar-border: oklch(1 0 0 / 10%);
-    --sidebar-ring: oklch(0.6907 0.1828 151.72);
+    --sidebar-ring: oklch(0.8637 0.1545 90.33);
 }
 
 @layer base {
@@ -191,7 +199,9 @@
     scroll-behavior: smooth;
     }
   ::selection {
-    background: oklch(0.6907 0.1828 151.72 / 0.24);
+    /* Tracks --primary rather than hardcoding it, so campaign pages themed by
+       brandStyle() get a selection highlight in the organizer's colour too. */
+    background: color-mix(in oklch, var(--primary) 24%, transparent);
     }
 }
 

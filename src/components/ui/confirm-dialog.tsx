@@ -30,7 +30,7 @@ export function ConfirmDialog({
           className={
             destructive
               ? "bg-destructive/10 text-destructive grid size-12 place-items-center rounded-2xl"
-              : "bg-primary/10 text-primary grid size-12 place-items-center rounded-2xl"
+              : "bg-primary/10 text-primary-foreground grid size-12 place-items-center rounded-2xl"
           }
         >
           <AlertTriangle className="size-6" />

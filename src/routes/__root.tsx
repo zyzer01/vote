@@ -42,7 +42,7 @@ export const Route = createRootRouteWithContext<RouterContext>()({
 function NotFound() {
   return (
     <main className="mx-auto flex min-h-svh max-w-md flex-col items-center justify-center px-6 text-center">
-      <p className="text-primary text-sm font-semibold tracking-wide uppercase">
+      <p className="text-muted-foreground text-sm font-semibold tracking-wide uppercase">
         404
       </p>
       <h1 className="font-heading mt-3 text-3xl font-bold">Page not found</h1>

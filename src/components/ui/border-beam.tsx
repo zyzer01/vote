@@ -26,7 +26,7 @@ export function BorderBeam({
   size = 70,
   duration = 8,
   delay = 0,
-  colorFrom = "var(--color-brand-green)",
+  colorFrom = "var(--color-brand-yellow)",
   colorTo = "transparent",
   borderWidth = 1.5,
   className,

@@ -104,7 +104,7 @@ export function NomineeCard({
           <Link
             to="/$organizationCode/$campaignSlug/$categoryId/$nomineeSlug"
             params={linkParams}
-            className="hover:text-primary transition-colors"
+            className="hover:text-foreground transition-colors"
           >
             {nominee.displayName}
           </Link>

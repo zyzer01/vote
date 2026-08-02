@@ -78,7 +78,7 @@ function CampaignPage() {
               <Link
                 to="/$organizationCode/$campaignSlug/results"
                 params={{ organizationCode, campaignSlug }}
-                className="text-primary mt-3 inline-flex items-center gap-1.5 text-sm font-semibold hover:underline sm:mt-0"
+                className="text-foreground mt-3 inline-flex items-center gap-1.5 text-sm font-semibold hover:underline sm:mt-0"
               >
                 <BarChart3 className="size-4" />
                 Live results

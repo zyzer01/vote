@@ -41,7 +41,7 @@ function DashboardMock() {
     <div className="rounded-xl border border-border/80 bg-background p-4 shadow-sm">
       <div className="flex items-center justify-between">
         <div className="flex items-center gap-2">
-          <span className="flex size-7 items-center justify-center rounded-lg bg-primary/12 text-primary">
+          <span className="flex size-7 items-center justify-center rounded-lg bg-primary/12 text-primary-foreground">
             <Trophy className="size-4" />
           </span>
           <div className="leading-tight">
@@ -72,7 +72,7 @@ function DashboardMock() {
           ₦
           <CountingNumber number={4.28} decimalPlaces={2} inView />M
         </span>
-        <span className="rounded-full bg-primary/12 px-2 py-0.5 text-[0.7rem] font-semibold text-primary">
+        <span className="rounded-full bg-primary/12 px-2 py-0.5 text-[0.7rem] font-semibold text-primary-foreground">
           +18.2%
         </span>
         <span className="text-[0.7rem] text-muted-foreground">this week</span>
@@ -221,7 +221,7 @@ function FeatureCard({
       )}
     >
       <div className="mb-4 flex items-center gap-2.5">
-        <span className="flex size-10 items-center justify-center rounded-xl bg-primary/10 text-primary transition-colors group-hover:bg-primary group-hover:text-primary-foreground">
+        <span className="flex size-10 items-center justify-center rounded-xl bg-primary/10 text-primary-foreground transition-colors group-hover:bg-primary group-hover:text-primary-foreground">
           {icon}
         </span>
         <h3 className="text-lg font-semibold tracking-tight">{title}</h3>

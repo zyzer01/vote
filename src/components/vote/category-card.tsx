@@ -83,7 +83,7 @@ export function CategoryCard({
                 </>
               )}
             </span>
-            <span className="text-primary inline-flex items-center gap-1 text-sm font-semibold">
+            <span className="text-foreground inline-flex items-center gap-1 text-sm font-semibold">
               Vote
               <ArrowRight className="size-4 transition-transform duration-300 group-hover:translate-x-0.5" />
             </span>

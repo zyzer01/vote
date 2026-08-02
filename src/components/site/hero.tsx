@@ -30,13 +30,14 @@ export function Hero() {
           <br className="hidden sm:block" />
           {" world-class "}
           <br className="sm:hidden" />
-          <span className="relative inline-block text-primary">
+          <span className="relative inline-block text-foreground">
             <FlipWords
               words={["awards", "fan votes", "MVP races", "talent hunts"]}
-              className="!text-primary"
+              className="!text-foreground"
             />
+            {/* the yellow lands on the underline, not the headline itself */}
             <svg
-              className="absolute -bottom-2 left-0 w-full text-primary/40"
+              className="absolute -bottom-2 left-0 w-full text-primary"
               viewBox="0 0 300 12"
               fill="none"
               preserveAspectRatio="none"

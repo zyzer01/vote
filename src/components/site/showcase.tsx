@@ -50,7 +50,7 @@ export function Showcase() {
     >
       {/* soft, airy backdrop -a light band, not a dark hero */}
       <div className="pointer-events-none absolute inset-0 -z-10 bg-gradient-to-b from-background via-muted/40 to-background" />
-      <div className="pointer-events-none absolute inset-x-0 top-0 -z-10 h-[420px] bg-[radial-gradient(ellipse_60%_100%_at_50%_0%,oklch(0.6907_0.1828_151.72/0.09),transparent_70%)]" />
+      <div className="pointer-events-none absolute inset-x-0 top-0 -z-10 h-[420px] bg-[radial-gradient(ellipse_60%_100%_at_50%_0%,oklch(0.8637_0.1545_90.33/0.22),transparent_70%)]" />
 
       <div className="relative mx-auto max-w-7xl">
         <SectionHeading
@@ -88,8 +88,8 @@ export function Showcase() {
                   </p>
                 </div>
               </div>
-              <span className="inline-flex items-center gap-1.5 rounded-full border border-primary/25 bg-primary/10 px-2.5 py-1 text-[0.7rem] font-semibold text-primary">
-                <span className="size-1.5 animate-pulse rounded-full bg-primary" />
+              <span className="inline-flex items-center gap-1.5 rounded-full border border-border bg-background px-2.5 py-1 text-[0.7rem] font-semibold text-foreground">
+                <span className="size-1.5 animate-pulse rounded-full bg-muted-foreground" />
                 Live
               </span>
             </div>
@@ -99,7 +99,7 @@ export function Showcase() {
               {/* leaderboard */}
               <div className="rounded-xl border border-border bg-background p-5">
                 <div className="flex items-center gap-3">
-                  <span className="flex size-10 items-center justify-center rounded-xl bg-primary/10 text-primary ring-1 ring-primary/15 ring-inset">
+                  <span className="flex size-10 items-center justify-center rounded-xl bg-muted text-foreground ring-1 ring-border ring-inset">
                     <TrendingUp className="size-5" />
                   </span>
                   <div className="leading-tight">
@@ -114,14 +114,14 @@ export function Showcase() {
                       key={r.name}
                       className={cn(
                         "flex items-center gap-3 rounded-lg px-2 py-2 transition-colors",
-                        i === 0 && "bg-primary/[0.06]",
+                        i === 0 && "bg-muted/60",
                       )}
                     >
                       <span
                         className={cn(
                           "flex size-6 shrink-0 items-center justify-center rounded-full text-xs font-bold",
                           i === 0
-                            ? "bg-primary text-primary-foreground"
+                            ? "bg-foreground text-background"
                             : "bg-muted text-muted-foreground",
                         )}
                       >
@@ -139,7 +139,7 @@ export function Showcase() {
                       <div className="min-w-0 flex-1">
                         <div className="flex items-baseline justify-between gap-2">
                           <p className="truncate text-sm font-medium">{r.name}</p>
-                          <p className="text-sm font-semibold tabular-nums text-primary">
+                          <p className="text-sm font-semibold tabular-nums text-foreground">
                             <CountingNumber number={r.votes} inView />
                           </p>
                         </div>
@@ -147,7 +147,7 @@ export function Showcase() {
                           <ResultBar
                             pct={r.pct}
                             delay={0.15 + i * 0.09}
-                            className={i === 0 ? "bg-primary" : "bg-primary/35"}
+                            className={i === 0 ? "bg-foreground" : "bg-foreground/25"}
                           />
                         </div>
                       </div>
@@ -169,18 +169,18 @@ export function Showcase() {
                       delay={0.3 + i * 0.1}
                       className="flex items-center gap-3 rounded-lg border border-border bg-muted/40 p-2.5"
                     >
-                      <span className="flex size-8 items-center justify-center rounded-full bg-primary/10 text-xs font-bold text-primary">
+                      <span className="flex size-8 items-center justify-center rounded-full bg-background text-xs font-bold text-foreground ring-1 ring-border ring-inset">
                         {f.who[0]}
                       </span>
                       <p className="flex-1 text-xs text-muted-foreground">
                         <span className="font-semibold text-foreground">{f.who}</span> cast{" "}
-                        <span className="font-semibold text-primary">{f.n} votes</span>
+                        <span className="font-semibold text-foreground">{f.n} votes</span>
                       </p>
                       <span className="text-[0.65rem] text-muted-foreground/70">now</span>
                     </Reveal>
                   ))}
                 </div>
-                <div className="mt-4 rounded-xl bg-muted p-4 text-center ring-1 ring-primary/15 ring-inset">
+                <div className="mt-4 rounded-xl bg-muted p-4 text-center ring-1 ring-border ring-inset">
                   <p className="text-2xl font-bold tabular-nums">
                     <CountingNumber number={323640} inView />
                   </p>

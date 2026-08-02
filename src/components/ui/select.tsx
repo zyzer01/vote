@@ -76,7 +76,7 @@ function SelectItem({ className, children, ...props }: SelectPrimitive.Item.Prop
     >
       <SelectPrimitive.ItemText>{children}</SelectPrimitive.ItemText>
       <SelectPrimitive.ItemIndicator className="absolute right-2.5 flex items-center">
-        <Check className="text-primary size-4" />
+        <Check className="text-foreground size-4" />
       </SelectPrimitive.ItemIndicator>
     </SelectPrimitive.Item>
   )

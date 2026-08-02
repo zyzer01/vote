@@ -373,7 +373,7 @@ function PaidPanel({
               className={cn(
                 "rounded-full border px-3 py-1 text-xs font-medium transition-colors",
                 quantity === n
-                  ? "border-primary bg-primary/10 text-primary"
+                  ? "border-primary bg-primary/10 text-primary-foreground"
                   : "border-border text-muted-foreground hover:border-primary/40",
               )}
             >
@@ -425,7 +425,7 @@ function PaidPanel({
                 className={cn(
                   "rounded-full border px-3 py-1.5 text-xs font-medium transition-colors",
                   selectedGateway === gateway
-                    ? "border-primary bg-primary/10 text-primary"
+                    ? "border-primary bg-primary/10 text-primary-foreground"
                     : "border-border text-muted-foreground hover:border-primary/40",
                 )}
               >

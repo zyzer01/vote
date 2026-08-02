@@ -72,7 +72,7 @@ function CategoriesPage() {
       {/* Publish checklist */}
       {campaign.status === "DRAFT" ? (
         <div className="border-primary/30 bg-primary/5 mb-6 flex flex-wrap items-center gap-3 rounded-xl border p-4">
-          <div className="bg-primary/15 text-primary grid size-9 place-items-center rounded-lg">
+          <div className="bg-primary/15 text-primary-foreground grid size-9 place-items-center rounded-lg">
             <Trophy className="size-4.5" />
           </div>
           <div className="min-w-0 flex-1">

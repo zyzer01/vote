@@ -79,7 +79,7 @@ function SidebarBody({ onNavigate }: { onNavigate?: () => void }) {
 
       <div className="px-4 py-4">
         <div className="bg-sidebar-accent/60 flex items-center gap-2.5 rounded-xl px-3 py-2.5">
-          <div className="bg-primary/15 text-primary grid size-8 shrink-0 place-items-center rounded-lg">
+          <div className="bg-primary/15 text-primary-foreground grid size-8 shrink-0 place-items-center rounded-lg">
             <Trophy className="size-4" />
           </div>
           <div className="min-w-0">
@@ -177,7 +177,7 @@ function Topbar({ onOpenMenu }: { onOpenMenu: () => void }) {
           <DropdownMenuTrigger
             render={
               <button className="hover:bg-muted flex items-center gap-2.5 rounded-full py-1 pr-2 pl-1 transition-colors">
-                <span className="bg-primary/15 text-primary grid size-8 place-items-center rounded-full text-sm font-semibold">
+                <span className="bg-primary/15 text-primary-foreground grid size-8 place-items-center rounded-full text-sm font-semibold">
                   {initials(user)}
                 </span>
                 <span className="hidden text-left sm:block">

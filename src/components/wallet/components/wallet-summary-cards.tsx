@@ -61,7 +61,7 @@ export function WalletSummaryCards({ sidePanel }: { sidePanel?: boolean }) {
               </div>
             </div>
           </CardContent>
-          <div className="pointer-events-none absolute right-0 bottom-0 left-0 h-1/3 bg-linear-to-t from-green-50 to-transparent dark:from-green-900/30" />
+          <div className="pointer-events-none absolute right-0 bottom-0 left-0 h-1/3 bg-linear-to-t from-primary/10 to-transparent" />
         </Card>
       )
     }
@@ -73,8 +73,7 @@ export function WalletSummaryCards({ sidePanel }: { sidePanel?: boolean }) {
           onClick
             ? "cursor-pointer hover:scale-[1.02] hover:shadow-lg active:scale-[0.99]"
             : "hover:shadow-lg",
-          variant === "primary" &&
-            "border-green-200 bg-green-50 dark:border-green-800 dark:bg-green-950/30",
+          variant === "primary" && "border-primary/30 bg-primary/10",
           className,
         )}
         onClick={onClick}
@@ -86,11 +85,7 @@ export function WalletSummaryCards({ sidePanel }: { sidePanel?: boolean }) {
                 <Icon className="h-3.5 w-3.5 shrink-0 sm:h-4 sm:w-4" />
                 <span className="truncate">{title}</span>
               </div>
-              <div
-                className={`mb-1 wrap-break-word text-xl font-bold sm:text-2xl ${
-                  variant === "primary" ? "text-green-600 dark:text-green-400" : ""
-                }`}
-              >
+              <div className="mb-1 wrap-break-word text-xl font-bold sm:text-2xl">
                 {value}
               </div>
               {subtitle && (
@@ -163,7 +158,7 @@ export function WalletSummaryCards({ sidePanel }: { sidePanel?: boolean }) {
         footer={
           <Link
             to="/admin/wallet/withdrawals"
-            className="text-primary text-xs font-medium underline-offset-4 hover:underline"
+            className="text-foreground text-xs font-medium underline-offset-4 hover:underline"
             onClick={(e) => e.stopPropagation()}
           >
             View withdrawals

@@ -148,7 +148,7 @@ function NomineePage() {
             <Link
               to="/$organizationCode/$campaignSlug/results"
               params={{ organizationCode, campaignSlug }}
-              className="text-primary inline-flex items-center gap-1.5 text-sm font-semibold hover:underline"
+              className="text-foreground inline-flex items-center gap-1.5 text-sm font-semibold hover:underline"
             >
               <BarChart3 className="size-4" />
               <span className="hidden sm:inline">Results</span>
@@ -310,7 +310,7 @@ function NomineePage() {
               <Link
                 to="/$organizationCode/$campaignSlug/$categoryId"
                 params={{ organizationCode, campaignSlug, categoryId }}
-                className="text-primary text-sm font-semibold hover:underline"
+                className="text-foreground text-sm font-semibold hover:underline"
               >
                 See all
               </Link>

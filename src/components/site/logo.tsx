@@ -26,7 +26,7 @@ export function Logo({
             wordmarkClassName,
           )}
         >
-          <span className="rounded-md bg-primary/12 px-1.5 py-0.5 text-[0.7rem] font-bold tracking-wide text-primary uppercase">
+          <span className="rounded-md bg-primary/12 px-1.5 py-0.5 text-[0.7rem] font-bold tracking-wide text-primary-foreground uppercase">
             Vote
           </span>
         </div>

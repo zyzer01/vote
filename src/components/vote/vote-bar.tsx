@@ -26,7 +26,7 @@ export function VoteBar({
         <span
           className={cn(
             "font-semibold tabular-nums",
-            leading ? "text-primary" : "text-muted-foreground",
+            leading ? "text-foreground" : "text-muted-foreground",
           )}
         >
           {share.toFixed(1)}%

@@ -19,7 +19,7 @@ export function StatCard({
   index?: number
 }) {
   const accentClass = {
-    primary: "bg-primary/10 text-primary",
+    primary: "bg-primary/10 text-primary-foreground",
     navy: "bg-brand-navy/10 text-brand-navy dark:text-white/80",
     yellow: "bg-brand-yellow/20 text-[oklch(0.55_0.13_85)]",
     red: "bg-brand-red/10 text-brand-red",
